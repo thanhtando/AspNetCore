@@ -92,3 +92,4 @@ export const setOpenConfigurator = (dispatch, value) => dispatch({ type: "OPEN_C
 export const setDirection = (dispatch, value) => dispatch({ type: "DIRECTION", value });
 export const setLayout = (dispatch, value) => dispatch({ type: "LAYOUT", value });
 export const setDarkMode = (dispatch, value) => dispatch({ type: "DARKMODE", value });
+
