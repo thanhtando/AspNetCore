@@ -1,7 +1,7 @@
 
 import React, { useState, useContext } from "react";
 import "./styles.scss";
-import { ArticleContext } from "./ArticleProvider";
+import { ArticleContext } from "./articleProvider";
 
 const AddArticle = () => {
   const { dispatch } = useContext(ArticleContext);

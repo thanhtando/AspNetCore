@@ -1,10 +1,11 @@
 
 // components
 /// AlertTTimport React from "react";
-import { Alert, AlertTitle, Fade } from "@mui/material";
+// import { Alert, AlertTitle, Fade } from "@mui/material";
+import { Fade } from "@mui/material";
 import { useState } from "react";
-import { styled } from "@mui/material/styles";
-import { fontWeight } from "@mui/system";
+// import { styled } from "@mui/material/styles";
+// import { fontWeight } from "@mui/system";
 
 const ALERTSTATE = {
   MOUNT: "mount",
@@ -12,31 +13,31 @@ const ALERTSTATE = {
   FADEOUT: "fadeOut",
   FADEIN: "fadeIn",
 }
-const AlertTTColseIcon = styled("span")(({theme})=>{
+// const AlertTTColseIcon = styled("span")(({theme})=>{
 
-  const { palette, typography, functions} = theme;
-  const {white} = palette;
-  const {size, fontWeightMedium} = typography;
-  const {pxToRem} = functions
-  return{
-    color: white.main,
-    fontSize: size.xl,
-    padding: `${pxToRem(9)} ${pxToRem(6)} ${pxToRem(8)}`,
-    marginLeft: pxToRem(40),
-    fontWeight: fontWeightMedium,
-    cursor: "pointer",
-    lineHeight: 0,
-  }
+//   const { palette, typography, functions} = theme;
+//   const {white} = palette;
+//   const {size, fontWeightMedium} = typography;
+//   const {pxToRem} = functions
+//   return{
+//     color: white.main,
+//     fontSize: size.xl,
+//     padding: `${pxToRem(9)} ${pxToRem(6)} ${pxToRem(8)}`,
+//     marginLeft: pxToRem(40),
+//     fontWeight: fontWeightMedium,
+//     cursor: "pointer",
+//     lineHeight: 0,
+//   }
 
-})
+// })
 const AlertTT = ({
   color, dismissible, children, ...rest
 }) => {
 
   const [alertStatus, setAlertStatus] = useState("mount");
-  const handleAlertStatus = () =>{
-    setAlertStatus("fadeOut");
-  }
+  // const handleAlertStatus = () =>{
+  //   setAlertStatus("fadeOut");
+  // }
 
   const AlertTemplate = (mount=true) => {
     return(

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ArticleContext } from "./ArticleProvider";
+import { ArticleContext } from "./articleProvider";
 import './styles.scss';
 
 const Articles = () => {

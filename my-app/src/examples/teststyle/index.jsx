@@ -3,7 +3,8 @@
 import { Box, styled } from "@mui/material";
 import React from "react";
 import { forwardRef } from "react";
-import'./styleB.scss';
+import './styles.scss';
+
 const StyleTest = () => {
   const colorChange = () =>{
     console.log("test color change");
@@ -13,9 +14,12 @@ const StyleTest = () => {
   )
 }
 const BoxStyle = styled(Box)(({ownerState, theme, onClick})=>{
-  const { palette, functions } = theme;
-  const { gradients, grey, white } = palette;
-  const { bgColor, color, opacity } = ownerState;
+  const { palette } = theme;
+  const { grey } = palette;
+  const { bgColor } = ownerState;  
+  // const { palette, functions } = theme;
+  // const { gradients, grey, white } = palette;
+  // const { bgColor, color, opacity } = ownerState;
   console.log(bgColor);
   return{
     backgroundColor: bgColor,

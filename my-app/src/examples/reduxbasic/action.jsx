@@ -1,6 +1,6 @@
 
 /// action
-import AlertConstant from '../constant/alert.constant';
+import AlertConstant from './contants';
 
 export const AlertActions = {
   success,
@@ -17,7 +17,7 @@ function clear(){
   return{type: AlertConstant.CLEAR, payload: ""}
 }
 
-import { AlertActions } from './alert.actions';
+// import { AlertActions } from './alert.actions';
 
 
 const AllActions = {

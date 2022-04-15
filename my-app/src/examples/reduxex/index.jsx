@@ -4,7 +4,7 @@ import React from "react";
 import './styles.scss';
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import AllAction from '../../redux/action/all.action';
+import AllAction from '../reduxbasic/action';
 
 const ReduxExample = () => {
 

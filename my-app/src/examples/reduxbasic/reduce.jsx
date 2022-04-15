@@ -1,6 +1,6 @@
 
 /// reducer
-import AlertConstant from '../constant/alert.constant';
+import AlertConstant from './contants';
 
 const AlertReducer = (state={}, action) => {
   const {type, payload} = action;

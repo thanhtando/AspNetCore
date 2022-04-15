@@ -3,7 +3,7 @@
 /// store
 import { applyMiddleware, createStore } from "redux";
 import { createLogger } from "redux-logger";
-import RootReducer from '../reducer/root.reducer';
+import RootReducer from './reduce';
 import thunkMiddleware from 'redux-thunk';
 
 const loggerMiddleWave = createLogger();

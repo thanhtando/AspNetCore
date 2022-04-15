@@ -2,9 +2,9 @@
 //contextextend
 
 import React from "react";
-import AddArticle from "./AddArticle";
-import Articles from "./Articles";
-import ArticleProvider from "./ArticleProvider";
+import AddArticle from "./addArticle";
+import Articles from "./articles";
+import ArticleProvider from "./articleProvider";
 
 
 const ContextEx = () => {
