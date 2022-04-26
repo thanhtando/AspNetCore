@@ -10,19 +10,19 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { store } from './examples/reduxbasic/store';
 import { BrowserRouter } from 'react-router-dom';
-import MaterialUIProvider from './context/materialprovider/index';
+// import MaterialUIProvider from './context/materialprovider/index';
 
 ReactDOM.render(
   <BrowserRouter>
-    <Provider store={store}>
+    {/* <Provider store={store}>
       <App />
-    </Provider>
+    </Provider> */}
 
-    {/* <MaterialUIProvider>
+    {/* <MaterialUIProvider> */}
       <Provider store={store}>
         <App />
       </Provider>
-    </MaterialUIProvider> */}
+    {/* </MaterialUIProvider> */}
   </BrowserRouter>,
 
   document.getElementById('root')
