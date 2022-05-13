@@ -1,0 +1,5 @@
+API Project Folder: this project will contain all the APIs.
+
+BookStoreDb Project Folder: this.project will contain all the database related stuff.
+
+Domain Project Folder: this project will contain all the entities for our project.

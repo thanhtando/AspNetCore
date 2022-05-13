@@ -1,0 +1,10 @@
+1. scss
+    npm install -s node sass
+
+2. redux
+    npm install redux react-redux
+
+3. material UI 
+    npm install @mui/material @emotion/react @emotion/styled
+  
+

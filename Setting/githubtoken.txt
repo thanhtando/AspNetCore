@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 GitHub has made changes in password authentication. 
 If you are trying to access git by username and password then it does not allow you. 
 So use a personal access token instead of a password to access git every where.
@@ -32,3 +33,13 @@ Open Keychain → type "GitHub"
 Change the password to the personal access token.
 Try commit/pushing.
 Select "Always allow" and business is as usual.
+=======
+Click here - https://github.com/settings/tokens
+first you need to generate new token
+
+My account - Setting - Developer Setting - Personal Access Token - Generate New Token
+
+after you generate token
+
+git remote set-url origin https://<token>@github.com/<username>/<repo>
+>>>>>>> TanDepTrai1
