@@ -7,7 +7,6 @@ import { ContextBasic, ContextChange, ContextNone } from './contextbasic';
 import MemoBasic from './memobasic';
 import { ForWardRefBasic, ForWardRefNone } from './forwardref';
 import StyleComponent from './stylecomponent';
-import AlertTT from '../components/AlertTT/index';
 import ThemeProExt from "./themeprovider";
 import TemporaryDrawer from "./drawerTemp";
 import ContextRed from "./contextReducer";
@@ -21,7 +20,7 @@ const Example = () => {
       <ThemeProExt />
       <TemporaryDrawer />
         <StyleComponent />
-        <AlertTT />
+        {/* <AlertTT /> */}
         {/* <ReduxExample /> */}
         <ContextEx />
         <ContextChange />
