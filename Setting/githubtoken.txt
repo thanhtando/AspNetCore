@@ -6,3 +6,4 @@ My account - Setting - Developer Setting - Personal Access Token - Generate New 
 after you generate token
 
 git remote set-url origin https://<token>@github.com/<username>/<repo>
+git remote set-url origin https://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@github.com/thanhtando/AspNetCore
