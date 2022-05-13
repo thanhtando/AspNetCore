@@ -1,0 +1,34 @@
+GitHub has made changes in password authentication. 
+If you are trying to access git by username and password then it does not allow you. 
+So use a personal access token instead of a password to access git every where.
+Here are the steps to generate Personal access tokens.
+
+Click here - https://github.com/settings/tokens
+Step 1 - Open GitHub and log in with your credentials.
+Step 2 - Click on the Setting menu.
+Step 3 - From the Setting menu click on Developer Settings
+Step 4 - From the Developer Settings, menu click on Personal access token
+Step 5 - From the Personal access token click on the Generate new Token button.
+Step 6 - Now fill up required details like Note, Expiration, Select scopes. And then click on Generate Token button.
+Step 7 - After that new token has been generated. Copy that generated token and use this token to access Git with username and token.
+
+If you are using windows operating system then please follow the below step.
+Open Control Panel => User Accounts => Manage your credentials => Windows Credentials.
+It will show all generic credentials.
+Find your GitHub URL and click on that. 
+Now click on the edit button. 
+And then add the personal access token generated from GitHub into the password field.
+And click on the Save button.
+Now you can access git.
+If you are accessing Git in Android Studio, 
+if asked for a password then add the GitHub personal access token instead of your password every where.
+
+
+------------------
+Mac users -- a simple solution.
+Set up the personal access token in GitHub:
+Settings → Developer Settings → Personal access token
+Open Keychain → type "GitHub"
+Change the password to the personal access token.
+Try commit/pushing.
+Select "Always allow" and business is as usual.
