@@ -12,8 +12,7 @@ git remote set-url origin https://<token>@github.com/<username>/<repo>
 deploy github pages:
 
 4 npm install gh-pages --save-dev
-5 git remote set-url origin https://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@github.com/thanhtando/mydeploy
-5 git remote set-url origin https://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@github.com/thanhtando/AspNetCore
+5 git remote set-url origin https://{token}@github.com/{myname}/{mydeploy}
 6 git add .
 7 git commit -m "second commit master"
 8 git push origin master
@@ -34,7 +33,7 @@ git --version
     2.2.1.new repository
     2.2.2.git clone link_your_repo
     2.2.3.push new component
-      $git status                          : xem status(check trang thai cua file)
+      $git status                          : xem status(check status of file)
       $git add .                           : dot(.) add all file
       $git commit -m "init commit message" : (-m: message)
       $git push origin main                : (user.name: Tan Do user.pass:token)
@@ -50,10 +49,10 @@ git --version
       $git push origin master
     2.3.2
     2.3.3
-3.Https and ssh ( nhap user.name and user.pass vs config ssh)
-  3.1.Generationg a new ssh key
-      $ssh-keygen -t ed25519 -C "thanhtando65@gmail.com"
-      $open -a "TextEdit" /Users/dothanhtan/.ssh/id_ed25519.pub
+3.Https and ssh ( typing user.name and user.pass vs config ssh)
+  3.1.Generating a new ssh key
+      $ssh-key{}gen -t ed25519 -C "{mail}"
+      $open -a "TextEdit" /Users/{my mac_name}/.ssh/id_ed25519.pub
 
 
 
