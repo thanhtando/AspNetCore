@@ -6,4 +6,55 @@ My account - Setting - Developer Setting - Personal Access Token - Generate New 
 after you generate token
 
 git remote set-url origin https://<token>@github.com/<username>/<repo>
-git remote set-url origin https://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@github.com/thanhtando/AspNetCore
+
+
+------------------------------------
+deploy github pages:
+
+4 npm install gh-pages --save-dev
+5 git remote set-url origin https://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@github.com/thanhtando/mydeploy
+6 git add .
+7 git commit -m "second commit master"
+8 git push origin master
+9 npm run deploy
+
+---------------------------------GIT PLAN----------------
+git --version
+
+1.setup git
+  1.1.cai dat git
+  1.2.create github account
+  1.3.setup user.name/user.mail
+    $git config --list: xem config of git( xem user.name va user.email da dang ki)
+2.create project with git
+  2.1. project
+    $git clone {link_https} : clone project from github
+  2.2.create project on github (branch main)
+    2.2.1.new repository
+    2.2.2.git clone link_your_repo
+    2.2.3.push new component
+      $git status                          : xem status(check trang thai cua file)
+      $git add .                           : dot(.) add all file
+      $git commit -m "init commit message" : (-m: message)
+      $git push origin main                : (user.name: Tan Do user.pass:token)
+
+  2.3.crate project on local -> push github (branch master)
+    2.3.1
+      $git init
+      $git status
+      $git add .
+      $git status
+      $git commit -m "init message"
+      $git remote add origin https://github.com/thanhtando/mydemogithub.git
+      $git push origin master
+    2.3.2
+    2.3.3
+3.Https and ssh ( nhap user.name and user.pass vs config ssh)
+  3.1.Generationg a new ssh key
+      $ssh-keygen -t ed25519 -C "thanhtando65@gmail.com"
+      $open -a "TextEdit" /Users/dothanhtan/.ssh/id_ed25519.pub
+
+
+
+
+
