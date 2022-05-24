@@ -1,7 +1,7 @@
 {
   "name": "my-app",
   "version": "0.1.0",
-  "homepage": "https://thanhtando.github.io/my-app",
+  "homepage": "https://thanhtando.github.io/AspNetCore",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.0",
@@ -11,7 +11,6 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
-    "dotenv": "^16.0.1",
     "firebase": "^9.8.1",
     "gh-pages": "^4.0.0",
     "node": "^17.3.0",
@@ -19,7 +18,7 @@
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.0",
+    "react-scripts": "^5.0.1",
     "redux": "^4.1.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.1",

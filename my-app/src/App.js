@@ -3,13 +3,13 @@
 import './App.scss';
 
 //MyMaterial react context
-// import { useMyMaterial } from './context/materialprovider';
+// import { useMyMaterial } from './context/material provider';
 
 //MyMaterial react theme
 // import ThemeMain from './resource/theme/theme';
 
 //rtl plugins
-//import rtlPlugin from 'stylis-plugin-rtl';
+//import rtlPlugin from 'stylist-plugin-rtl';
 // import { CacheProvider } from '@emotion/react';
 // import createCache from '@emotion/cache';
 // import { CssBaseline, ThemeProvider } from '@mui/material';
@@ -17,7 +17,6 @@ import './App.scss';
 import Example from './examples';
 
 const App = () => {
-
   // const [controller, dispatch] = useMyMaterial();
   // const { direction, darkMode, layout } = controller;
 
@@ -34,7 +33,7 @@ const App = () => {
   // useMemo(()=>{
   //   const cacheRTL = createCache({
   //     key: "rtl",
-  //     stylisPlugins: [rtlPlugin]
+  //     stylistPlugins: [rtlPlugin]
   //   });
   //   setRtlCache(cacheRTL);
   // },[])

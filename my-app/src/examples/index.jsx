@@ -13,11 +13,11 @@ import ContextRed from "./contextReducer";
 import StyleTest from "./teststyle";
 
 const Example = () => {
-  const test = process.env.PROJECT_ID;
+  const test = process.env.REACT_APP_PROJECT_ID;
   console.log("test environment:", test);
   return(
     <div>
-      <label>abc_{process.env.PROJECT_ID}</label>
+      <label>abc_{process.env.REACT_APP_PROJECT_ID}</label>
       {/* <StyleTest />
       <ContextRed />
       <ThemeProExt />

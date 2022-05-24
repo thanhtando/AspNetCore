@@ -1,4 +1,11 @@
+import React from "react";
 
+///materialprovider
+import { createContext, useContext, useReducer } from "react";
+import ContextReducer from "../reducer";
+
+const MyMaterial = createContext();
+MyMaterial.displayName = "MyMaterialContext";     //TODO: context (langue, theme, )
 ///constants
 const ContextConstant = {
   MINI: "MINI_SIDENAV",
@@ -13,10 +20,3 @@ const ContextConstant = {
   DARK_MODE: "DARK_MODE"
 }
 export default ContextConstant;
-///materialprovider
-import { createContext, useContext, useReducer } from "react";
-import ContextConstant from "../constants";
-import ContextReducer from "../reducer";
-
-const MyMaterial = createContext();
-MyMaterial.displayName = "MyMaterialContext";     //TODO: context (langue, theme, )

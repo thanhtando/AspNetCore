@@ -1,0 +1,31 @@
+projects manager:
+  project:
+    ui: 
+      ☐ material dashboard react (https://github.com/creativetimofficial/material-dashboard-react)
+
+    feature: 
+      ☐ firebaseData: trello redux firebase (https://github.com/AlbinCederblad/trello-clone-react-firebase)
+      ☐ mongoDb: https://www.youtube.com/watch?v=XKjXpLq8pE8&list=PLncHg6Kn2JT6FcTO3afHd8CT_jpSI-mjp&index=2
+  constructor:
+    assets:
+      ☐ icon
+      ☐ image
+      ☐ font
+    components:
+    connection:
+    context:
+      ☐ language context
+      ☐ theme context
+      ☐ firebase context
+    data:
+    examples:
+    element:
+    help:
+    layout:
+    pages:
+    screen:
+    resource:
+    router:
+    theme:
+    utilities:
+    config:
