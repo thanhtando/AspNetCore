@@ -13,6 +13,7 @@ deploy github pages:
 
 4 npm install gh-pages --save-dev
 5 git remote set-url origin https://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@github.com/thanhtando/mydeploy
+5 git remote set-url origin https://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@github.com/thanhtando/AspNetCore
 6 git add .
 7 git commit -m "second commit master"
 8 git push origin master
