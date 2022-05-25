@@ -2,7 +2,49 @@ projects manager:
   project:
     ui: 
       ☐ material dashboard react (https://github.com/creativetimofficial/material-dashboard-react)
-
+        ☐ theme
+          ☐ theme default
+          ☐ theme dark
+          ☐ theme glasmorphirm
+          ☐ base
+            ✔ breakpoint @done(22-05-25 21:44)
+            ☐ boxShadow
+            ☐ palatte(colors)
+            ☐ borders
+            ☐ typography
+            ☐ globals
+          ☐ componentstyle
+            appBar
+            avatar
+            breadcrumbs
+            button
+            buttonBase
+            card
+            container
+            dialog
+            divider
+            form
+            icon
+            iconButton
+            linearProgress
+            link
+            list
+            menu
+            popover
+            sidenav
+            slider
+            stepper
+            svgIcon
+            table
+            tab
+            tooltip
+          ☐ function
+            ☐ boxShadow
+            ☐ gradientChartLine
+            ☐ hexToRgb
+            ☐ linearGradient
+            ☐ pxToRem
+            ☐ rgba
     feature: 
       ☐ firebaseData: trello redux firebase (https://github.com/AlbinCederblad/trello-clone-react-firebase)
       ☐ mongoDb: https://www.youtube.com/watch?v=XKjXpLq8pE8&list=PLncHg6Kn2JT6FcTO3afHd8CT_jpSI-mjp&index=2
@@ -12,7 +54,18 @@ projects manager:
       ☐ image
       ☐ font
     components:
+      ☐ TTAlert
+      ☐ TTAvatar
+      ☐ TTBadge
+      ☐ TTBox
+      ☐ TTButton
+      ☐ TTInput
+      ☐ TTPagination
+      ☐ TTProgress
+      ☐ TTSnackbar
+      ☐ TTTypography
     connection:
+      ☐ firebase
     context:
       ☐ language context
       ☐ theme context
@@ -20,12 +73,87 @@ projects manager:
     data:
     examples:
     element:
+      ☐ Breadcrumbs
+      ☐ Cards
+      ☐ Charts
+      ☐ Configurator
+      ☐ Footer
+      ☐ Items
+      ☐ LayoutContainers
+      ☐ Lists
+      ☐ Navbars
+      ☐ Sidenav
+      ☐ Tables
+      ☐ Timeline
     help:
     layout:
+      ☐ authentication
+      ☐ billing
+      ☐ dashboard
+      ☐ notification
+      ☐ profile
+      ☐ rtl
+      ☐ tables
     pages:
     screen:
     resource:
     router:
+      ☐ routers menu
+      ☐ private route
+      ☐ public route
     theme:
+      ☐ theme default
+      ☐ theme dark
+      ☐ theme glasmorphirm
+      ☐ base
+        ✔ breakpoint @done(22-05-25 21:44)
+        ☐ boxShadow
+        ☐ palatte(colors)
+        ☐ borders
+        ☐ typography
+        ☐ globals
+      ☐ componentstyle
+        ☐ appBar
+        ☐ avatar
+        ☐ breadcrumbs
+        ☐ button
+        ☐ buttonBase
+        ☐ card
+        ☐ container
+        ☐ dialog
+        ☐ divider
+        ☐ form
+        ☐ icon
+        ☐ iconButton
+        ☐ linearProgress
+        ☐ link
+        ☐ list
+        ☐ menu
+        ☐ popover
+        ☐ sidenav
+        ☐ slider
+        ☐ stepper
+        ☐ svgIcon
+        ☐ table
+        ☐ tab
+        ☐ tooltip
+      ☐ function
+        ☐ boxShadow
+        ☐ gradientChartLine
+        ☐ hexToRgb
+        ☐ linearGradient
+        ☐ pxToRem
+        ☐ rgba
     utilities:
     config:
+      ☐ env variable
+      ☐ git command(github)
+      ☐ instal command
+    feature:
+    redux:
+      ☐ constant
+      ☐ action
+      ☐ reducer
+      ☐ store
+      ☐ slice
+    
