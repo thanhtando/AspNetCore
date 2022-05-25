@@ -24,12 +24,11 @@
 import Dashboard from "../page/dashboard/index";
 import Tables from "../page/tables";
 import Billing from "../page/billing";
-import RTL from "../page/rtl";
 import Notifications from "./page/notification";
 import Profile from "../page/profile";
 import SignIn from "../page/authentication/signIn";
 import SignUp from "../page/authentication/signUp";
-
+// import RTL from "../page/rtl";
 // @mui icons
 import Icon from "@mui/material/Icon";
 
@@ -62,7 +61,7 @@ const routes = [
   //   type: "collapse",
   //   name: "RTL",
   //   key: "rtl",
-  //   icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
+  //   icon: <Icon fontSize="small">format_textDirection_r_to_l</Icon>,
   //   route: "/rtl",
   //   component: <RTL />,
   // },

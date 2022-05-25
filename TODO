@@ -10,7 +10,7 @@ projects manager:
             ✔ breakpoint @done(22-05-25 21:44)
             ☐ boxShadow
             ☐ palatte(colors)
-            ☐ borders
+            borders
             ☐ typography
             ☐ globals
           ☐ componentstyle
@@ -43,7 +43,7 @@ projects manager:
             ☐ gradientChartLine
             ☐ hexToRgb
             ☐ linearGradient
-            ☐ pxToRem
+            ✔ pxToRem @done(22-05-26 00:19)
             ☐ rgba
     feature: 
       ☐ firebaseData: trello redux firebase (https://github.com/AlbinCederblad/trello-clone-react-firebase)

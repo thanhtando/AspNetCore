@@ -1,11 +1,10 @@
-import { configStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-import AlertReducer from '../../examples/reduxbasic/reduce';
-
-const StoreRedux = configStore({
+import AlertRed from '../slices';
+const StoreRedux = configureStore({
   reducer:{
-    alerts: AlertReducer,
+    alerts: AlertRed
   },
   middleware: [logger, thunk],
 })
