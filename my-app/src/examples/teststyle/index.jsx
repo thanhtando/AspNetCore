@@ -1,5 +1,5 @@
 
-//teststyle
+//testStyle
 import { Box, styled } from "@mui/material";
 import React from "react";
 import { forwardRef } from "react";
@@ -35,7 +35,7 @@ const BoxDT = forwardRef(({bgColor, color, opacity, colorChange, ...rest}, ref) 
       onClick={colorChange}
       ownerState = {{bgColor, color, opacity}}
     >
-      <label>thanhtan</label>
+      <label>thanh tan</label>
     </BoxStyle>
   )
 })

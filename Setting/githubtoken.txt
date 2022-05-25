@@ -19,12 +19,13 @@ deploy github pages:
 9 npm run deploy
 
 ---------------------------------GIT PLAN----------------
-git --version
+
 
 1.setup git
   1.1.cai dat git
   1.2.create github account
   1.3.setup user.name/user.mail
+    $git --version
     $git config --list: xem config of git( xem user.name va user.email da dang ki)
 2.create project with git
   2.1. project

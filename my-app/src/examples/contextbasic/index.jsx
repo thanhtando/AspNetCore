@@ -1,4 +1,4 @@
-//contextbasic
+//contextBasic
 import React, { createContext } from "react";
 import { useMemo } from "react";
 import { useState } from "react";

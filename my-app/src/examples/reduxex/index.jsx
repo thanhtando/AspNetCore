@@ -1,10 +1,10 @@
 
-//reduex
+//reduxEx
 import React from "react";
 import './styles.scss';
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import AllAction from '../reduxbasic/action';
+import AllAction from '../reduxBasic/action';
 
 const ReduxExample = () => {
 

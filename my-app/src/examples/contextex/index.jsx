@@ -1,5 +1,5 @@
 
-//contextextend
+//contextExtend
 
 import React from "react";
 import AddArticle from "./addArticle";

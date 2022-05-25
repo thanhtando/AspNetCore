@@ -14,30 +14,30 @@ projects manager:
             ☐ typography
             ☐ globals
           ☐ componentstyle
-            appBar
-            avatar
-            breadcrumbs
-            button
-            buttonBase
-            card
-            container
-            dialog
-            divider
-            form
-            icon
-            iconButton
-            linearProgress
-            link
-            list
-            menu
-            popover
-            sidenav
-            slider
-            stepper
-            svgIcon
-            table
-            tab
-            tooltip
+            ☐ appBar
+            ☐ avatar
+            ☐ breadcrumbs
+            ☐ button
+            ☐ buttonBase
+            ☐ card
+            ☐ container
+            ☐ dialog
+            ☐ divider
+            ☐ form
+            ☐ icon
+            ☐ iconButton
+            ☐ linearProgress
+            ☐ link
+            ☐ list
+            ☐ menu
+            ☐ popover
+            ☐ sidenav
+            ☐ slider
+            ☐ stepper
+            ☐ svgIcon
+            ☐ table
+            ☐ tab
+            ☐ tooltip
           ☐ function
             ☐ boxShadow
             ☐ gradientChartLine

@@ -7,23 +7,13 @@ import reportWebVitals from './reportWebVitals';
 //import $ from 'jquery';
 //import Popper from 'popper.js';
 // import 'bootstrap/dist/js/bootstrap.bundle.min';
-import { Provider } from 'react-redux';
-import { store } from './examples/reduxbasic/store';
-import { BrowserRouter } from 'react-router-dom';
-// import MaterialUIProvider from './context/materialprovider/index';
+
+import RootProvider from './provider';
 
 ReactDOM.render(
-  <BrowserRouter>
-    {/* <Provider store={store}>
-      <App />
-    </Provider> */}
-
-    {/* <MaterialUIProvider> */}
-      <Provider store={store}>
-        <App />
-      </Provider>
-    {/* </MaterialUIProvider> */}
-  </BrowserRouter>,
+  <RootProvider>
+    <App />
+  </RootProvider>,
 
   document.getElementById('root')
 );

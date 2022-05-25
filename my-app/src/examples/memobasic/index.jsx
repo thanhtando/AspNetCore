@@ -1,5 +1,5 @@
 
-//usememobasic
+//useMemoBasic
 import React, { useMemo } from "react";
 import { useState } from "react";
 

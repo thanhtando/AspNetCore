@@ -27,8 +27,8 @@ import Billing from "../page/billing";
 import RTL from "../page/rtl";
 import Notifications from "./page/notification";
 import Profile from "../page/profile";
-import SignIn from "../page/authentication/signin";
-import SignUp from "../page/authentication/signup";
+import SignIn from "../page/authentication/signIn";
+import SignUp from "../page/authentication/signUp";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -58,14 +58,14 @@ const routes = [
     route: "/billing",
     component: <Billing />,
   },
-  {
-    type: "collapse",
-    name: "RTL",
-    key: "rtl",
-    icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
-    route: "/rtl",
-    component: <RTL />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "RTL",
+  //   key: "rtl",
+  //   icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
+  //   route: "/rtl",
+  //   component: <RTL />,
+  // },
   {
     type: "collapse",
     name: "Notifications",

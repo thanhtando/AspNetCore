@@ -24,7 +24,7 @@ const ThemeProExt = () => {
 
   return(<ThemeProvider theme={themeExt}>
     <Box sx={{
-      bgcolor: 'Background.paper',
+      bgColor: 'Background.paper',
       boxShadow: 1,
       borderRadius: 1,
       p: 2,

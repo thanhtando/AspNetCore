@@ -2,9 +2,12 @@
     npm install -s node sass
 
 2. redux
-    npm install redux react-redux
+    npm install redux react-redux @reduxjs/toolkit
 
 3. material UI 
     npm install @mui/material @emotion/react @emotion/styled
+
+4.router
+    npm install react-router-dom react-router
   
 
