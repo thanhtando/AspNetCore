@@ -52,7 +52,7 @@ const HomePage = () => {
           dispatch({type: "LAYOUT", value: "value"});
           setDarkMode(dispatch, !darkMode)}}
         >test layout</Button>
-        
+      <Paper style={{backgroundImage:`url(${bgImage})`}}/>
     </Box>
   )
 }
