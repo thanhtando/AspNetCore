@@ -8,7 +8,7 @@ const AlertSlices = createSlice({
   },
   reducers:{
     alertText: (state, action)=>{
-      state.payLoad = "tan dep trai"
+      state.payLoad = "tan dep t_rai"
     }
   }
 });

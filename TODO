@@ -87,6 +87,13 @@ projects manager:
       ☐ Timeline
     help:
     layout:
+      ✔ pageLayout @done(22-05-26 22:32)
+      ☐ basicLayout
+        ☐ defaultNavbar
+        ☐ background image
+        ☐ content
+        ☐ foot
+    pages:
       ☐ authentication
       ☐ billing
       ☐ dashboard
@@ -94,7 +101,6 @@ projects manager:
       ☐ profile
       ☐ rtl
       ☐ tables
-    pages:
     screen:
     resource:
     router:
@@ -150,6 +156,7 @@ projects manager:
       ☐ git command(github)
       ☐ instal command
     feature:
+    rootProvider:
     redux:
       ☐ constant
       ☐ action

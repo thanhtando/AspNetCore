@@ -1,21 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import App from './App';
+// import App from './App';
 import reportWebVitals from './reportWebVitals';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 //import $ from 'jquery';
 //import Popper from 'popper.js';
 // import 'bootstrap/dist/js/bootstrap.bundle.min';
-
-import RootProvider from './provider';
+// import RootProvider from './provider';
+import FullApp from './FullApp/index';
 
 ReactDOM.render(
-  <RootProvider>
-    <App />
-  </RootProvider>,
-
-  document.getElementById('root')
+  // <RootProvider>
+  //   <App />
+  // </RootProvider>
+  <FullApp/>
+  ,document.getElementById('root')
 );
 //TODO: add redux example : check
 //TODO: add react-router-dom example
