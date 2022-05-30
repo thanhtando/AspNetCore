@@ -1,20 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-// import App from './App';
 import reportWebVitals from './reportWebVitals';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 //import $ from 'jquery';
 //import Popper from 'popper.js';
 // import 'bootstrap/dist/js/bootstrap.bundle.min';
+// import App from './App';
 // import RootProvider from './provider';
-import FullApp from './FullApp/index';
+// import FullApp from './FullApp/index';
+import FullAppUi from './FullAppUi/index';
 
 ReactDOM.render(
   // <RootProvider>
   //   <App />
-  // </RootProvider>
-  <FullApp/>
+  // </RootProvider>  
+
+    // <FullApp />
+  <FullAppUi />
+  
   ,document.getElementById('root')
 );
 //TODO: add redux example : check

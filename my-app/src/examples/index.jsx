@@ -17,7 +17,7 @@ const Example = () => {
   console.log("test environment:", test);
   return(
     <div>
-      <label>abc_{process.env.REACT_APP_PROJECT_ID}</label>
+      <label>abc_{process.env.REACT_APP_API_KEY}</label>
       {/* <StyleTest />
       <ContextRed />
       <ThemeProExt />

@@ -113,10 +113,10 @@ projects manager:
       ☐ theme glasmorphirm
       ☐ base
         ✔ breakpoint @done(22-05-25 21:44)
-        ☐ boxShadow
-        ☐ palatte(colors)
-        ☐ borders
-        ☐ typography
+        ✔ boxShadow @done(22-05-28 10:12)
+        ✔ palatte(colors) @done(22-05-28 10:11)
+        ✔ borders @done(22-05-28 10:11)
+        ✔ typography @done(22-05-28 10:11)
         ☐ globals
       ☐ componentstyle
         ☐ appBar
