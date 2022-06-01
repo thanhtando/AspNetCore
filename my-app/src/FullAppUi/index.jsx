@@ -1,3 +1,6 @@
+//https://nordiccoder.com/blog/meo-va-thu-thuat-vs-code/
+//https://viblo.asia/p/code-nhanh-va-hieu-qua-hon-voi-vscode-tips-tricks-LzD5dJvOZjY
+//https://dynonguyen.com/toi-uu-visual-studio-code-30-extension-visual-code/
 // react import
 import { 
   createContext, 
@@ -24,8 +27,8 @@ import { ThemeProvider } from "@mui/material/styles"
 // import Icon from "@mui/material/Icon";
 import { 
   Box, Button, Card, CssBaseline, Grid,
-  // Link,
-  styled, Typography, Switch, TextField, Link,
+  Link, alpha, 
+  styled, Typography, Switch, TextField, Checkbox, AppBar, Drawer,
   // useTheme
 } from "@mui/material";
 import MenuCom from "@mui/material/Menu"
@@ -35,28 +38,46 @@ import chroma from "chroma-js";
 
 import Container from "@mui/material/Container";
 import MuiLink from "@mui/material/Link";
-import Favorite from '@mui/icons-material/Favorite';
+// import Favorite from '@mui/icons-material/Favorite';
 import FacebookIcon from '@mui/icons-material/Facebook';
 // react-router-dom components
 // import { Link } from "react-router-dom";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
-import {
-  AccountCircle, DonutLarge, Key, Person, Menu, Close
-} from "@mui/icons-material";
-import PropTypes from "prop-types";
+// import {
+//   AccountCircle, DonutLarge, Key, Person, Menu, Close
+// } from "@mui/icons-material";
+import PropTypes, { func } from "prop-types";
 import propTypes from "prop-types";
 import Icon from '@mui/material/Icon';
-import { green } from "@mui/material/colors";
+// import { green } from "@mui/material/colors";
 
+//test
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import InputBase from '@mui/material/InputBase';
+import Badge from '@mui/material/Badge';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import MailIcon from '@mui/icons-material/Mail';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import MoreIcon from '@mui/icons-material/MoreVert';
+import { useTheme } from "@emotion/react";
+import { border } from "@mui/system";
 
 //resouces
 const bgImage = require("../assets/images/bg-sign-in-basic.jpeg");
+const bgImage_su = require("../assets/images/bg-sign-up-cover.jpeg");
+
 const Home = () => {
-  console.log("home")
+
+  console.log("home: test start")
   return(
     <TTBox>
-
+      
       <TTTypography
         variant="button"
         fontWeight="medium"
@@ -66,6 +87,223 @@ const Home = () => {
     Home
     </TTBox>
   )
+}
+//flexGrow:  chỉ định phần tử con đó sẽ được tăng chiều ngang (hoặc dọc nếu flex-direction là column) bao nhiêu so với các phần tử còn lại
+//flexShrink: nó nói với trình duyệt kích thước nhỏ nhất mà phần tử nên có
+//flexBasic:  nó quyết định kích thước lý tưởng của phần tử, mặc định là auto, hiểu nôm na là theo chiều rộng hay chiều dài của nội dung hay các phần tử khác.
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+}));
+const TestMaterial = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const menuId = 'primary-search-account-menu';
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
+  );
+
+  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem>
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <Badge badgeContent={4} color="error">
+            <MailIcon />
+          </Badge>
+        </IconButton>
+        <p>Messages</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton
+          size="large"
+          aria-label="show 17 new notifications"
+          color="inherit"
+        >
+          <Badge badgeContent={17} color="error">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ display: { xs: 'none', sm: 'block' } }}
+          >
+            MUI
+          </Typography>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={4} color="error">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+              <Badge badgeContent={17} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </Box>
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      {renderMobileMenu}
+      {renderMenu}
+    </Box>
+  );
 }
 // input
 const TTInput = forwardRef(({
@@ -620,13 +858,13 @@ const TypographyStyle = styled(Typography)(({theme, ownerState})=>{
 
   //style for the typography with textGradient={true}
   const gradientStyles = () => ({
-    backgroundImage: 
-      color !== "inherit" && color !== "text" && color !== "white" && gradients[color]
-        ?linearGradient(gradients[color].main, gradients[color].state)
-        : linearGradient(gradients.dark.main, gradients.dark.state),
     display: "inline-block",
-    webkitBackgroundClip: "text",
-    webkitTextFillColor: transparent.main,
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: transparent.main,
+    backgroundImage: 
+    color !== "inherit" && color !== "text" && color !== "white" && gradients[color]
+      ?linearGradient(gradients[color].main, gradients[color].state)
+      : linearGradient(gradients.dark.main, gradients.dark.state),
     position: "relative",
     zIndex: 1,
   })
@@ -644,6 +882,7 @@ const TypographyStyle = styled(Typography)(({theme, ownerState})=>{
     bold: fontWeightBold,
   };
   let fontWeightValue = fontWeights[fontWeight] && fontWeights[fontWeight]
+  console.log(gradientStyles());
   return{
     opacity: opacityValue,
     textTransform: textTransformValue,
@@ -755,12 +994,12 @@ function Footer({ light }) {
   const { size } = typography;
 
   return (
-    <TTBox position="absolute" width="100%" bottom={0} py={4}>
+    <TTBox position="absolute" width="100%" bottom={0} py={1.5}>
       <Container>
         <TTBox
           width="100%"
           display="flex"
-          flexDirection={{ xs: "column", lg: "row" }}
+          flexDirection={{ xs: "column", md: "row" }}
           justifyContent="space-between"
           alignItems="center"
           px={1.5}
@@ -775,13 +1014,13 @@ function Footer({ light }) {
           >
             &copy; {new Date().getFullYear()}, made with
             <TTBox fontSize={size.md} color={light ? "white" : "dark"} mb={-0.5} mx={0.25}>
-              {/* <Icon color="inherit" fontSize="inherit">
+              <Icon color="inherit" fontSize="inherit">
                 favorite
-              </Icon> */}
-              <Favorite color="inherit" fontSize="inherit"/>
+              </Icon>
+              {/* <Favorite color="inherit" fontSize="inherit"/> */}
             </TTBox>
             by
-            <Link href="https://www.google.com" target="_blank">
+            <Link to="https://www.google.com" target="_blank">
               <TTTypography
                 variant="button" 
                 fontWeight="medium" 
@@ -810,7 +1049,7 @@ function Footer({ light }) {
             })}
           >
             <TTBox component="li" pr={2} lineHeight={1}>
-              <Link href="https://www.google.com" target="_blank">
+              <Link href="/signup" target="_blank">
                 <TTTypography
                   variant="button"
                   fontWeight="regular"
@@ -867,21 +1106,83 @@ Footer.defaultProps = {
 Footer.propTypes = {
   light: PropTypes.bool,
 };
-DefaultNavbar.defaultProps = {
-  transparent: false,
-  light: false,
-  action: false,
-}
-DefaultNavbar.propTypes = {
-  transparent: PropTypes.bool,
-  light: propTypes.bool,
-  action: propTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.shape({
 
-    })
-  ])
+function DashboardNavbar({absolute, light, isMini}){
+
+  const [navbarType, setNavbarType] = useState();
+  const [controller, dispatch] = useMaterialUIController();
+  const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator, darkMode } = controller;
+  const [isOpenMenu, setOpenMenu] = useState(false);
+
+  const route = useLocation().pathname.split("/").slice(1);
+  useEffect(()=>{
+
+    //setting the navbar type
+    if(fixedNavbar){ setNavbarType("sticky") }
+    else{ setNavbarType("static") }
+
+    //when scrolling the window.
+    function handleTransparentNavbar(){
+      console.log("handleTransparentVavbar")
+      setTransparentNavbar(dispatch, (fixedNavbar && window.scrollY === 0) || !fixedNavbar);
+    }
+    window.addEventListener("scroll", handleTransparentNavbar);
+    //to set the state with the initial value
+    handleTransparentNavbar();
+
+    //remove event listener on cleanup
+    return () => window.removeEventListener("scroll");
+  },[dispatch, fixedNavbar]);
+
+  const handleMiniSidenav = () => setMiniSidenav(dispatch, !miniSidenav);
+  const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
+  const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
+  const handleCloseMenu = () => setOpenMenu(false);
+  
+  //notification menu
+  const MenuComp = () => {
+    
+  }
+  //style for navbar icon
+  const iconsStyle = ({ palette: { dark, white, text }, functions: { rgba } }) => ({
+    color: () => {
+      let colorValue = light || darkMode ? white.main : dark.main;
+
+      if (transparentNavbar && !light) {
+        colorValue = darkMode ? rgba(text.main, 0.6) : text.main;
+      }
+
+      return colorValue;
+    },
+  });
+  return(
+    <AppBar
+      position={absolute?"absolute":navbarType}
+    >
+      {/*  */}
+      {/*  */}
+      {/*  */}
+      <TTBox>
+        <IconButton>
+          <Icon sx={iconsStyle}>notifications</Icon>
+        </IconButton>
+      </TTBox>
+    </AppBar>
+  )
 }
+// Setting default values for the props of DashboardNavbar
+DashboardNavbar.defaultProps = {
+  absolute: false,
+  light: false,
+  isMini: false,
+};
+
+// Typechecking props for the DashboardNavbar
+DashboardNavbar.propTypes = {
+  absolute: PropTypes.bool,
+  light: PropTypes.bool,
+  isMini: PropTypes.bool,
+};
 
 //navibar
 function DefaultNavbar({ transparent, light, action }) {
@@ -947,29 +1248,30 @@ function DefaultNavbar({ transparent, light, action }) {
         })}
       >
         <TTBox
-          component={Link}
-          to="/"
+          component={MuiLink}
+          to="/dashboard"
           py={transparent ? 1.5 : 0.75}
           lineHeight={1}
           pl={{ xs: 0, lg: 1 }}
         >
-          <Typography variant="button" fontWeight="bold" color={light ? "white" : "dark"}>
-            Leanr Japanese
-          </Typography>
+          <TTTypography variant="button" fontWeight="bold" color={light ? "white" : "dark"}>
+            Learn Japanese
+          </TTTypography>
         </TTBox>
         <TTBox color="inherit" display={{ xs: "none", lg: "flex" }} m={0} p={0}>
-          <DefaultNavbarLink Icon={DonutLarge} name="dashboard" route="/dashboard" light={light}/>
-          <DefaultNavbarLink Icon={Person} name="profile" route="/profile" light={light} />
-          <DefaultNavbarLink Icon={AccountCircle} name="sign up" route="/authentication/sign-up" light={light}/>
-          <DefaultNavbarLink Icon={Key} name="sign in" route="/authentication/sign-in" light={light}/>
+          <DefaultNavbarLink icon={"donut_large"} name="dashboard" route="/dashboard" light={light}/>
+          <DefaultNavbarLink icon={"person"} name="profile" route="/profile" light={light} />
+          <DefaultNavbarLink icon={"account_circle"} name="sign up" route="/signup" light={light}/>
+          <DefaultNavbarLink icon={"key"} name="sign in" route="/signin" light={light}/>
         </TTBox>
         <TTBox>
           {action &&
             (action.type === "internal" ? (
               <TTBox display={{ xs: "none", lg: "inline-block" }}>
                 <TTButton
-                  component={Link}
-                  to={action.route}
+                  component={MuiLink}
+                  // to={action.route}
+                  href={action.route}
                   variant="gradient"
                   color={action.color ? action.color : "info"}
                   size="small"
@@ -1004,22 +1306,20 @@ function DefaultNavbar({ transparent, light, action }) {
           sx={{ cursor: "pointer" }}
           onClick={openMobileNavbar}
         >
-          {/* <Icon fontSize="default">{mobileNavbar ? "close" : "menu"}</Icon> */}
-          {mobileNavbar?<Close fontSize="default"/>:<Menu fontSize="default"/>}
+          <Icon fontSize="default">{mobileNavbar ? "close" : "menu"}</Icon>
+          {/* {mobileNavbar?<Close fontSize="default"/>:<Menu fontSize="default"/>} */}
         </TTBox>
       </TTBox>
       {mobileView && <DefaultNavbarMobile open={mobileNavbar} close={closeMobileNavbar} />}
     </Container>
   );
 }
-
 // Setting default values for the props of DefaultNavbar
 DefaultNavbar.defaultProps = {
   transparent: false,
   light: false,
   action: false,
 };
-
 // Typechecking props for the DefaultNavbar
 DefaultNavbar.propTypes = {
   transparent: PropTypes.bool,
@@ -1045,32 +1345,28 @@ DefaultNavbar.propTypes = {
 };
 
 // default navbar link
-function DefaultNavbarLink({ Icon, name, route, light}) {
+function DefaultNavbarLink({ icon, name, route, light}) {
   console.log(icon, name, route, light)
   return (
     <TTBox
-      component={Link}
-      to={route}
+      component={MuiLink}
+      // to={"/signup"}
+      href={route}
       mx={1}
       p={1}
       display="flex"
       alignItems="center"
-      sx={{ cursor: "pointer", userSelect: "none" }}
+      sx={{ cursor: "pointer", userSelect: "" }}
     >
-      <Icon sx={{
-          fontSize: "medium",
-          color: ({ palette: { white, secondary } }) => (light ? white.main : secondary.main),
-          verticalAlign: "middle",
-        }}
-      />
-      {/* <Icon
+      <Icon
+        fontSize="small"
         sx={{
           color: ({ palette: { white, secondary } }) => (light ? white.main : secondary.main),
           verticalAlign: "middle",
         }}
       >
         {icon}
-      </Icon> */}
+      </Icon>
       <TTTypography
         variant="button"
         fontWeight="regular"
@@ -1086,7 +1382,7 @@ function DefaultNavbarLink({ Icon, name, route, light}) {
 
 // Typechecking props for the DefaultNavbarLink
 DefaultNavbarLink.propTypes = {
-  Icon: PropTypes.object.isRequired,
+  icon: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   route: PropTypes.string.isRequired,
   light: PropTypes.bool.isRequired,
@@ -1112,10 +1408,10 @@ function DefaultNavbarMobile({ open, close }) {
       MenuListProps={{ style: { width: `calc(${width}px - 4rem)` } }}
     >
       <TTBox px={0.5}>
-        <DefaultNavbarLink Icon={DonutLarge} name="dashboard" route="/dashboard" light={false}/>
-        <DefaultNavbarLink Icon={Person} name="profile" route="/profile" light={false}/>
-        <DefaultNavbarLink Icon={AccountCircle} name="sign up" route="/authentication/sign-up" light={false}/>
-        <DefaultNavbarLink Icon={Key} name="sign in" route="/authentication/sign-in" light={false}/>
+        <DefaultNavbarLink icon={"donut_large"} name="dashboard" route="/dashboard" light={false}/>
+        <DefaultNavbarLink icon={"person"} name="profile" route="/profile" light={false}/>
+        <DefaultNavbarLink icon={"account_circle"} name="sign up" route="/signup" light={false}/>
+        <DefaultNavbarLink icon={"key"} name="sign in" route="/signin" light={false}/>
       </TTBox>
     </MenuCom>
   );
@@ -1136,7 +1432,7 @@ function BasicLayout({ image, children }) {
         action={{
           type: "external",
           route: "http://www.google.com",
-          label: "Test default",
+          label: "Learn Start",
           color: "dark",
         }}
         light={false}
@@ -1182,7 +1478,7 @@ const SignIn = () => {
 
   return (
     <BasicLayout image={bgImage}>
-      <Card>
+      <Card sx={{mt: 2}}>
         <TTBox
           variant="gradient"
           bgColor="info"
@@ -1256,11 +1552,12 @@ const SignIn = () => {
                 Don&apos;t have an account?{" "}
                 <TTTypography
                   component={Link}
-                  to="/authentication/sign-up"
+                  // to="/signup"
+                  href="/signup"
                   variant="button"
                   color="info"
                   fontWeight="medium"
-                  textGradient={false}
+                  textGradient={true}
                 >
                   Sign up
                 </TTTypography>
@@ -1272,8 +1569,208 @@ const SignIn = () => {
     </BasicLayout>
   );
 }
+
+function CoverLayout({coverHight, children, image}){
+
+  return(
+    <PageLayout>
+      {/* defaultNavibar */}
+      <DefaultNavbar 
+        action={{
+          type: "external",
+          route: "http://www.google.com",
+          label: "Test default",
+          // color: "info",
+        }}
+        light={true}
+        transparent={true}
+      />
+      {/* backgroundImage  */}
+      <TTBox
+        width="calc(100% - 2rem)"
+        minHeight={coverHight}
+        borderRadius="xl"
+        m = {2}
+        // mx={2}
+        // my={2}
+        pt={6}
+        pb={28}
+        sx={{
+          backgroundImage: ({ functions: { linearGradient, rgba }, palette: { gradients } }) =>
+            image &&
+            `${linearGradient(
+              rgba(gradients.dark.main, 0.4),
+              rgba(gradients.dark.state, 0.4)
+            )}, url(${image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
+      {/* content */}
+      <TTBox
+        mt = {{xs: -20, lg: -18}}
+        mx = "auto"
+        px = {1}
+        width="calc(100% - 2rem)"
+      >
+        <Grid container spacing={1} justifyContent={"center"}>
+          <Grid item xs={11} sm={9} md={5} lg={4} xl={3}>
+            {children}
+          </Grid>
+        </Grid>
+      </TTBox>
+      {/* foot */}
+      <Footer />
+    </PageLayout>
+  )
+}
+CoverLayout.defaultProps = {
+  coverHight: "35vh"
+}
+CoverLayout.propTypes = {
+  coverHight: PropTypes.string,
+  image: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+}
 const SignUp = () => {
-  return(<TTBox>SignUp</TTBox>)
+  return(
+    <CoverLayout image={bgImage_su}>
+      <Card>
+        {/* intro */}
+        <TTBox
+         variant = "gradient"
+         bgColor = "info"
+         borderRadius = "lg"
+         coloredShadow = "success"
+         mx={2}
+         mt={-3}
+         p={3}
+         mb={1}
+         textAlign="center"
+        >
+          <TTTypography
+            variant = "h4"
+            fontWeight = "medium"
+            color = "white"
+            mt = {1}
+          >Join us today</TTTypography>
+          <TTTypography
+            display="block" 
+            variant="button" 
+            color="white" 
+            my={1}
+          >Enter your email and password to register</TTTypography>
+        </TTBox>
+        {/* content form*/}
+        <TTBox
+          component="form" role="form"
+          pt={4} pb={3} px={3}
+        >
+          {/* input */}
+          <TTBox>
+            <TTBox mb={2}>
+              <TTInput type="text" label="Name" variant="standard" fullWidth></TTInput>
+            </TTBox>
+            <TTBox mb={2}>
+              <TTInput type="email" label="Email" variant="standard" fullWidth></TTInput>
+            </TTBox>
+            <TTBox mb={2}>
+              <TTInput type="password" label="Password" variant="standard" fullWidth></TTInput>
+            </TTBox>
+          </TTBox>
+          {/* term and condition */}
+          <TTBox
+            display="flex"
+            alignItems="center"
+            ml = {-1}
+          >
+            <Checkbox/>
+            <TTTypography
+              variant="button"
+              fontWeight="regular"
+              color="text"
+              sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
+            >&nbsp;&nbsp;I agree the&nbsp;</TTTypography>
+            <TTTypography
+              component="a"
+              href="#"
+              variant="button"
+              fontWeight="bold"
+              color="info"
+              textGradient = {true}
+            >Terms and Conditions</TTTypography>
+          </TTBox>
+          {/* submit */}
+          <TTBox mt={4} mb={1}>
+            <TTButton
+              variant="gradient"
+              color="info"
+              fullWidth
+            >sign Up</TTButton>
+          </TTBox>
+          {/* form of footer */}
+          <TTBox textAlign="center" mt={3} mb={1}>
+            <TTTypography variant="button" color="text">
+              Already have an account?{" "}
+              <TTTypography
+                component={MuiLink}
+                // to={"/signin"}
+                href={"/signin"}
+                variant="button"
+                color="info"
+                fontWeight="medium"
+                textGradient={true}
+              >Sign In</TTTypography>
+            </TTTypography>
+          </TTBox>
+        </TTBox>
+      </Card>
+    </CoverLayout>
+  )
+}
+const SignOut = () => {
+  return(
+    <TTBox>Sign Out</TTBox>
+  )
+}
+const SignReset = () =>{
+  return(
+    <CoverLayout coverHeight="50vh" image={bgImage}>
+      <Card>
+        <TTBox
+          variant="gradient"
+          bgColor="info"
+          borderRadius="lg"
+          coloredShadow="success"
+          mx={2}
+          mt={-3}
+          py={2}
+          mb={1}
+          textAlign="center"
+        >
+          <TTTypography variant="h3" fontWeight="medium" color="white" mt={1}>
+            Reset Password
+          </TTTypography>
+          <TTTypography display="block" variant="button" color="white" my={1}>
+            You will receive an e-mail in maximum 60 seconds
+          </TTTypography>
+        </TTBox>
+        <TTBox pt={4} pb={3} px={3}>
+          <TTBox component="form" role="form">
+            <TTBox mb={4}>
+              <TTInput type="email" label="Email" variant="standard" fullWidth />
+            </TTBox>
+            <TTBox mt={6} mb={1}>
+              <TTButton variant="gradient" color="info" fullWidth>
+                reset
+              </TTButton>
+            </TTBox>
+          </TTBox>
+        </TTBox>
+      </Card>
+    </CoverLayout>
+  )
 }
 const Profile = () => {
   return(
@@ -1290,18 +1787,139 @@ const Tables = () => {
     <TTBox>Tables</TTBox>
   )
 }
-const Dashboard = () => {
+
+const DashboardLayout = ({children}) => {
+
+  const [controller, dispatch] = useMaterialUIController();
+  const {miniSidenav} = controller;
+  const {pathname} = useLocation();
+
+  useEffect(()=>{
+    setLayout(dispatch, "dashboard");
+  },[pathname, dispatch]);
+
   return(
-    <TTBox>
-      Dashboard
+    <TTBox bgColor="info" sx={({breakpoints, transitions, functions:{pxToRem}})=>({
+      p: 3,
+      position: "relative",
+      [breakpoints.up("xl")]:{
+        marginLeft: miniSidenav?pxToRem(120):pxToRem(274),
+        transitions: transitions.create(["margin-left", "margin-right"],{
+          easing: transitions.easing.easeInOut,
+          duration: transitions.duration.standard,
+        })
+      }
+    })}> dashboard layout
+      {children}
     </TTBox>
   )
 }
+DashboardLayout.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+const Dashboard = () => {
+  return(
+    <DashboardLayout>
+      {/* navbar */}
+      {/* contentpage */}
+      <Typography>Tan dep trai</Typography>
+      {/* footer */}
+    </DashboardLayout>
+  )
+}
+
+function SideNavbar({color, brand, brandName, routes, ...rest}){
+
+  const [controller, dispatch] = useMaterialUIController();
+  const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor} = controller;
+  const location = useLocation();
+  const collapseName = location.pathname.replace("/", "");
+
+  let textColor = "white";
+  return(
+    <TTBox></TTBox>
+  )
+}
+SideNavbar.defaultProps = {
+  color: "info",
+  brand: "",
+}
+SideNavbar.propTypes = {
+  color: PropTypes.oneOf([
+    "primary", "secondary", 
+    "info", "dark",
+     "success", "error", "warning",])
+}
+const SidenavibarStyle = styled(Drawer)(({theme, ownerState})=>{
+
+  const { palette, boxShadows, transitions, breakpoints, functions} = theme;
+  const { transparentSidenav, whiteSidenav, miniSidenav, darkMode} = ownerState;
+  
+  const SIDEBAR_WIDTH = 250;
+  const { transparent, gradients, white, background } = palette;
+  const { xxl } = boxShadows;
+  const { pxToRem, linearGradient } = functions;
+
+  //background
+  let backgroundValue = darkMode
+    ?background.sidenav
+    :linearGradient(gradients.dark.main, gradients.dark.status);
+  
+  //styles for the sidevan when minisidevav = false
+  const drawerCloseStyles = () =>({
+
+  })
+  //style for the sidenav miniSidenav = true
+  const drawerOpenStyles = () => ({
+
+  })
+  return{
+    "& .MuiDrawer-paper": {
+      boxShadow: xxl,
+      border: "none",
+      ...(miniSidenav?drawerCloseStyles():drawerOpenStyles()),
+    }
+  }
+})
+const handleConfiguratorOpen = () =>{console.log("tes config")}
+const ConfigButton = (
+  <TTBox
+    display="flex"
+    justifyContent="center"
+    shadow="sm"
+    alignItems="center"
+    position={"fixed"}
+    width="3.25rem"
+    height={"3.25rem"}
+    bgColor="white"
+    right={"2rem"}
+    bottom="2rem"
+    sx={{cursor: "pointer"}}
+    color="dark"
+    borderRadius="50%"
+    onClick={handleConfiguratorOpen}
+  >
+    <Icon fontSize="small" color="inherit">settings</Icon>
+  </TTBox>
+)
 const ChildApp = () => {
 
   console.log("child app")
+
   const [controller] = useMaterialUIController();
-  const {darkMode} = controller;
+  const {
+    miniSidenav,
+    direction,
+    layout,
+    openConfigurator,
+    sidenavColor,
+    transparentSidenav,
+    whiteSidenav,
+    darkMode,
+  } = controller;
+
+  const handleOnMouseEnter = () => {}
+  const handleOnMouseLeave = () => {}
   return(
     // direction === "rtl" ? (
     //   <CacheProvider value={rtlCache}>
@@ -1346,11 +1964,23 @@ const ChildApp = () => {
           </>
         )}
         {layout === "vr" && <Configurator />} */}
+        <SideNavbar 
+            // color={sidenavColor}
+            // brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+            // brandName="Tan Tan 2"
+            // routes={routes}
+            // onMouseEnter={handleOnMouseEnter}
+           />
+        {ConfigButton}
         <Routes>
           {/* {getRoutes(routes)} */}
           {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
           <Route path="*" element={<Home />}/>
+          <Route path="/test" element={<TestMaterial/>}/>
           <Route path="/signin" element={<SignIn/>}/>
+          <Route path="/signup" element={<SignUp/>}/>
+          <Route path="/reset" element={<SignReset/>}/>
+          <Route path="/dashboard" element={<Dashboard />}/>
         </Routes>
       </ThemeProvider>
   )
@@ -1452,17 +2082,16 @@ MaterialUIControllerProvider.propTypes = {
 };
 
 // Context module functions
-// const setMiniSidenav = (dispatch, value) => dispatch({ type: "MINI_SIDENAV", value });
-// const setTransparentSidenav = (dispatch, value) => dispatch({ type: "TRANSPARENT_SIDENAV", value });
-// const setWhiteSidenav = (dispatch, value) => dispatch({ type: "WHITE_SIDENAV", value });
-// const setSidenavColor = (dispatch, value) => dispatch({ type: "SIDENAV_COLOR", value });
-// const setTransparentNavbar = (dispatch, value) => dispatch({ type: "TRANSPARENT_NAVBAR", value });
-// const setFixedNavbar = (dispatch, value) => dispatch({ type: "FIXED_NAVBAR", value });
-// const setOpenConfigurator = (dispatch, value) => dispatch({ type: "OPEN_CONFIGURATOR", value });
-// const setDirection = (dispatch, value) => dispatch({ type: "DIRECTION", value });
+const setMiniSidenav = (dispatch, value) => dispatch({ type: "MINI_SIDENAV", value });
+const setTransparentSidenav = (dispatch, value) => dispatch({ type: "TRANSPARENT_SIDENAV", value });
+const setWhiteSidenav = (dispatch, value) => dispatch({ type: "WHITE_SIDENAV", value });
+const setSidenavColor = (dispatch, value) => dispatch({ type: "SIDENAV_COLOR", value });
+const setTransparentNavbar = (dispatch, value) => dispatch({ type: "TRANSPARENT_NAVBAR", value });
+const setFixedNavbar = (dispatch, value) => dispatch({ type: "FIXED_NAVBAR", value });
+const setOpenConfigurator = (dispatch, value) => dispatch({ type: "OPEN_CONFIGURATOR", value });
+const setDirection = (dispatch, value) => dispatch({ type: "DIRECTION", value });
 const setLayout = (dispatch, value) => dispatch({ type: "LAYOUT", value });
-// const setDarkMode = (dispatch, value) => dispatch({ type: "DARKMODE", value });
-
+const setDarkMode = (dispatch, value) => dispatch({ type: "DARKMODE", value });
 // Theme
 const colors = {
   background: {
@@ -2622,6 +3251,64 @@ const menuItem = {
     },
   },
 };
+// const { borderWidth, borderColor } = borders;
+// const { transparent, info } = colors;
+const {borderColor} = borders;
+const checkbox = {
+  styleOverrides: {
+    root: {
+      "& .MuiSvgIcon-root": {
+        backgroundPosition: "center",
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
+        width: pxToRem(20),
+        height: pxToRem(20),
+        color: transparent.main,
+        border: `${borderWidth[1]} solid ${borderColor}`,
+        borderRadius: pxToRem(5.6),
+      },
+
+      "&:hover": {
+        backgroundColor: transparent.main,
+      },
+
+      "&.Mui-focusVisible": {
+        border: `${borderWidth[2]} solid ${info.main} !important`,
+      },
+    },
+
+    colorPrimary: {
+      color: borderColor,
+
+      "&.Mui-checked": {
+        color: info.main,
+
+        "& .MuiSvgIcon-root": {
+          backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -1 22 22'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M6 10l3 3l6-6'/%3e%3c/svg%3e"), ${linearGradient(
+            info.main,
+            info.main
+          )}`,
+          borderColor: info.main,
+        },
+      },
+    },
+
+    colorSecondary: {
+      color: borderColor,
+
+      "& .MuiSvgIcon-root": {
+        color: info.main,
+        "&.Mui-checked": {
+          backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -1 22 22'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M6 10l3 3l6-6'/%3e%3c/svg%3e"), ${linearGradient(
+            info.main,
+            info.main
+          )}`,
+          borderColor: info.main,
+        },
+      },
+    },
+  },
+};
 const themeDark = createTheme({
   breakpoints: { ...breakpoints },
   palette: { ...colors },
@@ -2693,7 +3380,7 @@ const themeLight = createTheme({
     // MuiSelect: { ...select },
     // MuiFormControlLabel: { ...formControlLabel },
     // MuiFormLabel: { ...formLabel },
-    // MuiCheckbox: { ...checkbox },
+    MuiCheckbox: { ...checkbox },
     // MuiRadio: { ...radio },
     // MuiAutocomplete: { ...autocomplete },
     // MuiPopover: { ...popover },
@@ -2776,4 +3463,5 @@ const routes = [
   },
 ];
 export default FullAppUi;
+
 
