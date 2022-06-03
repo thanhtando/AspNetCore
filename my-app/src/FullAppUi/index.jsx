@@ -44,14 +44,19 @@ import { ThemeProvider } from "@mui/material/styles"
 // import Icon from "@mui/material/Icon";
 import { 
   Box, Button, Card, CssBaseline, Grid,
-  Link, alpha, 
-  styled, Typography, Switch, TextField, Checkbox, AppBar, Drawer, Divider, Avatar, List, ListItem, ListItemIcon, ListItemText, Alert,
+  Link, alpha, Paper, LinearProgress,
+  styled, Typography, Switch, TextField, Checkbox, 
+  AppBar, Drawer, Divider, 
+  Avatar, List, ListItem, ListItemIcon, ListItemText, 
+  Alert, TableContainer, Table, TableHead, TableRow, 
+  TableCell, TableBody, TableSortLabel, 
+  Tooltip, TablePagination, FormControlLabel, Autocomplete, Stack,
   // useTheme
 } from "@mui/material";
 import MenuCom from "@mui/material/Menu"
 // prop-types is a library for typechecking of props
 // chroma-js is a library for all kinds of color conversions and color scales.
-import chroma from "chroma-js";
+import chroma, { scale } from "chroma-js";
 import GitHubButton from "react-github-btn";
 import Container from "@mui/material/Container";
 import MuiLink from "@mui/material/Link";
@@ -65,7 +70,8 @@ import TwitterIcon from "@mui/icons-material/Twitter"
 // import {
 //   AccountCircle, DonutLarge, Key, Person, Menu, Close
 // } from "@mui/icons-material";
-import PropTypes from "prop-types";
+import PropTypes, { func } from "prop-types";
+import propTypes from "prop-types";
 import Icon from '@mui/material/Icon';
 // import { green } from "@mui/material/colors";
 
@@ -82,14 +88,38 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { useTheme } from "@emotion/react";
-
-//resource
+import DeleteIcon from "@mui/icons-material/Delete";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import { visuallyHidden } from "@mui/utils";
+import { 
+  useTable, 
+  useGlobalFilter, 
+  useSortBy, 
+  usePagination,
+  useAsyncDebounce,
+} from "react-table";
+//resouces
 //image
+import logoSpotify from "../assets/images/small-logos/logo-spotify.svg";
+import LogoAsana from "../assets/images/small-logos/logo-asana.svg";
+import logoGithub from "../assets/images/small-logos/github.svg";
+import logoAtlassian from "../assets/images/small-logos/logo-atlassian.svg";
+import logoSlack from "../assets/images/small-logos/logo-slack.svg";
+import logoInvesion from "../assets/images/small-logos/logo-invision.svg";
+
 const bgImage = require("../assets/images/bg-sign-in-basic.jpeg");
 const bgImage_su = require("../assets/images/bg-sign-up-cover.jpeg");
 const brandWhite = require("../assets/images/logo-ct.png");
 const brandDark =  require("../assets/images/logo-ct-dark.png");
+// const LogoAsana = require("../assets/images/small-logos/logo-asana.svg");
+// const logoGithub = require("../assets/images/small-logos/github.svg");
+// const logoAtlassian = require("../assets/images/small-logos/logo-atlassian.svg");
+// const logoSlack = require("../assets/images/small-logos/logo-slack.svg");
+// const logoSpotify = require("../assets/images/small-logos/logo-spotify.svg");
+
+const team2 = require("../assets/images/team-2.jpg");
+const team3 = require("../assets/images/team-3.jpg");
+const team4 = require("../assets/images/team-4.jpg");
 
 const Home = () => {
 
@@ -107,6 +137,9 @@ const Home = () => {
     </TTBox>
   )
 }
+//flexGrow:  chỉ định phần tử con đó sẽ được tăng chiều ngang (hoặc dọc nếu flex-direction là column) bao nhiêu so với các phần tử còn lại
+//flexShrink: nó nói với trình duyệt kích thước nhỏ nhất mà phần tử nên có
+//flexBasic:  nó quyết định kích thước lý tưởng của phần tử, mặc định là auto, hiểu nôm na là theo chiều rộng hay chiều dài của nội dung hay các phần tử khác.
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -146,7 +179,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-const AvatarStyle = styled(Avatar)(({theme})=>{
+const AvatarExampleStyle = styled(Avatar)(({theme})=>{
 
   const {palette, transitions} = theme;
   return{
@@ -162,11 +195,73 @@ const AvatarStyle = styled(Avatar)(({theme})=>{
     }
   }
 })
+function LinearProgressWithLabel(props) {
+  return (
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ width: '100%', mr: 1 }}>
+        <TTProgress variant="gradient" {...props} />
+      </Box>
+      <Box sx={{ minWidth: 35 }}>
+        <Typography variant="body2" color="text.secondary">{`${Math.round(
+          props.value,
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
+
+LinearProgressWithLabel.propTypes = {
+  /**
+   * The value of the progress indicator for the determinate and buffer variants.
+   * Value between 0 and 100.
+   */
+  value: PropTypes.number.isRequired,
+};
+
+ function LinearWithValueLabel() {
+  const [progress, setProgress] = useState(10);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) => (prevProgress >= 100 ? 10 : prevProgress + 10));
+    }, 800);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  return (
+    <Box sx={{ width: '100%' }}>
+      <LinearProgressWithLabel value={progress} />
+    </Box>
+  );
+}
 const TransitionEx = () => {
 
   return(
     <TTBox>
-      <AvatarStyle>TT</AvatarStyle>
+
+      <AvatarExampleStyle>TT</AvatarExampleStyle>
+      <Avatar src={logoAtlassian} sx={{ width: 24, height: 24 }}/>
+      <Avatar src={logoGithub} sx={{ width: 24, height: 24 }}/>
+      <Avatar src={LogoAsana} sx={{ width: 24, height: 24 }}/>
+      <Avatar src={logoSpotify} sx={{ width: 24, height: 24 }}/>
+      <Avatar src={require("../assets/images/avatar/2.jpg")} sx={{ width: 24, height: 24 }}/>
+
+      <LinearWithValueLabel />
+      <Stack direction="row" spacing={2}>
+      <Avatar
+        alt="Remy Sharp"
+        src="/static/images/avatar/1.jpg"
+        sx={{ width: 24, height: 24 }}
+      />
+      <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+      <TTAvatar
+        alt="Remy Sharp"
+        src="/static/images/avatar/3.jpg"
+        sx={{ width: 56, height: 56 }}
+      />
+    </Stack>
     </TTBox>
   )
 }
@@ -346,42 +441,6 @@ const TestMaterial = () => {
     </Box>
   );
 }
-// alert
-const TTAlert = ({
-  color, dismissible, children, ...rest
-})=>{
-  <AlertStyle>
-    {children}
-  </AlertStyle>
-};
-// Setting default values for the props of MDAlert
-TTAlert.defaultProps = {
-  color: "info",
-  dismissible: false,
-};
-
-// Typechecking props of the MDAlert
-TTAlert.propTypes = {
-  color: PropTypes.oneOf([
-    "primary",
-    "secondary",
-    "info",
-    "success",
-    "warning",
-    "error",
-    "light",
-    "dark",
-  ]),
-  dismissible: PropTypes.bool,
-  children: PropTypes.node.isRequired,
-};
-const  AlertStyle = styled(Box)(({theme, ownerState})=>{
-  
-
-  return{
-    display: "flex"
-  }
-})
 // input
 const TTInput = forwardRef(({
   error, success, disabled, ...rest
@@ -455,7 +514,7 @@ const InputStyle = styled(TextField)(({theme, ownerState})=>{
 
   return{
     backgroundColor: disabled?`${grey[200]} !important`:transparent.main,
-    pointerEvents: disabled?"none":"auto",   //TODO: pointerEvents( vo h hoa btn)
+    pointerEvents: disabled?"none":"auto",   //TODO: pointerEvents( vohieu hoa btn)
     ...(error && errorStyles()),
     ...(success && successStyles()),
   }
@@ -1065,89 +1124,8 @@ PageLayout.propTypes = {
     }),
   ]),
 };
-// dashboard of footer
-function FooterDash({company, links}){
-  const { href, name } = company;
-  const { size } = typography;
 
-  const renderLinks = () =>
-    links.map((link) => (
-      <TTBox key={link.name} component="li" px={2} lineHeight={1}>
-        <Link href={link.href} target="_blank">
-          <TTTypography variant="button" fontWeight="regular" color="text">
-            {link.name}
-          </TTTypography>
-        </Link>
-      </TTBox>
-    ));
-  return(
-    <TTBox
-      width="100%"
-      display="flex"
-      flexDirection={{ xs: "column", lg: "row" }}
-      justifyContent="space-between"
-      alignItems="center"
-      px={1.5}
-    >
-      <TTBox
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        flexWrap="wrap"
-        color="text"
-        fontSize={size.sm}
-        px={1.5}
-      >
-        &copy; {new Date().getFullYear()}, made with
-        <TTBox fontSize={size.md} color="text" mb={-0.5} mx={0.25}>
-          <Icon color="inherit" fontSize="inherit">
-            favorite
-          </Icon>
-        </TTBox>
-        by
-        <Link href={href} target="_blank">
-          <TTTypography variant="button" fontWeight="medium">
-            &nbsp;{name}&nbsp;
-          </TTTypography>
-        </Link>
-        for a better web.
-      </TTBox>
-      <TTBox
-        component="ul"
-        sx={({ breakpoints }) => ({
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          justifyContent: "center",
-          listStyle: "none",
-          mt: 3,
-          mb: 0,
-          p: 0,
-
-          [breakpoints.up("lg")]: {
-            mt: 0,
-          },
-        })}
-      >
-        {renderLinks()}
-      </TTBox>
-    </TTBox>
-  )
-}
-FooterDash.defaultProps = {
-  company: { href: "https://www.creative-tim.com/", name: "Tan Tan" },
-  links: [
-    { href: "https://www.google.com/", name: "Tan Tan" },
-    { href: "https://www.google.com/presentation", name: "About Us" },
-    { href: "https://www.google.com/blog", name: "Blog" },
-    { href: "https://www.google.com/license", name: "License" },
-  ],
-}
-FooterDash.propTypes = {
-  company: PropTypes.objectOf(PropTypes.string),
-  links: PropTypes.arrayOf(PropTypes.object),
-}
-// page of footer
+//page of footer
 function Footer({ light }) {
   const { size } = typography;
 
@@ -1281,7 +1259,7 @@ function DashboardNavbar({absolute, light, isMini}){
 
     //when scrolling the window.
     function handleTransparentNavbar(){
-      console.log("handleTransparentNavbar")
+      console.log("handleTransparentVavbar")
       setTransparentNavbar(dispatch, (fixedNavbar && window.scrollY === 0) || !fixedNavbar);
     }
     window.addEventListener("scroll", handleTransparentNavbar);
@@ -1342,7 +1320,7 @@ DashboardNavbar.propTypes = {
   isMini: PropTypes.bool,
 };
 
-//navbar
+//navibar
 function DefaultNavbar({ transparent, light, action }) {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
@@ -1732,7 +1710,7 @@ function CoverLayout({coverHight, children, image}){
 
   return(
     <PageLayout>
-      {/* defaultNavbar */}
+      {/* defaultNavibar */}
       <DefaultNavbar 
         action={{
           type: "external",
@@ -1937,53 +1915,29 @@ const Profile = () => {
 }
 
 const Notifications = () => {
-
+  function alertContent(){
+    return "abcd"
+  }
   function openSuccessSB(){
+    return "efgh"
   }
   function renderErrorSB(){
     return 5
   }
-
-  //
-  
-  const AlertContent = (name) => (
-    <TTTypography variant={"body2"} color="white">
-      A simple {name} alert with{" "}
-      <TTTypography components={"a"} href="#" variant="body2" fontWeight="medium" color="white">
-        an example link
-      </TTTypography>
-      Give it 8 click if you like
-    </TTTypography>
-  );
   return(
     <DashboardLayout>
       {/* <TTBox mt={6} mb={3}> */}
-        <Grid 
-          container 
-          spacing={3} 
-          justifyContent="center" 
-          mt={6} 
-          mb={3} 
-        >
+        <Grid container spacing={3} justifyContent="center" mt={6} mb={3} bgcolor="yellow">
           <Grid item xs={12} lg={8}>
             <Card>
               <TTBox p={2}>
                 <TTTypography variant="h5">Alerts</TTTypography>
               </TTBox>
-              <TTBox pt={2} px={2}>
-              {ColorArr.map((itemColor) => (
-                <TTTypography variant={"body2"} color="white" key={itemColor}>
-                  {/* A simple {itemColor} alert with{" "}
-                  <TTTypography components={"a"} href="#" variant="body2" fontWeight="medium" color="white">
-                    an example link
-                  </TTTypography>
-                  Give it 8 click if you like */}
-                </TTTypography>
-              ))}
-                {/* <Alert color="primary" dismissible>
+              {/* <TTBox pt={2} px={2}>
+                <Alert color="primary" dismissible>
                   {alertContent("primary")}
-                </Alert> */}
-                {/* <Alert color="secondary" dismissible>
+                </Alert>
+                <Alert color="secondary" dismissible>
                   {alertContent("secondary")}
                 </Alert>
                 <Alert color="success" dismissible>
@@ -2003,8 +1957,8 @@ const Notifications = () => {
                 </Alert>
                 <Alert color="dark" dismissible>
                   {alertContent("dark")}
-                </Alert> */}
-              </TTBox>
+                </Alert>
+              </TTBox> */}
             </Card>
           </Grid>
           <Grid item xs={12} lg={8}>
@@ -2050,11 +2004,7 @@ const Notifications = () => {
     </DashboardLayout>
   )
 }
-const Tables = () => {
-  return(
-    <TTBox>Tables</TTBox>
-  )
-}
+
 
 const DashboardLayout = ({children}) => {
 
@@ -2079,7 +2029,7 @@ const DashboardLayout = ({children}) => {
       }
     })}> dashboard layout
       {children}
-      <FooterDash/>
+      {/* <Footer /> */}
     </TTBox>
   )
 }
@@ -2090,7 +2040,7 @@ const Dashboard = () => {
   return(
     <DashboardLayout>
       {/* navbar */}
-      {/* content page */}
+      {/* contentpage */}
       <Typography>Tan dep trai</Typography>
       {/* footer */}
     </DashboardLayout>
@@ -2306,7 +2256,7 @@ function SideNavbar({color, brand, brandName, routes, ...rest}){
 
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleMiniSidenav);
-  }, [dispatch, transparentSidenav, whiteSidenav]);
+  }, [dispatch, location]);
 
   const ListRoute = routes.map(({
     type, name, icon, title, noCollapse, key, href, route
@@ -2361,7 +2311,7 @@ function SideNavbar({color, brand, brandName, routes, ...rest}){
     return ItemValue;
   });
   return(
-    <SideNavbarStyle 
+    <SidenavibarStyle 
       {...rest}
       variant="permanent"
       ownerState={{transparentSidenav, whiteSidenav, miniSidenav, darkMode}}
@@ -2418,7 +2368,7 @@ function SideNavbar({color, brand, brandName, routes, ...rest}){
           contact me
         </TTButton>
       </TTBox>
-    </SideNavbarStyle>
+    </SidenavibarStyle>
   )
 }
 SideNavbar.defaultProps = {
@@ -2435,7 +2385,7 @@ SideNavbar.propTypes = {
   brandName: PropTypes.string.isRequired,
   routes: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
-const SideNavbarStyle = styled(Drawer)(({theme, ownerState})=>{
+const SidenavibarStyle = styled(Drawer)(({theme, ownerState})=>{
 
   const { palette, boxShadows, transitions, breakpoints, functions } = theme;
   const { transparentSidenav, whiteSidenav, miniSidenav, darkMode } = ownerState;
@@ -2838,7 +2788,7 @@ const ConfigNavbarStyle = styled(Drawer)(({theme, ownerState})=>{
   const { lg } = boxShadows;
   const { pxToRem } = functions;
   const {openConfigurator} = ownerState;
-  console.log("openConfigurator:", openConfigurator);
+  // console.log("openConfigurator:", openConfigurator);
   const configuratorWidth = 360;
    // drawer styles when openConfigurator={true}
   const drawerOpenStyles = () => ({
@@ -2984,7 +2934,8 @@ const ChildApp = () => {
           <Route path="/signup" element={<SignUp/>}/>
           <Route path="/reset" element={<SignReset/>}/>
           <Route path="/dashboard" element={<Dashboard />}/>
-          <Route path="/notifications" element={<Notifications/>}/>
+          <Route path="/notifi" element={<Notifications/>}/>
+          <Route path="/tables" element={<Tables />}/>
         </Routes>
       </ThemeProvider>
   )
@@ -3097,11 +3048,6 @@ const setDirection = (dispatch, value) => dispatch({ type: "DIRECTION", value })
 const setLayout = (dispatch, value) => dispatch({ type: "LAYOUT", value });
 const setDarkMode = (dispatch, value) => dispatch({ type: "DARKMODE", value });
 // Theme
-const ColorArr = [
-  "primary", "secondary", 
-  "info", "success", "error", "warning",
-  "light", "dark"
-]
 const colors = {
   background: {
     default: "#f0f2f5",
@@ -3262,7 +3208,7 @@ const colors = {
       dark: "#329874",
     },
 
-    dribble: {
+    dribbble: {
       main: "#ea4c89",
       dark: "#e73177",
     },
@@ -4019,7 +3965,7 @@ const outlined = {
   },
 };
 const button = {
-  defaultProps:{ disableRipple: false},  //ripple : hiu ung gon song
+  defaultProps:{ disableRipple: false},  //ripple : hieu ung gon song
   styleOverrides:{
     root: { ...root },
     contained: { ...contained.base },
@@ -4387,6 +4333,88 @@ const divider = {
     },
   },
 };
+// const { borderRadius } = borders;
+
+const avatar = {
+  styleOverrides: {
+    root: {
+      transition: "all 200ms ease-in-out",
+    },
+
+    rounded: {
+      borderRadius: borderRadius.lg,
+    },
+
+    img: {
+      height: "auto",
+    },
+  },
+};
+// const { borderRadius } = borders;
+// const { light } = colors;
+
+const linearProgress = {
+  styleOverrides: {
+    root: {
+      height: pxToRem(6),
+      borderRadius: borderRadius.md,
+      overflow: "visible",
+      position: "relative",
+    },
+
+    colorPrimary: {
+      backgroundColor: light.main,
+    },
+
+    colorSecondary: {
+      backgroundColor: light.main,
+    },
+
+    bar: {
+      height: pxToRem(6),
+      borderRadius: borderRadius.sm,
+      position: "absolute",
+      transform: `translate(0, 0) !important`,
+      transition: "width 0.6s ease !important",
+    },
+  },
+};
+// const { white } = colors;
+// const { md } = boxShadows;
+// const { borderRadius } = borders;
+
+const tableContainer = {
+  styleOverrides: {
+    root: {
+      backgroundColor: white.main,
+      boxShadow: md,
+      borderRadius: borderRadius.xl,
+    },
+  },
+};
+// const { borderRadius } = borders;
+
+const tableHead = {
+  styleOverrides: {
+    root: {
+      display: "block",
+      padding: `${pxToRem(16)} ${pxToRem(16)} 0  ${pxToRem(16)}`,
+      borderRadius: `${borderRadius.xl} ${borderRadius.xl} 0 0`,
+    },
+  },
+};
+
+// const { borderWidth } = borders;
+// const { light } = colors;
+
+const tableCell = {
+  styleOverrides: {
+    root: {
+      padding: `${pxToRem(12)} ${pxToRem(16)}`,
+      borderBottom: `${borderWidth[1]} solid ${light.main}`,
+    },
+  },
+};
 const themeDark = createTheme({
   breakpoints: { ...breakpoints },
   palette: { ...colors },
@@ -4439,13 +4467,13 @@ const themeLight = createTheme({
     MuiMenuItem: { ...menuItem },
     MuiSwitch: { ...switchButton },
     MuiDivider: { ...divider },
-    // MuiTableContainer: { ...tableContainer },
-    // MuiTableHead: { ...tableHead },
-    // MuiTableCell: { ...tableCell },
-    // MuiLinearProgress: { ...linearProgress },
+    MuiTableContainer: { ...tableContainer },
+    MuiTableHead: { ...tableHead },
+    MuiTableCell: { ...tableCell },
+    MuiLinearProgress: { ...linearProgress },
     // MuiBreadcrumbs: { ...breadcrumbs },
     // MuiSlider: { ...slider },
-    // MuiAvatar: { ...avatar },
+    MuiAvatar: { ...avatar },
     // MuiTooltip: { ...tooltip },
     // MuiAppBar: { ...appBar },
     // MuiTabs: { ...tabs },
@@ -4512,7 +4540,7 @@ const routes = [
     name: "Notifications",
     key: "notifications",
     icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/notifications",
+    route: "/notifi",
     component: <Notifications />,
   },
   {
@@ -4540,6 +4568,1446 @@ const routes = [
     component: <SignUp />,
   },
 ];
+
+// const team2 = "../assets/images/team-2.jpg";
+// const team3 = "../assets/images/team-3.jpg";
+// const team4 = "../assets/images/team-4.jpg";
+
+const ProgressStyle = styled(LinearProgress)(({theme, ownerState})=>{
+
+  const { palette, functions } = theme;
+  const { color, value, variant } = ownerState;
+
+  let backgroundValue;
+  if(variant === "gradient"){backgroundValue = gradients[color]
+    ?linearGradient(gradients[color].main, gradients[color].state)
+    :linearGradient(gradients.info.main, gradients.info.state);
+  }else{
+    backgroundValue = palette[color] ? palette[color].main : palette.info.main;
+  }
+  return{
+    "& .MuiLinearProgress-bar":{
+      backgroundColor: palette.error.main,
+      width: `${value}%`,
+      color: text.main,
+    }
+  }
+})
+const TTProgress = forwardRef(({ variant, color, value, label, ...rest }, ref) => (
+  <>
+    {label && (
+      <TTTypography variant="button" fontWeight="medium" color="text">
+        {value}%
+      </TTTypography>
+    )}
+    <ProgressStyle
+      {...rest}
+      ref={ref}
+      variant="determinate"
+      value={value}
+      ownerState={{ color, value, variant }}
+    />
+  </>
+));
+
+// Setting default values for the props of MDProgress
+TTProgress.defaultProps = {
+  variant: "contained",
+  color: "info",
+  value: 0,
+  label: false,
+};
+
+// Typechecking props for the MDProgress
+TTProgress.propTypes = {
+  variant: PropTypes.oneOf(["contained", "gradient"]),
+  color: PropTypes.oneOf([
+    "primary",
+    "secondary",
+    "info",
+    "success",
+    "warning",
+    "error",
+    "light",
+    "dark",
+  ]),
+  value: PropTypes.number,
+  label: PropTypes.bool,
+};
+const AvatarStyle = styled(Avatar)(({theme, ownerState})=>{
+
+  const { palette, functions, typography, boxShadows } = theme;
+  const { shadow, bgColor, size } = ownerState;
+
+  const { gradients, transparent, white } = palette;
+  const { pxToRem, linearGradient } = functions;
+  const { size: fontSize, fontWeightRegular } = typography;
+
+  //backgroundImage value
+  let backgroundValue = bgColor === "transparent"
+    ?transparent.main
+    :linearGradient(gradients[bgColor].main, gradients[bgColor].state);
+  
+    // size value
+  let sizeValue;
+  switch(size){
+    case "xs":
+      sizeValue = {
+        width: pxToRem(24),
+        height: pxToRem(24),
+        fontSize: fontSize.xs,
+      };
+      break;
+    case "sm":
+      sizeValue = {
+        width: pxToRem(36),
+        height: pxToRem(36),
+        fontSize: fontSize.sm,
+      };
+      break;
+    case "lg":
+      sizeValue = {
+        width: pxToRem(58),
+        height: pxToRem(58),
+        fontSize: fontSize.sm,
+      };
+      break;
+    case "xl":
+      sizeValue = {
+        width: pxToRem(74),
+        height: pxToRem(74),
+        fontSize: fontSize.md,
+      };
+      break;
+    case "xxl":
+      sizeValue = {
+        width: pxToRem(110),
+        height: pxToRem(110),
+        fontSize: fontSize.md,
+      };
+      break;
+    default: {
+      sizeValue = {
+        width: pxToRem(48),
+        height: pxToRem(48),
+        fontSize: fontSize.md,
+      };
+    }
+  }
+  return{
+    color: white.main,
+    fontWeight: fontWeightRegular,
+    boxShadow: boxShadows[shadow],
+    background: backgroundValue,
+    ...sizeValue
+  }
+});
+const TTAvatar = forwardRef(({ bgColor, size, shadow, ...rest }, ref) => (
+  <AvatarStyle 
+    {...rest}
+    ref={ref} 
+    ownerState={{ shadow, bgColor, size }} 
+  />
+));
+
+// Setting default values for the props of MDAvatar
+TTAvatar.defaultProps = {
+  bgColor: "transparent",
+  size: "md",
+  shadow: "none",
+};
+
+// Typechecking props for the MDAvatar
+TTAvatar.propTypes = {
+  bgColor: PropTypes.oneOf([
+    "transparent",
+    "primary",
+    "secondary",
+    "info",
+    "success",
+    "warning",
+    "error",
+    "light",
+    "dark",
+  ]),
+  size: PropTypes.oneOf(["xs", "sm", "md", "lg", "xl", "xxl"]),
+  shadow: PropTypes.oneOf(["none", "xs", "sm", "md", "lg", "xl", "xxl", "inset"]),
+};
+const Author = ({ image, name, email }) => (
+  <TTBox display="flex" alignItems="center" lineHeight={1}>
+    <TTAvatar src={image} name={name} size="sm" />
+    <TTBox ml={2} lineHeight={1}>
+      <TTTypography display="block" variant="button" fontWeight="medium">
+        {name}
+      </TTTypography>
+      <TTTypography variant="caption">{email}</TTTypography>
+    </TTBox>
+  </TTBox>
+);
+
+const Job = ({ title, description }) => (
+  <TTBox lineHeight={1} textAlign="left">
+    <TTTypography display="block" variant="caption" color="text" fontWeight="medium">
+      {title}
+    </TTTypography>
+    <TTTypography variant="caption">{description}</TTTypography>
+  </TTBox>
+);
+const authorsTableData = () => {
+
+  return{
+    columns: [
+      { Header: "author", accessor: "author", width: "45%", align: "left" },
+      { Header: "function", accessor: "function", align: "left" },
+      { Header: "status", accessor: "status", align: "center" },
+      { Header: "employed", accessor: "employed", align: "center" },
+      { Header: "action", accessor: "action", align: "center" },
+    ],
+
+    rows: [
+      {
+        author: <Author image={team2} name="John Michael" email="john@creative-tim.com" />,
+        function: <Job title="Manager" description="Organization" />,
+        status: (
+          <TTBox ml={-1}>
+            <Badge badgeContent="online" color="success" variant="gradient" size="sm" />
+          </TTBox>
+        ),
+        employed: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            23/04/18
+          </TTTypography>
+        ),
+        action: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Edit
+          </TTTypography>
+        ),
+      },
+      {
+        author: <Author image={team3} name="Alexa Liras" email="alexa@creative-tim.com" />,
+        function: <Job title="Programator" description="Developer" />,
+        status: (
+          <TTBox ml={-1}>
+            <Badge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+          </TTBox>
+        ),
+        employed: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            11/01/19
+          </TTTypography>
+        ),
+        action: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Edit
+          </TTTypography>
+        ),
+      },
+      {
+        author: <Author image={team4} name="Laurent Perrier" email="laurent@creative-tim.com" />,
+        function: <Job title="Executive" description="Projects" />,
+        status: (
+          <TTBox ml={-1}>
+            <Badge badgeContent="online" color="success" variant="gradient" size="sm" />
+          </TTBox>
+        ),
+        employed: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            19/09/17
+          </TTTypography>
+        ),
+        action: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Edit
+          </TTTypography>
+        ),
+      },
+      {
+        author: <Author image={team3} name="Michael Levi" email="michael@creative-tim.com" />,
+        function: <Job title="Programator" description="Developer" />,
+        status: (
+          <TTBox ml={-1}>
+            <Badge badgeContent="online" color="success" variant="gradient" size="sm" />
+          </TTBox>
+        ),
+        employed: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            24/12/08
+          </TTTypography>
+        ),
+        action: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Edit
+          </TTTypography>
+        ),
+      },
+      {
+        author: <Author image={team3} name="Richard Gran" email="richard@creative-tim.com" />,
+        function: <Job title="Manager" description="Executive" />,
+        status: (
+          <TTBox ml={-1}>
+            <Badge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+          </TTBox>
+        ),
+        employed: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            04/10/21
+          </TTTypography>
+        ),
+        action: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Edit
+          </TTTypography>
+        ),
+      },
+      {
+        author: <Author image={team4} name="Miriam Eric" email="miriam@creative-tim.com" />,
+        function: <Job title="Programator" description="Developer" />,
+        status: (
+          <TTBox ml={-1}>
+            <Badge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+          </TTBox>
+        ),
+        employed: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            14/09/20
+          </TTTypography>
+        ),
+        action: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Edit
+          </TTTypography>
+        ),
+      },
+    ],
+  };
+}
+const Project = ({image, name}) => (
+  <TTBox display="flex" alignItems="center" lineHeight={1}>
+    <TTAvatar src={image} name={name} size="sm" variant="rounded"/>
+    <TTTypography display="block" variant="button" fontWeight="medium" ml={1} lineHeight={1}>
+      {name}
+    </TTTypography>
+  </TTBox>
+)
+const Progress = ({color, value}) => {
+  <TTBox display="flex" alignItems="center" zIndex={10}>
+    <TTTypography variant="caption" color="text" fontWeight="medium">
+      {value}%
+    </TTTypography>
+    <TTBox ml={0.5} width="9rem" bgColor="success">
+      <TTProgress variant="gradient" color={color} value={value} />
+    </TTBox>
+  </TTBox>
+}
+// const DataJson = {
+//   columns:[],
+//   rows:[]
+// }
+const projectsTableData = () => {
+
+  return{
+    columns: [
+      { Header: "project", accessor: "project", width: "30%", align: "left" },
+      { Header: "budget", accessor: "budget", align: "left" },
+      { Header: "status", accessor: "status", align: "center" },
+      { Header: "completion", accessor: "completion", align: "center" },
+      { Header: "action", accessor: "action", align: "center" },
+    ],
+
+    rows: [
+      {
+        project: <Project image={LogoAsana} name="Asana" />,
+        budget: (
+          <TTTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
+            $2,500
+          </TTTypography>
+        ),
+        status: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            working
+          </TTTypography>
+        ),
+        completion: <Progress color="info" value={60} />,
+        action: (
+          <TTTypography component="a" href="#" color="text">
+            <Icon>more_vert</Icon>
+          </TTTypography>
+        ),
+      },
+      {
+        project: <Project image={logoGithub} name="Github" />,
+        budget: (
+          <TTTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
+            $5,000
+          </TTTypography>
+        ),
+        status: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            done
+          </TTTypography>
+        ),
+        completion: <Progress color="success" value={100} />,
+        action: (
+          <TTTypography component="a" href="#" color="text">
+            <Icon>more_vert</Icon>
+          </TTTypography>
+        ),
+      },
+      {
+        project: <Project image={logoAtlassian} name="Atlassian" />,
+        budget: (
+          <TTTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
+            $3,400
+          </TTTypography>
+        ),
+        status: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            canceled
+          </TTTypography>
+        ),
+        completion: <Progress color="error" value={30} />,
+        action: (
+          <TTTypography component="a" href="#" color="text">
+            <Icon>more_vert</Icon>
+          </TTTypography>
+        ),
+      },
+      {
+        project: <Project image={logoSpotify} name="Spotify" />,
+        budget: (
+          <TTTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
+            $14,000
+          </TTTypography>
+        ),
+        status: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            working
+          </TTTypography>
+        ),
+        completion: <Progress color="info" value={80} />,
+        action: (
+          <TTTypography component="a" href="#" color="text">
+            <Icon>more_vert</Icon>
+          </TTTypography>
+        ),
+      },
+      {
+        project: <Project image={logoSlack} name="Slack" />,
+        budget: (
+          <TTTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
+            $1,000
+          </TTTypography>
+        ),
+        status: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            canceled
+          </TTTypography>
+        ),
+        completion: <Progress color="error" value={0} />,
+        action: (
+          <TTTypography component="a" href="#" color="text">
+            <Icon>more_vert</Icon>
+          </TTTypography>
+        ),
+      },
+      {
+        project: <Project image={logoInvesion} name="Invesion" />,
+        budget: (
+          <TTTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
+            $2,300
+          </TTTypography>
+        ),
+        status: (
+          <TTTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            done
+          </TTTypography>
+        ),
+        completion: <Progress color="success" value={100} />,
+        action: (
+          <TTTypography component="a" href="#" color="text">
+            <Icon>more_vert</Icon>
+          </TTTypography>
+        ),
+      },
+    ],
+  }
+}
+
+// table head cell
+function DataTableHeadCell({
+  width, children, sorted, align, ...rest
+}){
+  const [controller, dispatch] = useMaterialUIController();
+  const { darkMode } = controller;
+
+  return(
+    <TTBox
+      component="th"
+      width={width}
+      py={1.5}
+      px={3}
+      sx={({ palette: { light }, borders: { borderWidth } }) => ({
+        borderBottom: `${borderWidth[1]} solid ${light.main}`,
+      })}
+    >
+      <TTBox
+        {...rest}
+        position="relative"
+        textAlign={align}
+        color={darkMode ? "white" : "secondary"}
+        opacity={0.7}
+        sx={({ typography: { size, fontWeightBold } }) => ({
+          fontSize: size.xxs,
+          fontWeight: fontWeightBold,
+          textTransform: "uppercase",
+          cursor: sorted && "pointer",
+          userSelect: sorted && "none",
+        })}
+      >
+        {children}
+        {sorted && (
+          <TTBox
+            position="absolute"
+            top={0}
+            right={align !== "right" ? "16px" : 0}
+            left={align === "right" ? "-5px" : "unset"}
+            sx={({ typography: { size } }) => ({
+              fontSize: size.lg,
+            })}
+          >
+            <TTBox
+              position="absolute"
+              top={-6}
+              color={sorted === "asce" ? "text" : "secondary"}
+              opacity={sorted === "asce" ? 1 : 0.5}
+            >
+              <Icon>arrow_drop_up</Icon>
+            </TTBox>
+            <TTBox
+              position="absolute"
+              top={0}
+              color={sorted === "desc" ? "text" : "secondary"}
+              opacity={sorted === "desc" ? 1 : 0.5}
+            >
+              <Icon>arrow_drop_down</Icon>
+            </TTBox>
+          </TTBox>
+        )}
+      </TTBox>
+    </TTBox>
+  )
+}
+// Setting default values for the props of DataTableHeadCell
+DataTableHeadCell.defaultProps = {
+  width: "auto",
+  sorted: "none",
+  align: "left",
+};
+
+// Typechecking props for the DataTableHeadCell
+DataTableHeadCell.propTypes = {
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  children: PropTypes.node.isRequired,
+  sorted: PropTypes.oneOf([false, "none", "asce", "desc"]),
+  align: PropTypes.oneOf(["left", "right", "center"]),
+};
+function DataTableBodyCell({ noBorder, align, children }) {
+  // console.log(children);
+  return (
+    <TTBox 
+      bgColor = "info"
+      component="td"
+      textAlign={align}
+      py={1.5}
+      px={3}
+      sx={({ palette: { light }, typography: { size }, borders: { borderWidth } }) => ({
+        fontSize: size.sm,
+        borderBottom: noBorder ? "none" : `${borderWidth[1]} solid ${light.main}`,
+      })}
+    >
+      <TTBox
+        bgColor = "error"
+        display="inline-block"
+        width="max-content"
+        color="text"
+        sx={{ verticalAlign: "middle" }}
+      >
+        {children}
+      </TTBox>
+    </TTBox>
+  );
+}
+
+// Setting default values for the props of DataTableBodyCell
+DataTableBodyCell.defaultProps = {
+  noBorder: false,
+  align: "left",
+};
+
+// Typechecking props for the DataTableBodyCell
+DataTableBodyCell.propTypes = {
+  children: PropTypes.node.isRequired,
+  noBorder: PropTypes.bool,
+  align: PropTypes.oneOf(["left", "right", "center"]),
+};
+function DataTable({
+  entriesPerPage,
+  canSearch,
+  showTotalEntries,
+  table,
+  pagination,
+  isSorted,
+  noEndBorder,
+}) {
+  const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 10;
+  const entries = entriesPerPage.entries
+    ? entriesPerPage.entries.map((el) => el.toString())
+    : ["5", "10", "15", "20", "25"];
+  const columns = useMemo(() => table.columns, [table]);
+  const data = useMemo(() => table.rows, [table]);
+
+  // console.log("data",data);
+  const tableInstance = useTable(
+    { columns, data, initialState: { pageIndex: 0 } },
+    useGlobalFilter,
+    useSortBy,
+    usePagination
+  );
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    prepareRow,
+    rows,
+    page,
+    pageOptions,
+    canPreviousPage,
+    canNextPage,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    setGlobalFilter,
+    state: { pageIndex, pageSize, globalFilter },
+  } = tableInstance;
+  // console.log("page:", page);
+  // Set the default value for the entries per page when component mounts
+  useEffect(() => setPageSize(defaultValue || 10), [defaultValue]);
+
+  // Set the entries per page value based on the select value
+  const setEntriesPerPage = (value) => setPageSize(value);
+
+  // Render the paginations
+  // const renderPagination = pageOptions.map((option) => (
+  //   <TTPagination
+  //     item
+  //     key={option}
+  //     onClick={() => gotoPage(Number(option))}
+  //     active={pageIndex === option}
+  //   >
+  //     {option + 1}
+  //   </TTPagination>
+  // ));
+
+  // Handler for the input to set the pagination index
+  const handleInputPagination = ({ target: { value } }) =>
+    value > pageOptions.length || value < 0 ? gotoPage(0) : gotoPage(Number(value));
+
+  // Customized page options starting from 1
+  const customizedPageOptions = pageOptions.map((option) => option + 1);
+
+  // Setting value for the pagination input
+  const handleInputPaginationValue = ({ target: value }) => gotoPage(Number(value.value - 1));
+
+  // Search input value state
+  const [search, setSearch] = useState(globalFilter);
+
+  // Search input state handle
+  const onSearchChange = useAsyncDebounce((value) => {
+    setGlobalFilter(value || undefined);
+  }, 100);
+
+  // A function that sets the sorted value for the table
+  const setSortedValue = (column) => {
+    let sortedValue;
+
+    if (isSorted && column.isSorted) {
+      sortedValue = column.isSortedDesc ? "desc" : "asce";
+    } else if (isSorted) {
+      sortedValue = "none";
+    } else {
+      sortedValue = false;
+    }
+
+    return sortedValue;
+  };
+
+  // Setting the entries starting point
+  const entriesStart = pageIndex === 0 ? pageIndex + 1 : pageIndex * pageSize + 1;
+
+  // Setting the entries ending point
+  let entriesEnd;
+
+  if (pageIndex === 0) {
+    entriesEnd = pageSize;
+  } else if (pageIndex === pageOptions.length - 1) {
+    entriesEnd = rows.length;
+  } else {
+    entriesEnd = pageSize * (pageIndex + 1);
+  }
+
+  return (
+    <TableContainer sx={{ boxShadow: "none" }}>
+      {entriesPerPage || canSearch ? (
+        <TTBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+          {entriesPerPage && (
+            <TTBox display="flex" alignItems="center">
+              <Autocomplete
+                disableClearable
+                value={pageSize.toString()}
+                options={entries}
+                onChange={(event, newValue) => {
+                  setEntriesPerPage(parseInt(newValue, 10));
+                }}
+                size="small"
+                sx={{ width: "5rem" }}
+                renderInput={(params) => <TTInput {...params} />}
+              />
+              <TTTypography variant="caption" color="secondary">
+                &nbsp;&nbsp;entries per page
+              </TTTypography>
+            </TTBox>
+          )}
+          {canSearch && (
+            <TTBox width="12rem" ml="auto">
+              <TTInput
+                placeholder="Search..."
+                value={search}
+                size="small"
+                fullWidth
+                onChange={({ currentTarget }) => {
+                  setSearch(search);
+                  onSearchChange(currentTarget.value);
+                }}
+              />
+            </TTBox>
+          )}
+        </TTBox>
+      ) : null}
+      <Table {...getTableProps()}>
+        <TTBox component="thead">
+          {headerGroups.map((headerGroup) => (
+            <TableRow {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <DataTableHeadCell
+                  {...column.getHeaderProps(isSorted && column.getSortByToggleProps())}
+                  width={column.width ? column.width : "auto"}
+                  align={column.align ? column.align : "left"}
+                  sorted={setSortedValue(column)}
+                >
+                  {column.render("Header")}
+                </DataTableHeadCell>
+              ))}
+            </TableRow>
+          ))}
+        </TTBox>
+        <TableBody {...getTableBodyProps()}>
+          {page.map((row, key) => {
+            prepareRow(row);
+            return (
+              <TableRow {...row.getRowProps()}>
+                {row.cells.map((cell) => (
+                  <DataTableBodyCell
+                    noBorder={noEndBorder && rows.length - 1 === key}
+                    align={cell.column.align ? cell.column.align : "left"}
+                    {...cell.getCellProps()}
+                  >
+                    {/* {cell.render("cell")} */}
+                    {console.log("cell",cell)}
+                    <TTTypography>abc</TTTypography>
+                  </DataTableBodyCell>
+  
+                ))}
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+
+      <TTBox
+        display="flex"
+        flexDirection={{ xs: "column", sm: "row" }}
+        justifyContent="space-between"
+        alignItems={{ xs: "flex-start", sm: "center" }}
+        p={!showTotalEntries && pageOptions.length === 1 ? 0 : 3}
+      >
+        {showTotalEntries && (
+          <TTBox mb={{ xs: 3, sm: 0 }}>
+            <TTTypography variant="button" color="secondary" fontWeight="regular">
+              Showing {entriesStart} to {entriesEnd} of {rows.length} entries
+            </TTTypography>
+          </TTBox>
+        )}
+        {/* {pageOptions.length > 1 && (
+          <TTPagination
+            variant={pagination.variant ? pagination.variant : "gradient"}
+            color={pagination.color ? pagination.color : "info"}
+          >
+            {canPreviousPage && (
+              <TTPagination item onClick={() => previousPage()}>
+                <Icon sx={{ fontWeight: "bold" }}>chevron_left</Icon>
+              </TTPagination>
+            )}
+            {renderPagination.length > 6 ? (
+              <TTBox width="5rem" mx={1}>
+                <TTInput
+                  inputProps={{ type: "number", min: 1, max: customizedPageOptions.length }}
+                  value={customizedPageOptions[pageIndex]}
+                  onChange={(handleInputPagination, handleInputPaginationValue)}
+                />
+              </TTBox>
+            ) : (
+              renderPagination
+            )}
+            {canNextPage && (
+              <TTPagination item onClick={() => nextPage()}>
+                <Icon sx={{ fontWeight: "bold" }}>chevron_right</Icon>
+              </TTPagination>
+            )}
+          </TTPagination>
+        )} */}
+      </TTBox>
+    </TableContainer>
+  );
+}
+
+// Setting default values for the props of DataTable
+DataTable.defaultProps = {
+  entriesPerPage: { defaultValue: 10, entries: [5, 10, 15, 20, 25] },
+  canSearch: false,
+  showTotalEntries: true,
+  pagination: { variant: "gradient", color: "info" },
+  isSorted: true,
+  noEndBorder: false,
+};
+
+// Typechecking props for the DataTable
+DataTable.propTypes = {
+  entriesPerPage: PropTypes.oneOfType([
+    PropTypes.shape({
+      defaultValue: PropTypes.number,
+      entries: PropTypes.arrayOf(PropTypes.number),
+    }),
+    PropTypes.bool,
+  ]),
+  canSearch: PropTypes.bool,
+  showTotalEntries: PropTypes.bool,
+  table: PropTypes.objectOf(PropTypes.array).isRequired,
+  pagination: PropTypes.shape({
+    variant: PropTypes.oneOf(["contained", "gradient"]),
+    color: PropTypes.oneOf([
+      "primary",
+      "secondary",
+      "info",
+      "success",
+      "warning",
+      "error",
+      "dark",
+      "light",
+    ]),
+  }),
+  isSorted: PropTypes.bool,
+  noEndBorder: PropTypes.bool,
+};
+
+
+const BasicTable = () => {
+
+  function createData(name, calories, fat, carbs, protein) {
+    return { name, calories, fat, carbs, protein };
+  }
+  const rows = [
+    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+    createData('Eclair', 262, 16.0, 24, 6.0),
+    createData('Cupcake', 305, 3.7, 67, 4.3),
+    createData('Gingerbread', 356, 16.0, 49, 3.9),
+  ];
+
+  return(
+    <TableContainer>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+            <TableCell>Dessert </TableCell>
+            <TableCell align="right">Calories</TableCell>
+            <TableCell align="right">Fat&nbsp;(g)</TableCell>
+            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+        </TableHead>
+        <TableBody>
+          {rows.map((row)=>(
+            <TableRow 
+              key={row.name}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">{row.name}</TableCell>
+              <TableCell>{row.calories}</TableCell>
+              <TableCell>{row.fat}</TableCell>
+              <TableCell>{row.carbs}</TableCell>
+              <TableCell>{row.protein}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  )
+}
+
+const EnhancedTable = () => {
+
+  function createData(name, calories, fat, carbs, protein) {
+    return {
+      name,
+      calories,
+      fat,
+      carbs,
+      protein,
+    };
+  }
+  const rows = [
+    createData('Cupcake', 305, 3.7, 67, 4.3),
+    createData('Donut', 452, 25.0, 51, 4.9),
+    createData('Eclair', 262, 16.0, 24, 6.0),
+    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+    createData('Gingerbread', 356, 16.0, 49, 3.9),
+    createData('Honeycomb', 408, 3.2, 87, 6.5),
+    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+    createData('Jelly Bean', 375, 0.0, 94, 0.0),
+    createData('KitKat', 518, 26.0, 65, 7.0),
+    createData('Lollipop', 392, 0.2, 98, 0.0),
+    createData('Marshmallow', 318, 0, 81, 2.0),
+    createData('Nougat', 360, 19.0, 9, 37.0),
+    createData('Oreo', 437, 18.0, 63, 4.0),
+  ];
+
+  function descendingComparator(a, b, orderBy){
+    if(b[orderBy] < a[orderBy]){ return -1}
+    if(a[orderBy] < b[orderBy]){ return 1}
+    return 0
+  }
+  function getComparator(order, orderBy){
+    return order === "desc"
+      ?(a,b)=>descendingComparator(a, b, orderBy)
+      :(a,b)=>-descendingComparator(a, b, orderBy)
+  }
+  function stableSort(array, comparator){
+    const stabilizedThis = array.map((el, index)=>[el, index]);
+    stabilizedThis.sort((a,b)=>{
+      const order = comparator(a[0], b[0]);
+      if(order !== 0) { return order;}
+      return a[1]-b[1]
+    })
+    return stabilizedThis.map((el)=>el[0]);
+
+  }
+  const headCells = [
+    {
+      id: 'name',
+      numeric: false,
+      disablePadding: true,
+      label: 'Dessert (100g serving)',
+    },
+    {
+      id: 'calories',
+      numeric: true,
+      disablePadding: false,
+      label: 'Calories',
+    },
+    {
+      id: 'fat',
+      numeric: true,
+      disablePadding: false,
+      label: 'Fat (g)',
+    },
+    {
+      id: 'carbs',
+      numeric: true,
+      disablePadding: false,
+      label: 'Carbs (g)',
+    },
+    {
+      id: 'protein',
+      numeric: true,
+      disablePadding: false,
+      label: 'Protein (g)',
+    },
+  ];
+
+  function EnhancedTableHead(props) {
+    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
+      props;
+    const createSortHandler = (property) => (event) => {
+      onRequestSort(event, property);
+    };
+  
+    return (
+      <TableHead>
+        <TableRow>
+          <TableCell padding="checkbox">
+            <Checkbox
+              color="primary"
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={rowCount > 0 && numSelected === rowCount}
+              onChange={onSelectAllClick}
+              inputProps={{
+                'aria-label': 'select all desserts',
+              }}
+            />
+          </TableCell>
+          {headCells.map((headCell) => (
+            <TableCell
+              key={headCell.id}
+              align={headCell.numeric ? 'right' : 'left'}
+              padding={headCell.disablePadding ? 'none' : 'normal'}
+              sortDirection={orderBy === headCell.id ? order : false}
+            >
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : 'asc'}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+    );
+  }
+  EnhancedTableHead.propTypes = {
+    numSelected: PropTypes.number.isRequired,
+    onRequestSort: PropTypes.func.isRequired,
+    onSelectAllClick: PropTypes.func.isRequired,
+    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+    orderBy: PropTypes.string.isRequired,
+    rowCount: PropTypes.number.isRequired,
+  };
+  const EnhancedTableToolbar = (props) => {
+    const { numSelected } = props;
+  
+    return (
+      <Toolbar
+        sx={{
+          pl: { sm: 2 },
+          pr: { xs: 1, sm: 1 },
+          ...(numSelected > 0 && {
+            bgcolor: (theme) =>
+              alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+          }),
+        }}
+      >
+        {numSelected > 0 ? (
+          <Typography
+            sx={{ flex: '1 1 100%' }}
+            color="inherit"
+            variant="subtitle1"
+            component="div"
+          >
+            {numSelected} selected
+          </Typography>
+        ) : (
+          <Typography
+            sx={{ flex: '1 1 100%' }}
+            variant="h6"
+            id="tableTitle"
+            component="div"
+          >
+            Nutrition
+          </Typography>
+        )}
+  
+        {numSelected > 0 ? (
+          <Tooltip title="Delete">
+            <IconButton>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        ) : (
+          <Tooltip title="Filter list">
+            <IconButton>
+              <FilterListIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+      </Toolbar>
+    );
+  };
+  EnhancedTableToolbar.propTypes = {
+    numSelected: PropTypes.number.isRequired,
+  };
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('calories');
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const newSelecteds = rows.map((n) => n.name);
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
+
+  const handleClick = (event, name) => {
+    const selectedIndex = selected.indexOf(name);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, name);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
+    }
+
+    setSelected(newSelected);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const handleChangeDense = (event) => {
+    setDense(event.target.checked);
+  };
+
+  const isSelected = (name) => selected.indexOf(name) !== -1;
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+
+  return (
+    <Box sx={{ width: '100%' }}>
+      <Paper sx={{ width: '100%', mb: 2 }}>
+        <EnhancedTableToolbar numSelected={selected.length} />
+        <TableContainer>
+          <Table
+            sx={{ minWidth: 750 }}
+            aria-labelledby="tableTitle"
+            size={dense ? 'small' : 'medium'}
+          >
+            <EnhancedTableHead
+              numSelected={selected.length}
+              order={order}
+              orderBy={orderBy}
+              onSelectAllClick={handleSelectAllClick}
+              onRequestSort={handleRequestSort}
+              rowCount={rows.length}
+            />
+            <TableBody>
+              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+                 rows.slice().sort(getComparator(order, orderBy)) */}
+              {stableSort(rows, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => {
+                  const isItemSelected = isSelected(row.name);
+                  const labelId = `enhanced-table-checkbox-${index}`;
+
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(event, row.name)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.name}
+                      selected={isItemSelected}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          color="primary"
+                          checked={isItemSelected}
+                          inputProps={{
+                            'aria-labelledby': labelId,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                      >
+                        {row.name}
+                      </TableCell>
+                      <TableCell align="right">{row.calories}</TableCell>
+                      <TableCell align="right">{row.fat}</TableCell>
+                      <TableCell align="right">{row.carbs}</TableCell>
+                      <TableCell align="right">{row.protein}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              {emptyRows > 0 && (
+                <TableRow
+                  style={{
+                    height: (dense ? 33 : 53) * emptyRows,
+                  }}
+                >
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+      <FormControlLabel
+        control={<Switch checked={dense} onChange={handleChangeDense} />}
+        label="Dense padding"
+      />
+    </Box>
+  );
+}
+// const  PaginationStyle = styled(TTButton)(({ theme, ownerState }) => {
+//   const { borders, functions, typography, palette } = theme;
+//   const { variant, paginationSize, active } = ownerState;
+
+//   const { borderColor } = borders;
+//   const { pxToRem } = functions;
+//   const { fontWeightRegular, size: fontSize } = typography;
+//   const { light } = palette;
+
+//   // width, height, minWidth and minHeight values
+//   let sizeValue = pxToRem(36);
+
+//   if (paginationSize === "small") {
+//     sizeValue = pxToRem(30);
+//   } else if (paginationSize === "large") {
+//     sizeValue = pxToRem(46);
+//   }
+
+//   return {
+//     borderColor,
+//     margin: `0 ${pxToRem(2)}`,
+//     pointerEvents: active ? "none" : "auto",
+//     fontWeight: fontWeightRegular,
+//     fontSize: fontSize.sm,
+//     width: sizeValue,
+//     minWidth: sizeValue,
+//     height: sizeValue,
+//     minHeight: sizeValue,
+
+//     "&:hover, &:focus, &:active": {
+//       transform: "none",
+//       boxShadow: (variant !== "gradient" || variant !== "contained") && "none !important",
+//       opacity: "1 !important",
+//     },
+
+//     "&:hover": {
+//       backgroundColor: light.main,
+//       borderColor,
+//     },
+//   };
+// });
+// const Context = createContext();
+
+// const TTPagination = forwardRef(
+//   ({ item, variant, color, size, active, children, ...rest }, ref) => {
+//     const context = useContext(Context);
+//     const paginationSize = context ? context.size : null;
+
+//     const value = useMemo(() => ({ variant, color, size }), [variant, color, size]);
+
+//     return (
+//       <Context.Provider value={value}>
+//         {item ? (
+//           <PaginationStyle
+//             {...rest}
+//             ref={ref}
+//             variant={active ? context.variant : "outlined"}
+//             color={active ? context.color : "secondary"}
+//             iconOnly
+//             circular
+//             ownerState={{ variant, active, paginationSize }}
+//           >
+//             {children}
+//           </PaginationStyle>
+//         ) : (
+//           <TTBox
+//             display="flex"
+//             justifyContent="flex-end"
+//             alignItems="center"
+//             sx={{ listStyle: "none" }}
+//           >
+//             {children}
+//           </TTBox>
+//         )}
+//       </Context.Provider>
+//     );
+//   }
+// );
+
+// Setting default values for the props of Pagination
+// TTPagination.defaultProps = {
+//   item: false,
+//   variant: "gradient",
+//   color: "info",
+//   size: "medium",
+//   active: false,
+// };
+
+// // Typechecking props for the Pagination
+// TTPagination.propTypes = {
+//   item: PropTypes.bool,
+//   variant: PropTypes.oneOf(["gradient", "contained"]),
+//   color: PropTypes.oneOf([
+//     "white",
+//     "primary",
+//     "secondary",
+//     "info",
+//     "success",
+//     "warning",
+//     "error",
+//     "light",
+//     "dark",
+//   ]),
+//   size: PropTypes.oneOf(["small", "medium", "large"]),
+//   active: PropTypes.bool,
+//   children: PropTypes.node.isRequired,
+// };
+
+function Tables(){
+  const { columns, rows } = authorsTableData();
+  const { columns: pColumns, rows: pRows } = projectsTableData();
+  return(
+    <DashboardLayout>
+      <TTBox pt={6} pb={3}>
+        <Grid container spacing={6}>
+          <Grid item xs={12}>
+            <Card>
+              <TTBox
+                variant="gradient"
+                bgColor="info"
+                borderRadius="lg"
+                coloredShadow="info"
+                mx={2} mt={-3}
+                py={3}
+                px={2}
+              >
+                <TTTypography variant="h6" color={"white"}>Authors Tables</TTTypography>
+              </TTBox>
+              <TTBox pt={3}>
+                <DataTable
+                  table={{ columns, rows }}
+                  isSorted={false}
+                  entriesPerPage={false}
+                  showTotalEntries={false}
+                  noEndBorder
+                />
+              </TTBox>
+            </Card>
+          </Grid>
+          <Grid item xs={12}>
+            <Card>
+            <TTBox
+                variant="gradient"
+                bgColor="info"
+                borderRadius="lg"
+                coloredShadow="info"
+                mx={2} mt={-3}
+                py={3}
+                px={2}
+              >
+                <TTTypography variant="h6" color={"white"}>Project Tables</TTTypography>
+              </TTBox>
+              <TTBox pt={3}>
+                <DataTable
+                  table={{ columns: pColumns, rows: pRows }}
+                  isSorted={false}
+                  entriesPerPage={false}
+                  showTotalEntries={false}
+                  noEndBorder
+                ></DataTable>
+              </TTBox>
+            </Card>
+          </Grid>
+          <Grid item xs={12}>
+            <Card>
+            <TTBox
+                variant="gradient"
+                bgColor="info"
+                borderRadius="lg"
+                coloredShadow="info"
+                mx={2} mt={-3}
+                py={3}
+                px={2}
+              >
+                <TTTypography variant="h6" color={"white"}>Basic Tables</TTTypography>
+              </TTBox>
+              <TTBox pt={3}>
+                {/* <BasicTable /> */}
+              </TTBox>
+            </Card>
+          </Grid>
+          <Grid item xs={12}>
+            <Card>
+            <TTBox
+                variant="gradient"
+                bgColor="info"
+                borderRadius="lg"
+                coloredShadow="info"
+                mx={2} mt={-3}
+                py={3}
+                px={2}
+              >
+                <TTTypography variant="h6" color={"white"}>Enhanced Tables</TTTypography>
+              </TTBox>
+              <TTBox pt={3}>
+                <EnhancedTable></EnhancedTable>
+              </TTBox>
+            </Card>
+          </Grid>
+        </Grid>
+      </TTBox>
+    </DashboardLayout>
+  )
+}
+
 export default FullAppUi;
 
 
