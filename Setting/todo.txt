@@ -1,0 +1,6 @@
+
+
+//css
+//flexGrow:  chỉ đnh phan tử con đó sẽ được tăng chiều ngang (hoặc dọc nếu flex-direction là column) bao nhiêu so với các phần tử còn lại
+//flexShrink: nó nói với trình duyệt kích thước nhỏ nhất mà phần tử nên có
+//flexBasic:  nó quyết định kích thước lý tưởng của phần tử, mặc định là auto, hiểu nôm na là theo chiều rộng hay chiều dài của nội dung hay các phần tử khác.

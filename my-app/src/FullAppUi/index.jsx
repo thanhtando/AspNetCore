@@ -123,7 +123,7 @@ const team4 = require("../assets/images/team-4.jpg");
 
 const Home = () => {
 
-  console.log("home: test start")
+  // console.log("home: test start")
   return(
     <TTBox>
       
@@ -199,7 +199,7 @@ function LinearProgressWithLabel(props) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <Box sx={{ width: '100%', mr: 1 }}>
-        <TTProgress variant="gradient" {...props} />
+        <TTProgress variant="gradient" {...props} color={"info"}/>
       </Box>
       <Box sx={{ minWidth: 35 }}>
         <Typography variant="body2" color="text.secondary">{`${Math.round(
@@ -1077,7 +1077,7 @@ function PageLayout({ background, children }) {
   const location= useLocation();
   // console.log(location.pathname, location.state);
 
-  console.log("pageLayout");
+  // console.log("pageLayout");
 
   useEffect(() => {
     setLayout(dispatch, "page");
@@ -1259,7 +1259,7 @@ function DashboardNavbar({absolute, light, isMini}){
 
     //when scrolling the window.
     function handleTransparentNavbar(){
-      console.log("handleTransparentVavbar")
+      // console.log("handleTransparentVavbar")
       setTransparentNavbar(dispatch, (fixedNavbar && window.scrollY === 0) || !fixedNavbar);
     }
     window.addEventListener("scroll", handleTransparentNavbar);
@@ -1267,7 +1267,7 @@ function DashboardNavbar({absolute, light, isMini}){
     handleTransparentNavbar();
 
     //remove event listener on cleanup
-    return () => window.removeEventListener("scroll");
+    return () => window.removeEventListener("scroll", handleTransparentNavbar);
   },[dispatch, fixedNavbar]);
 
   const handleMiniSidenav = () => setMiniSidenav(dispatch, !miniSidenav);
@@ -1482,7 +1482,7 @@ DefaultNavbar.propTypes = {
 
 // default navbar link
 function DefaultNavbarLink({ icon, name, route, light}) {
-  console.log(icon, name, route, light)
+  // console.log(icon, name, route, light)
   return (
     <TTBox
       component={MuiLink}
@@ -1561,7 +1561,7 @@ DefaultNavbarMobile.propTypes = {
 
 function BasicLayout({ image, children }) {
 
-  console.log("Basic layout");
+  // console.log("Basic layout");
   return (
     <PageLayout>
       <DefaultNavbar
@@ -1914,6 +1914,130 @@ const Profile = () => {
   )
 }
 
+// alert
+const TTAlert = ({
+  color, dismissible, children, ...rest
+})=>{
+  <AlertStyle>
+    {children}
+  </AlertStyle>
+};
+// Setting default values for the props of MDAlert
+TTAlert.defaultProps = {
+  color: "info",
+  dismissible: false,
+};
+
+// Typechecking props of the MDAlert
+TTAlert.propTypes = {
+  color: PropTypes.oneOf([
+    "primary",
+    "secondary",
+    "info",
+    "success",
+    "warning",
+    "error",
+    "light",
+    "dark",
+  ]),
+  dismissible: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+};
+const  AlertStyle = styled(Box)(({theme, ownerState})=>{
+  
+
+  return{
+    display: "flex"
+  }
+})
+// dashboard of footer
+function FooterDash({company, links}){
+  const { href, name } = company;
+  const { size } = typography;
+
+  const renderLinks = () =>
+    links.map((link) => (
+      <TTBox key={link.name} component="li" px={2} lineHeight={1}>
+        <Link href={link.href} target="_blank">
+          <TTTypography variant="button" fontWeight="regular" color="text">
+            {link.name}
+          </TTTypography>
+        </Link>
+      </TTBox>
+    ));
+  return(
+    <TTBox
+      width="100%"
+      display="flex"
+      flexDirection={{ xs: "column", lg: "row" }}
+      justifyContent="space-between"
+      alignItems="center"
+      px={1.5}
+    >
+      <TTBox
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexWrap="wrap"
+        color="text"
+        fontSize={size.sm}
+        px={1.5}
+      >
+        &copy; {new Date().getFullYear()}, made with
+        <TTBox fontSize={size.md} color="text" mb={-0.5} mx={0.25}>
+          <Icon color="inherit" fontSize="inherit">
+            favorite
+          </Icon>
+        </TTBox>
+        by
+        <Link href={href} target="_blank">
+          <TTTypography variant="button" fontWeight="medium">
+            &nbsp;{name}&nbsp;
+          </TTTypography>
+        </Link>
+        for a better web.
+      </TTBox>
+      <TTBox
+        component="ul"
+        sx={({ breakpoints }) => ({
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "center",
+          listStyle: "none",
+          mt: 3,
+          mb: 0,
+          p: 0,
+
+          [breakpoints.up("lg")]: {
+            mt: 0,
+          },
+        })}
+      >
+        {renderLinks()}
+      </TTBox>
+    </TTBox>
+  )
+}
+FooterDash.defaultProps = {
+  company: { href: "https://www.creative-tim.com/", name: "Tan Tan" },
+  links: [
+    { href: "https://www.google.com/", name: "Tan Tan" },
+    { href: "https://www.google.com/presentation", name: "About Us" },
+    { href: "https://www.google.com/blog", name: "Blog" },
+    { href: "https://www.google.com/license", name: "License" },
+  ],
+}
+FooterDash.propTypes = {
+  company: PropTypes.objectOf(PropTypes.string),
+  links: PropTypes.arrayOf(PropTypes.object),
+}
+const ColorArr = [
+  "primary", "secondary", 
+  "info", "success", "error", "warning",
+  "light", "dark"
+]
+
 const Notifications = () => {
   function alertContent(){
     return "abcd"
@@ -1927,19 +2051,32 @@ const Notifications = () => {
   return(
     <DashboardLayout>
       {/* <TTBox mt={6} mb={3}> */}
-        <Grid container spacing={3} justifyContent="center" mt={6} mb={3} bgcolor="yellow">
-          <Grid item xs={12} lg={8}>
-            <Card>
-              <TTBox p={2}>
-                <TTTypography variant="h5">Alerts</TTTypography>
-              </TTBox>
-              {/* <TTBox pt={2} px={2}>
-                <Alert color="primary" dismissible>
-                  {alertContent("primary")}
-                </Alert>
-                <Alert color="secondary" dismissible>
-                  {alertContent("secondary")}
-                </Alert>
+       <Grid container spacing={3} justifyContent="center" mt={6} mb={3}>
+        <Grid item xs={12} lg={8}>
+          <Card>
+            <TTBox p={2}>
+              <TTTypography variant="h5">Alerts</TTTypography>
+            </TTBox>
+             <TTBox pt={2} px={2}>
+             {ColorArr.map((itemColor) => (
+               <TTTypography variant={"body2"} color="white" key={itemColor}>
+                 {/* A simple {itemColor} alert with{" "}
+                 <TTTypography components={"a"} href="#" variant="body2" fontWeight="medium" color="white">
+                   an example link
+                 </TTTypography>
+                 Give it 8 click if you like */}
+               </TTTypography>
+             ))}
+               {/* <Alert color="primary" dismissible>
+             {/* <TTBox pt={2} px={2}>
+               <Alert color="primary" dismissible>
+                {alertContent("primary")}
+               </Alert> */}
+               {/* <Alert color="secondary" dismissible>
+               </Alert>
+               <Alert color="secondary" dismissible>
+                {alertContent("secondary")}
+              </Alert>
                 <Alert color="success" dismissible>
                   {alertContent("success")}
                 </Alert>
@@ -1957,8 +2094,8 @@ const Notifications = () => {
                 </Alert>
                 <Alert color="dark" dismissible>
                   {alertContent("dark")}
-                </Alert>
-              </TTBox> */}
+                </Alert>*/}
+              </TTBox> 
             </Card>
           </Grid>
           <Grid item xs={12} lg={8}>
@@ -2030,6 +2167,7 @@ const DashboardLayout = ({children}) => {
     })}> dashboard layout
       {children}
       {/* <Footer /> */}
+      <FooterDash/>
     </TTBox>
   )
 }
@@ -2256,7 +2394,7 @@ function SideNavbar({color, brand, brandName, routes, ...rest}){
 
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleMiniSidenav);
-  }, [dispatch, location]);
+  }, [dispatch, whiteSidenav, transparentSidenav]);
 
   const ListRoute = routes.map(({
     type, name, icon, title, noCollapse, key, href, route
@@ -2474,6 +2612,7 @@ const ConfigButton = ({handleConfiguratorOpen}) => {
       color="dark"
       borderRadius="50%"
       onClick={handleConfiguratorOpen}
+      zIndex={10}
     >
       <Icon fontSize="small" color="inherit">settings</Icon>
     </TTBox>
@@ -2824,7 +2963,7 @@ const ConfigNavbarStyle = styled(Drawer)(({theme, ownerState})=>{
 
 const ChildApp = () => {
 
-  console.log("child app")
+  // console.log("child app")
 
   const [controller, dispatch] = useMaterialUIController();
   const {
@@ -2941,7 +3080,7 @@ const ChildApp = () => {
   )
 }
 const FullAppUi = () => {
-  console.log("full app")
+  // console.log("full app")
   return(
     <BrowserRouter>
       <MaterialUIControllerProvider>
@@ -4572,12 +4711,123 @@ const routes = [
 // const team2 = "../assets/images/team-2.jpg";
 // const team3 = "../assets/images/team-3.jpg";
 // const team4 = "../assets/images/team-4.jpg";
+const PaginationStyle = styled(TTButton)(({ theme, ownerState }) => {
+  const { borders, functions, typography, palette } = theme;
+  const { variant, paginationSize, active } = ownerState;
 
+  const { borderColor } = borders;
+  const { pxToRem } = functions;
+  const { fontWeightRegular, size: fontSize } = typography;
+  const { light } = palette;
+
+  // width, height, minWidth and minHeight values
+  let sizeValue = pxToRem(36);
+
+  if (paginationSize === "small") {
+    sizeValue = pxToRem(30);
+  } else if (paginationSize === "large") {
+    sizeValue = pxToRem(46);
+  }
+
+  return {
+    borderColor,
+    margin: `0 ${pxToRem(2)}`,
+    pointerEvents: active ? "none" : "auto",
+    fontWeight: fontWeightRegular,
+    fontSize: fontSize.sm,
+    width: sizeValue,
+    minWidth: sizeValue,
+    height: sizeValue,
+    minHeight: sizeValue,
+
+    "&:hover, &:focus, &:active": {
+      transform: "none",
+      boxShadow: (variant !== "gradient" || variant !== "contained") && "none !important",
+      opacity: "1 !important",
+    },
+
+    "&:hover": {
+      backgroundColor: light.main,
+      borderColor,
+    },
+  };
+});
+
+// The Pagination main context
+const Context = createContext();
+
+const TTPagination = forwardRef(
+  ({ item, variant, color, size, active, children, ...rest }, ref) => {
+    const context = useContext(Context);
+    const paginationSize = context ? context.size : null;
+
+    const value = useMemo(() => ({ variant, color, size }), [variant, color, size]);
+
+    return (
+      <Context.Provider value={value}>
+        {item ? (
+          <PaginationStyle
+            {...rest}
+            ref={ref}
+            variant={active ? context.variant : "outlined"}
+            color={active ? context.color : "secondary"}
+            iconOnly
+            circular
+            ownerState={{ variant, active, paginationSize }}
+          >
+            {children}
+          </PaginationStyle>
+        ) : (
+          <TTBox
+            display="flex"
+            justifyContent="flex-end"
+            alignItems="center"
+            sx={{ listStyle: "none" }}
+          >
+            {children}
+          </TTBox>
+        )}
+      </Context.Provider>
+    );
+  }
+);
+
+// Setting default values for the props of MDPagination
+TTPagination.defaultProps = {
+  item: false,
+  variant: "gradient",
+  color: "info",
+  size: "medium",
+  active: false,
+};
+
+// Typechecking props for the MDPagination
+TTPagination.propTypes = {
+  item: PropTypes.bool,
+  variant: PropTypes.oneOf(["gradient", "contained"]),
+  color: PropTypes.oneOf([
+    "white",
+    "primary",
+    "secondary",
+    "info",
+    "success",
+    "warning",
+    "error",
+    "light",
+    "dark",
+  ]),
+  size: PropTypes.oneOf(["small", "medium", "large"]),
+  active: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+};
 const ProgressStyle = styled(LinearProgress)(({theme, ownerState})=>{
 
   const { palette, functions } = theme;
   const { color, value, variant } = ownerState;
+  const { text, gradients } = palette;
+  const { linearGradient } = functions;
 
+  console.log("color:", color)
   let backgroundValue;
   if(variant === "gradient"){backgroundValue = gradients[color]
     ?linearGradient(gradients[color].main, gradients[color].state)
@@ -4585,11 +4835,12 @@ const ProgressStyle = styled(LinearProgress)(({theme, ownerState})=>{
   }else{
     backgroundValue = palette[color] ? palette[color].main : palette.info.main;
   }
+  console.log(palette[color].main)
   return{
     "& .MuiLinearProgress-bar":{
-      backgroundColor: palette.error.main,
+      backgroundColor: backgroundValue,
       width: `${value}%`,
-      color: text.main,
+      color: palette[color].main,
     }
   }
 })
@@ -4710,14 +4961,14 @@ const TTAvatar = forwardRef(({ bgColor, size, shadow, ...rest }, ref) => (
   />
 ));
 
-// Setting default values for the props of MDAvatar
+// Setting default values for the props of TTAvatar
 TTAvatar.defaultProps = {
   bgColor: "transparent",
   size: "md",
   shadow: "none",
 };
 
-// Typechecking props for the MDAvatar
+// Typechecking props for the TTAvatar
 TTAvatar.propTypes = {
   bgColor: PropTypes.oneOf([
     "transparent",
@@ -4733,29 +4984,414 @@ TTAvatar.propTypes = {
   size: PropTypes.oneOf(["xs", "sm", "md", "lg", "xl", "xxl"]),
   shadow: PropTypes.oneOf(["none", "xs", "sm", "md", "lg", "xl", "xxl", "inset"]),
 };
-const Author = ({ image, name, email }) => (
-  <TTBox display="flex" alignItems="center" lineHeight={1}>
-    <TTAvatar src={image} name={name} size="sm" />
-    <TTBox ml={2} lineHeight={1}>
-      <TTTypography display="block" variant="button" fontWeight="medium">
-        {name}
-      </TTTypography>
-      <TTTypography variant="caption">{email}</TTTypography>
+
+function DataTableBodyCell({ noBorder, align, children }) {
+  return (
+    <TTBox
+      component="td"
+      textAlign={align}
+      py={1.5}
+      px={3}
+      sx={({ palette: { light }, typography: { size }, borders: { borderWidth } }) => ({
+        fontSize: size.sm,
+        borderBottom: noBorder ? "none" : `${borderWidth[1]} solid ${light.main}`,
+      })}
+    >
+      <TTBox
+        display="inline-block"
+        width="max-content"
+        color="text"
+        sx={{ verticalAlign: "middle" }}
+      >
+        {children}
+      </TTBox>
     </TTBox>
-  </TTBox>
-);
+  );
+}
 
-const Job = ({ title, description }) => (
-  <TTBox lineHeight={1} textAlign="left">
-    <TTTypography display="block" variant="caption" color="text" fontWeight="medium">
-      {title}
-    </TTTypography>
-    <TTTypography variant="caption">{description}</TTTypography>
-  </TTBox>
-);
-const authorsTableData = () => {
+// Setting default values for the props of DataTableBodyCell
+DataTableBodyCell.defaultProps = {
+  noBorder: false,
+  align: "left",
+};
 
-  return{
+// Typechecking props for the DataTableBodyCell
+DataTableBodyCell.propTypes = {
+  children: PropTypes.node.isRequired,
+  noBorder: PropTypes.bool,
+  align: PropTypes.oneOf(["left", "right", "center"]),
+};
+
+
+function DataTableHeadCell({ width, children, sorted, align, ...rest }) {
+  const [controller] = useMaterialUIController();
+  const { darkMode } = controller;
+
+  return (
+    <TTBox
+      component="th"
+      width={width}
+      py={1.5}
+      px={3}
+      sx={({ palette: { light }, borders: { borderWidth } }) => ({
+        borderBottom: `${borderWidth[1]} solid ${light.main}`,
+      })}
+    >
+      <TTBox
+        {...rest}
+        position="relative"
+        textAlign={align}
+        color={darkMode ? "white" : "secondary"}
+        opacity={0.7}
+        sx={({ typography: { size, fontWeightBold } }) => ({
+          fontSize: size.xxs,
+          fontWeight: fontWeightBold,
+          textTransform: "uppercase",
+          cursor: sorted && "pointer",
+          userSelect: sorted && "none",
+        })}
+      >
+        {children}
+        {sorted && (
+          <TTBox
+            position="absolute"
+            top={0}
+            right={align !== "right" ? "16px" : 0}
+            left={align === "right" ? "-5px" : "unset"}
+            sx={({ typography: { size } }) => ({
+              fontSize: size.lg,
+            })}
+          >
+            <TTBox
+              position="absolute"
+              top={-6}
+              color={sorted === "asce" ? "text" : "secondary"}
+              opacity={sorted === "asce" ? 1 : 0.5}
+            >
+              <Icon>arrow_drop_up</Icon>
+            </TTBox>
+            <TTBox
+              position="absolute"
+              top={0}
+              color={sorted === "desc" ? "text" : "secondary"}
+              opacity={sorted === "desc" ? 1 : 0.5}
+            >
+              <Icon>arrow_drop_down</Icon>
+            </TTBox>
+          </TTBox>
+        )}
+      </TTBox>
+    </TTBox>
+  );
+}
+
+// Setting default values for the props of DataTableHeadCell
+DataTableHeadCell.defaultProps = {
+  width: "auto",
+  sorted: "none",
+  align: "left",
+};
+
+// Typechecking props for the DataTableHeadCell
+DataTableHeadCell.propTypes = {
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  children: PropTypes.node.isRequired,
+  sorted: PropTypes.oneOf([false, "none", "asce", "desc"]),
+  align: PropTypes.oneOf(["left", "right", "center"]),
+};
+
+function DataTable({
+  entriesPerPage,
+  canSearch,
+  showTotalEntries,
+  table,
+  pagination,
+  isSorted,
+  noEndBorder,
+}) {
+  const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 10;
+  const entries = entriesPerPage.entries
+    ? entriesPerPage.entries.map((el) => el.toString())
+    : ["5", "10", "15", "20", "25"];
+  const columns = useMemo(() => table.columns, [table]);
+  const data = useMemo(() => table.rows, [table]);
+
+  const tableInstance = useTable(
+    { columns, data, initialState: { pageIndex: 0 } },
+    useGlobalFilter,
+    useSortBy,
+    usePagination
+  );
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    prepareRow,
+    rows,
+    page,
+    pageOptions,
+    canPreviousPage,
+    canNextPage,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    setGlobalFilter,
+    state: { pageIndex, pageSize, globalFilter },
+  } = tableInstance;
+
+  // Set the default value for the entries per page when component mounts
+  useEffect(() => setPageSize(defaultValue || 10), [defaultValue, setPageSize]);
+
+  // Set the entries per page value based on the select value
+  const setEntriesPerPage = (value) => setPageSize(value);
+
+  // Render the paginations
+  const renderPagination = pageOptions.map((option) => (
+    <TTPagination
+      item
+      key={option}
+      onClick={() => gotoPage(Number(option))}
+      active={pageIndex === option}
+    >
+      {option + 1}
+    </TTPagination>
+  ));
+
+  // Handler for the input to set the pagination index
+  const handleInputPagination = ({ target: { value } }) =>
+    value > pageOptions.length || value < 0 ? gotoPage(0) : gotoPage(Number(value));
+
+  // Customized page options starting from 1
+  const customizedPageOptions = pageOptions.map((option) => option + 1);
+
+  // Setting value for the pagination input
+  const handleInputPaginationValue = ({ target: value }) => gotoPage(Number(value.value - 1));
+
+  // Search input value state
+  const [search, setSearch] = useState(globalFilter);
+
+  // Search input state handle
+  const onSearchChange = useAsyncDebounce((value) => {
+    setGlobalFilter(value || undefined);
+  }, 100);
+
+  // A function that sets the sorted value for the table
+  const setSortedValue = (column) => {
+    let sortedValue;
+
+    if (isSorted && column.isSorted) {
+      sortedValue = column.isSortedDesc ? "desc" : "asce";
+    } else if (isSorted) {
+      sortedValue = "none";
+    } else {
+      sortedValue = false;
+    }
+
+    return sortedValue;
+  };
+
+  // Setting the entries starting point
+  const entriesStart = pageIndex === 0 ? pageIndex + 1 : pageIndex * pageSize + 1;
+
+  // Setting the entries ending point
+  let entriesEnd;
+
+  if (pageIndex === 0) {
+    entriesEnd = pageSize;
+  } else if (pageIndex === pageOptions.length - 1) {
+    entriesEnd = rows.length;
+  } else {
+    entriesEnd = pageSize * (pageIndex + 1);
+  }
+
+  return (
+    <TableContainer sx={{ boxShadow: "none" }}>
+      {entriesPerPage || canSearch ? (
+        <TTBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+          {entriesPerPage && (
+            <TTBox display="flex" alignItems="center">
+              <Autocomplete
+                disableClearable
+                value={pageSize.toString()}
+                options={entries}
+                onChange={(event, newValue) => {
+                  setEntriesPerPage(parseInt(newValue, 10));
+                }}
+                size="small"
+                sx={{ width: "5rem" }}
+                renderInput={(params) => <TTInput {...params} />}
+              />
+              <TTTypography variant="caption" color="secondary">
+                &nbsp;&nbsp;entries per page
+              </TTTypography>
+            </TTBox>
+          )}
+          {canSearch && (
+            <TTBox width="12rem" ml="auto">
+              <TTInput
+                placeholder="Search..."
+                value={search}
+                size="small"
+                fullWidth
+                onChange={({ currentTarget }) => {
+                  setSearch(search);
+                  onSearchChange(currentTarget.value);
+                }}
+              />
+            </TTBox>
+          )}
+        </TTBox>
+      ) : null}
+      <Table {...getTableProps()}>
+        <TTBox component="thead">
+          {headerGroups.map((headerGroup) => (
+            <TableRow {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <DataTableHeadCell
+                  {...column.getHeaderProps(isSorted && column.getSortByToggleProps())}
+                  width={column.width ? column.width : "auto"}
+                  align={column.align ? column.align : "left"}
+                  sorted={setSortedValue(column)}
+                >
+                  {column.render("Header")}
+                </DataTableHeadCell>
+              ))}
+            </TableRow>
+          ))}
+        </TTBox>
+        <TableBody {...getTableBodyProps()}>
+          {page.map((row, key) => {
+            prepareRow(row);
+            return (
+              <TableRow {...row.getRowProps()}>
+                {row.cells.map((cell) => (
+                  <DataTableBodyCell
+                    noBorder={noEndBorder && rows.length - 1 === key}
+                    align={cell.column.align ? cell.column.align : "left"}
+                    {...cell.getCellProps()}
+                  >
+                    {cell.render("Cell")}
+                    
+                  </DataTableBodyCell>
+                ))}
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+
+      <TTBox
+        display="flex"
+        flexDirection={{ xs: "column", sm: "row" }}
+        justifyContent="space-between"
+        alignItems={{ xs: "flex-start", sm: "center" }}
+        p={!showTotalEntries && pageOptions.length === 1 ? 0 : 3}
+      >
+        {showTotalEntries && (
+          <TTBox mb={{ xs: 3, sm: 0 }}>
+            <TTTypography variant="button" color="secondary" fontWeight="regular">
+              Showing {entriesStart} to {entriesEnd} of {rows.length} entries
+            </TTTypography>
+          </TTBox>
+        )}
+        {pageOptions.length > 1 && (
+          <TTPagination
+            variant={pagination.variant ? pagination.variant : "gradient"}
+            color={pagination.color ? pagination.color : "info"}
+          >
+            {canPreviousPage && (
+              <TTPagination item onClick={() => previousPage()}>
+                <Icon sx={{ fontWeight: "bold" }}>chevron_left</Icon>
+              </TTPagination>
+            )}
+            {renderPagination.length > 6 ? (
+              <TTBox width="5rem" mx={1}>
+                <TTInput
+                  inputProps={{ type: "number", min: 1, max: customizedPageOptions.length }}
+                  value={customizedPageOptions[pageIndex]}
+                  onChange={(handleInputPagination, handleInputPaginationValue)}
+                />
+              </TTBox>
+            ) : (
+              renderPagination
+            )}
+            {canNextPage && (
+              <TTPagination item onClick={() => nextPage()}>
+                <Icon sx={{ fontWeight: "bold" }}>chevron_right</Icon>
+              </TTPagination>
+            )}
+          </TTPagination>
+        )}
+      </TTBox>
+    </TableContainer>
+  );
+}
+
+// Setting default values for the props of DataTable
+DataTable.defaultProps = {
+  entriesPerPage: { defaultValue: 10, entries: [5, 10, 15, 20, 25] },
+  canSearch: false,
+  showTotalEntries: true,
+  pagination: { variant: "gradient", color: "info" },
+  isSorted: true,
+  noEndBorder: false,
+};
+
+// Typechecking props for the DataTable
+DataTable.propTypes = {
+  entriesPerPage: PropTypes.oneOfType([
+    PropTypes.shape({
+      defaultValue: PropTypes.number,
+      entries: PropTypes.arrayOf(PropTypes.number),
+    }),
+    PropTypes.bool,
+  ]),
+  canSearch: PropTypes.bool,
+  showTotalEntries: PropTypes.bool,
+  table: PropTypes.objectOf(PropTypes.array).isRequired,
+  pagination: PropTypes.shape({
+    variant: PropTypes.oneOf(["contained", "gradient"]),
+    color: PropTypes.oneOf([
+      "primary",
+      "secondary",
+      "info",
+      "success",
+      "warning",
+      "error",
+      "dark",
+      "light",
+    ]),
+  }),
+  isSorted: PropTypes.bool,
+  noEndBorder: PropTypes.bool,
+};
+
+
+function authorsTableData() {
+  const Author = ({ image, name, email }) => (
+    <TTBox display="flex" alignItems="center" lineHeight={1}>
+      <TTAvatar src={image} name={name} size="sm" />
+      <TTBox ml={2} lineHeight={1}>
+        <TTTypography display="block" variant="button" fontWeight="medium">
+          {name}
+        </TTTypography>
+        <TTTypography variant="caption">{email}</TTTypography>
+      </TTBox>
+    </TTBox>
+  );
+
+  const Job = ({ title, description }) => (
+    <TTBox lineHeight={1} textAlign="left">
+      <TTTypography display="block" variant="caption" color="text" fontWeight="medium">
+        {title}
+      </TTTypography>
+      <TTTypography variant="caption">{description}</TTTypography>
+    </TTBox>
+  );
+
+  return {
     columns: [
       { Header: "author", accessor: "author", width: "45%", align: "left" },
       { Header: "function", accessor: "function", align: "left" },
@@ -4882,31 +5518,29 @@ const authorsTableData = () => {
     ],
   };
 }
-const Project = ({image, name}) => (
-  <TTBox display="flex" alignItems="center" lineHeight={1}>
-    <TTAvatar src={image} name={name} size="sm" variant="rounded"/>
-    <TTTypography display="block" variant="button" fontWeight="medium" ml={1} lineHeight={1}>
-      {name}
-    </TTTypography>
-  </TTBox>
-)
-const Progress = ({color, value}) => {
-  <TTBox display="flex" alignItems="center" zIndex={10}>
-    <TTTypography variant="caption" color="text" fontWeight="medium">
-      {value}%
-    </TTTypography>
-    <TTBox ml={0.5} width="9rem" bgColor="success">
-      <TTProgress variant="gradient" color={color} value={value} />
-    </TTBox>
-  </TTBox>
-}
-// const DataJson = {
-//   columns:[],
-//   rows:[]
-// }
-const projectsTableData = () => {
 
-  return{
+function projectsTableData() {
+  const Project = ({ image, name }) => (
+    <TTBox display="flex" alignItems="center" lineHeight={1}>
+      <TTAvatar src={image} name={name} size="sm" variant="rounded" />
+      <TTTypography display="block" variant="button" fontWeight="medium" ml={1} lineHeight={1}>
+        {name}
+      </TTTypography>
+    </TTBox>
+  );
+
+  const Progress = ({ color, value }) => (
+    <TTBox display="flex" alignItems="center">
+      <TTTypography variant="caption" color="text" fontWeight="medium">
+        {value}%
+      </TTTypography>
+      <TTBox ml={0.5} width="9rem">
+        <TTProgress color={color} value={value} />
+      </TTBox>
+    </TTBox>
+  );
+
+  return {
     columns: [
       { Header: "project", accessor: "project", width: "30%", align: "left" },
       { Header: "budget", accessor: "budget", align: "left" },
@@ -5031,905 +5665,33 @@ const projectsTableData = () => {
         ),
       },
     ],
-  }
+  };
 }
 
-// table head cell
-function DataTableHeadCell({
-  width, children, sorted, align, ...rest
-}){
-  const [controller, dispatch] = useMaterialUIController();
-  const { darkMode } = controller;
-
-  return(
-    <TTBox
-      component="th"
-      width={width}
-      py={1.5}
-      px={3}
-      sx={({ palette: { light }, borders: { borderWidth } }) => ({
-        borderBottom: `${borderWidth[1]} solid ${light.main}`,
-      })}
-    >
-      <TTBox
-        {...rest}
-        position="relative"
-        textAlign={align}
-        color={darkMode ? "white" : "secondary"}
-        opacity={0.7}
-        sx={({ typography: { size, fontWeightBold } }) => ({
-          fontSize: size.xxs,
-          fontWeight: fontWeightBold,
-          textTransform: "uppercase",
-          cursor: sorted && "pointer",
-          userSelect: sorted && "none",
-        })}
-      >
-        {children}
-        {sorted && (
-          <TTBox
-            position="absolute"
-            top={0}
-            right={align !== "right" ? "16px" : 0}
-            left={align === "right" ? "-5px" : "unset"}
-            sx={({ typography: { size } }) => ({
-              fontSize: size.lg,
-            })}
-          >
-            <TTBox
-              position="absolute"
-              top={-6}
-              color={sorted === "asce" ? "text" : "secondary"}
-              opacity={sorted === "asce" ? 1 : 0.5}
-            >
-              <Icon>arrow_drop_up</Icon>
-            </TTBox>
-            <TTBox
-              position="absolute"
-              top={0}
-              color={sorted === "desc" ? "text" : "secondary"}
-              opacity={sorted === "desc" ? 1 : 0.5}
-            >
-              <Icon>arrow_drop_down</Icon>
-            </TTBox>
-          </TTBox>
-        )}
-      </TTBox>
-    </TTBox>
-  )
-}
-// Setting default values for the props of DataTableHeadCell
-DataTableHeadCell.defaultProps = {
-  width: "auto",
-  sorted: "none",
-  align: "left",
-};
-
-// Typechecking props for the DataTableHeadCell
-DataTableHeadCell.propTypes = {
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  children: PropTypes.node.isRequired,
-  sorted: PropTypes.oneOf([false, "none", "asce", "desc"]),
-  align: PropTypes.oneOf(["left", "right", "center"]),
-};
-function DataTableBodyCell({ noBorder, align, children }) {
-  // console.log(children);
-  return (
-    <TTBox 
-      bgColor = "info"
-      component="td"
-      textAlign={align}
-      py={1.5}
-      px={3}
-      sx={({ palette: { light }, typography: { size }, borders: { borderWidth } }) => ({
-        fontSize: size.sm,
-        borderBottom: noBorder ? "none" : `${borderWidth[1]} solid ${light.main}`,
-      })}
-    >
-      <TTBox
-        bgColor = "error"
-        display="inline-block"
-        width="max-content"
-        color="text"
-        sx={{ verticalAlign: "middle" }}
-      >
-        {children}
-      </TTBox>
-    </TTBox>
-  );
-}
-
-// Setting default values for the props of DataTableBodyCell
-DataTableBodyCell.defaultProps = {
-  noBorder: false,
-  align: "left",
-};
-
-// Typechecking props for the DataTableBodyCell
-DataTableBodyCell.propTypes = {
-  children: PropTypes.node.isRequired,
-  noBorder: PropTypes.bool,
-  align: PropTypes.oneOf(["left", "right", "center"]),
-};
-function DataTable({
-  entriesPerPage,
-  canSearch,
-  showTotalEntries,
-  table,
-  pagination,
-  isSorted,
-  noEndBorder,
-}) {
-  const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 10;
-  const entries = entriesPerPage.entries
-    ? entriesPerPage.entries.map((el) => el.toString())
-    : ["5", "10", "15", "20", "25"];
-  const columns = useMemo(() => table.columns, [table]);
-  const data = useMemo(() => table.rows, [table]);
-
-  // console.log("data",data);
-  const tableInstance = useTable(
-    { columns, data, initialState: { pageIndex: 0 } },
-    useGlobalFilter,
-    useSortBy,
-    usePagination
-  );
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    prepareRow,
-    rows,
-    page,
-    pageOptions,
-    canPreviousPage,
-    canNextPage,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    setGlobalFilter,
-    state: { pageIndex, pageSize, globalFilter },
-  } = tableInstance;
-  // console.log("page:", page);
-  // Set the default value for the entries per page when component mounts
-  useEffect(() => setPageSize(defaultValue || 10), [defaultValue]);
-
-  // Set the entries per page value based on the select value
-  const setEntriesPerPage = (value) => setPageSize(value);
-
-  // Render the paginations
-  // const renderPagination = pageOptions.map((option) => (
-  //   <TTPagination
-  //     item
-  //     key={option}
-  //     onClick={() => gotoPage(Number(option))}
-  //     active={pageIndex === option}
-  //   >
-  //     {option + 1}
-  //   </TTPagination>
-  // ));
-
-  // Handler for the input to set the pagination index
-  const handleInputPagination = ({ target: { value } }) =>
-    value > pageOptions.length || value < 0 ? gotoPage(0) : gotoPage(Number(value));
-
-  // Customized page options starting from 1
-  const customizedPageOptions = pageOptions.map((option) => option + 1);
-
-  // Setting value for the pagination input
-  const handleInputPaginationValue = ({ target: value }) => gotoPage(Number(value.value - 1));
-
-  // Search input value state
-  const [search, setSearch] = useState(globalFilter);
-
-  // Search input state handle
-  const onSearchChange = useAsyncDebounce((value) => {
-    setGlobalFilter(value || undefined);
-  }, 100);
-
-  // A function that sets the sorted value for the table
-  const setSortedValue = (column) => {
-    let sortedValue;
-
-    if (isSorted && column.isSorted) {
-      sortedValue = column.isSortedDesc ? "desc" : "asce";
-    } else if (isSorted) {
-      sortedValue = "none";
-    } else {
-      sortedValue = false;
-    }
-
-    return sortedValue;
-  };
-
-  // Setting the entries starting point
-  const entriesStart = pageIndex === 0 ? pageIndex + 1 : pageIndex * pageSize + 1;
-
-  // Setting the entries ending point
-  let entriesEnd;
-
-  if (pageIndex === 0) {
-    entriesEnd = pageSize;
-  } else if (pageIndex === pageOptions.length - 1) {
-    entriesEnd = rows.length;
-  } else {
-    entriesEnd = pageSize * (pageIndex + 1);
-  }
-
-  return (
-    <TableContainer sx={{ boxShadow: "none" }}>
-      {entriesPerPage || canSearch ? (
-        <TTBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-          {entriesPerPage && (
-            <TTBox display="flex" alignItems="center">
-              <Autocomplete
-                disableClearable
-                value={pageSize.toString()}
-                options={entries}
-                onChange={(event, newValue) => {
-                  setEntriesPerPage(parseInt(newValue, 10));
-                }}
-                size="small"
-                sx={{ width: "5rem" }}
-                renderInput={(params) => <TTInput {...params} />}
-              />
-              <TTTypography variant="caption" color="secondary">
-                &nbsp;&nbsp;entries per page
-              </TTTypography>
-            </TTBox>
-          )}
-          {canSearch && (
-            <TTBox width="12rem" ml="auto">
-              <TTInput
-                placeholder="Search..."
-                value={search}
-                size="small"
-                fullWidth
-                onChange={({ currentTarget }) => {
-                  setSearch(search);
-                  onSearchChange(currentTarget.value);
-                }}
-              />
-            </TTBox>
-          )}
-        </TTBox>
-      ) : null}
-      <Table {...getTableProps()}>
-        <TTBox component="thead">
-          {headerGroups.map((headerGroup) => (
-            <TableRow {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <DataTableHeadCell
-                  {...column.getHeaderProps(isSorted && column.getSortByToggleProps())}
-                  width={column.width ? column.width : "auto"}
-                  align={column.align ? column.align : "left"}
-                  sorted={setSortedValue(column)}
-                >
-                  {column.render("Header")}
-                </DataTableHeadCell>
-              ))}
-            </TableRow>
-          ))}
-        </TTBox>
-        <TableBody {...getTableBodyProps()}>
-          {page.map((row, key) => {
-            prepareRow(row);
-            return (
-              <TableRow {...row.getRowProps()}>
-                {row.cells.map((cell) => (
-                  <DataTableBodyCell
-                    noBorder={noEndBorder && rows.length - 1 === key}
-                    align={cell.column.align ? cell.column.align : "left"}
-                    {...cell.getCellProps()}
-                  >
-                    {/* {cell.render("cell")} */}
-                    {console.log("cell",cell)}
-                    <TTTypography>abc</TTTypography>
-                  </DataTableBodyCell>
-  
-                ))}
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-
-      <TTBox
-        display="flex"
-        flexDirection={{ xs: "column", sm: "row" }}
-        justifyContent="space-between"
-        alignItems={{ xs: "flex-start", sm: "center" }}
-        p={!showTotalEntries && pageOptions.length === 1 ? 0 : 3}
-      >
-        {showTotalEntries && (
-          <TTBox mb={{ xs: 3, sm: 0 }}>
-            <TTTypography variant="button" color="secondary" fontWeight="regular">
-              Showing {entriesStart} to {entriesEnd} of {rows.length} entries
-            </TTTypography>
-          </TTBox>
-        )}
-        {/* {pageOptions.length > 1 && (
-          <TTPagination
-            variant={pagination.variant ? pagination.variant : "gradient"}
-            color={pagination.color ? pagination.color : "info"}
-          >
-            {canPreviousPage && (
-              <TTPagination item onClick={() => previousPage()}>
-                <Icon sx={{ fontWeight: "bold" }}>chevron_left</Icon>
-              </TTPagination>
-            )}
-            {renderPagination.length > 6 ? (
-              <TTBox width="5rem" mx={1}>
-                <TTInput
-                  inputProps={{ type: "number", min: 1, max: customizedPageOptions.length }}
-                  value={customizedPageOptions[pageIndex]}
-                  onChange={(handleInputPagination, handleInputPaginationValue)}
-                />
-              </TTBox>
-            ) : (
-              renderPagination
-            )}
-            {canNextPage && (
-              <TTPagination item onClick={() => nextPage()}>
-                <Icon sx={{ fontWeight: "bold" }}>chevron_right</Icon>
-              </TTPagination>
-            )}
-          </TTPagination>
-        )} */}
-      </TTBox>
-    </TableContainer>
-  );
-}
-
-// Setting default values for the props of DataTable
-DataTable.defaultProps = {
-  entriesPerPage: { defaultValue: 10, entries: [5, 10, 15, 20, 25] },
-  canSearch: false,
-  showTotalEntries: true,
-  pagination: { variant: "gradient", color: "info" },
-  isSorted: true,
-  noEndBorder: false,
-};
-
-// Typechecking props for the DataTable
-DataTable.propTypes = {
-  entriesPerPage: PropTypes.oneOfType([
-    PropTypes.shape({
-      defaultValue: PropTypes.number,
-      entries: PropTypes.arrayOf(PropTypes.number),
-    }),
-    PropTypes.bool,
-  ]),
-  canSearch: PropTypes.bool,
-  showTotalEntries: PropTypes.bool,
-  table: PropTypes.objectOf(PropTypes.array).isRequired,
-  pagination: PropTypes.shape({
-    variant: PropTypes.oneOf(["contained", "gradient"]),
-    color: PropTypes.oneOf([
-      "primary",
-      "secondary",
-      "info",
-      "success",
-      "warning",
-      "error",
-      "dark",
-      "light",
-    ]),
-  }),
-  isSorted: PropTypes.bool,
-  noEndBorder: PropTypes.bool,
-};
-
-
-const BasicTable = () => {
-
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
-
-  return(
-    <TableContainer>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-            <TableCell>Dessert </TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-        </TableHead>
-        <TableBody>
-          {rows.map((row)=>(
-            <TableRow 
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">{row.name}</TableCell>
-              <TableCell>{row.calories}</TableCell>
-              <TableCell>{row.fat}</TableCell>
-              <TableCell>{row.carbs}</TableCell>
-              <TableCell>{row.protein}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  )
-}
-
-const EnhancedTable = () => {
-
-  function createData(name, calories, fat, carbs, protein) {
-    return {
-      name,
-      calories,
-      fat,
-      carbs,
-      protein,
-    };
-  }
-  const rows = [
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Donut', 452, 25.0, 51, 4.9),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Honeycomb', 408, 3.2, 87, 6.5),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Jelly Bean', 375, 0.0, 94, 0.0),
-    createData('KitKat', 518, 26.0, 65, 7.0),
-    createData('Lollipop', 392, 0.2, 98, 0.0),
-    createData('Marshmallow', 318, 0, 81, 2.0),
-    createData('Nougat', 360, 19.0, 9, 37.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
-  ];
-
-  function descendingComparator(a, b, orderBy){
-    if(b[orderBy] < a[orderBy]){ return -1}
-    if(a[orderBy] < b[orderBy]){ return 1}
-    return 0
-  }
-  function getComparator(order, orderBy){
-    return order === "desc"
-      ?(a,b)=>descendingComparator(a, b, orderBy)
-      :(a,b)=>-descendingComparator(a, b, orderBy)
-  }
-  function stableSort(array, comparator){
-    const stabilizedThis = array.map((el, index)=>[el, index]);
-    stabilizedThis.sort((a,b)=>{
-      const order = comparator(a[0], b[0]);
-      if(order !== 0) { return order;}
-      return a[1]-b[1]
-    })
-    return stabilizedThis.map((el)=>el[0]);
-
-  }
-  const headCells = [
-    {
-      id: 'name',
-      numeric: false,
-      disablePadding: true,
-      label: 'Dessert (100g serving)',
-    },
-    {
-      id: 'calories',
-      numeric: true,
-      disablePadding: false,
-      label: 'Calories',
-    },
-    {
-      id: 'fat',
-      numeric: true,
-      disablePadding: false,
-      label: 'Fat (g)',
-    },
-    {
-      id: 'carbs',
-      numeric: true,
-      disablePadding: false,
-      label: 'Carbs (g)',
-    },
-    {
-      id: 'protein',
-      numeric: true,
-      disablePadding: false,
-      label: 'Protein (g)',
-    },
-  ];
-
-  function EnhancedTableHead(props) {
-    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-      props;
-    const createSortHandler = (property) => (event) => {
-      onRequestSort(event, property);
-    };
-  
-    return (
-      <TableHead>
-        <TableRow>
-          <TableCell padding="checkbox">
-            <Checkbox
-              color="primary"
-              indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={rowCount > 0 && numSelected === rowCount}
-              onChange={onSelectAllClick}
-              inputProps={{
-                'aria-label': 'select all desserts',
-              }}
-            />
-          </TableCell>
-          {headCells.map((headCell) => (
-            <TableCell
-              key={headCell.id}
-              align={headCell.numeric ? 'right' : 'left'}
-              padding={headCell.disablePadding ? 'none' : 'normal'}
-              sortDirection={orderBy === headCell.id ? order : false}
-            >
-              <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : 'asc'}
-                onClick={createSortHandler(headCell.id)}
-              >
-                {headCell.label}
-                {orderBy === headCell.id ? (
-                  <Box component="span" sx={visuallyHidden}>
-                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                  </Box>
-                ) : null}
-              </TableSortLabel>
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
-    );
-  }
-  EnhancedTableHead.propTypes = {
-    numSelected: PropTypes.number.isRequired,
-    onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired,
-  };
-  const EnhancedTableToolbar = (props) => {
-    const { numSelected } = props;
-  
-    return (
-      <Toolbar
-        sx={{
-          pl: { sm: 2 },
-          pr: { xs: 1, sm: 1 },
-          ...(numSelected > 0 && {
-            bgcolor: (theme) =>
-              alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-          }),
-        }}
-      >
-        {numSelected > 0 ? (
-          <Typography
-            sx={{ flex: '1 1 100%' }}
-            color="inherit"
-            variant="subtitle1"
-            component="div"
-          >
-            {numSelected} selected
-          </Typography>
-        ) : (
-          <Typography
-            sx={{ flex: '1 1 100%' }}
-            variant="h6"
-            id="tableTitle"
-            component="div"
-          >
-            Nutrition
-          </Typography>
-        )}
-  
-        {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton>
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
-      </Toolbar>
-    );
-  };
-  EnhancedTableToolbar.propTypes = {
-    numSelected: PropTypes.number.isRequired,
-  };
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('calories');
-  const [selected, setSelected] = useState([]);
-  const [page, setPage] = useState(0);
-  const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
-  const isSelected = (name) => selected.indexOf(name) !== -1;
-
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
-  return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.name}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
-    </Box>
-  );
-}
-// const  PaginationStyle = styled(TTButton)(({ theme, ownerState }) => {
-//   const { borders, functions, typography, palette } = theme;
-//   const { variant, paginationSize, active } = ownerState;
-
-//   const { borderColor } = borders;
-//   const { pxToRem } = functions;
-//   const { fontWeightRegular, size: fontSize } = typography;
-//   const { light } = palette;
-
-//   // width, height, minWidth and minHeight values
-//   let sizeValue = pxToRem(36);
-
-//   if (paginationSize === "small") {
-//     sizeValue = pxToRem(30);
-//   } else if (paginationSize === "large") {
-//     sizeValue = pxToRem(46);
-//   }
-
-//   return {
-//     borderColor,
-//     margin: `0 ${pxToRem(2)}`,
-//     pointerEvents: active ? "none" : "auto",
-//     fontWeight: fontWeightRegular,
-//     fontSize: fontSize.sm,
-//     width: sizeValue,
-//     minWidth: sizeValue,
-//     height: sizeValue,
-//     minHeight: sizeValue,
-
-//     "&:hover, &:focus, &:active": {
-//       transform: "none",
-//       boxShadow: (variant !== "gradient" || variant !== "contained") && "none !important",
-//       opacity: "1 !important",
-//     },
-
-//     "&:hover": {
-//       backgroundColor: light.main,
-//       borderColor,
-//     },
-//   };
-// });
-// const Context = createContext();
-
-// const TTPagination = forwardRef(
-//   ({ item, variant, color, size, active, children, ...rest }, ref) => {
-//     const context = useContext(Context);
-//     const paginationSize = context ? context.size : null;
-
-//     const value = useMemo(() => ({ variant, color, size }), [variant, color, size]);
-
-//     return (
-//       <Context.Provider value={value}>
-//         {item ? (
-//           <PaginationStyle
-//             {...rest}
-//             ref={ref}
-//             variant={active ? context.variant : "outlined"}
-//             color={active ? context.color : "secondary"}
-//             iconOnly
-//             circular
-//             ownerState={{ variant, active, paginationSize }}
-//           >
-//             {children}
-//           </PaginationStyle>
-//         ) : (
-//           <TTBox
-//             display="flex"
-//             justifyContent="flex-end"
-//             alignItems="center"
-//             sx={{ listStyle: "none" }}
-//           >
-//             {children}
-//           </TTBox>
-//         )}
-//       </Context.Provider>
-//     );
-//   }
-// );
-
-// Setting default values for the props of Pagination
-// TTPagination.defaultProps = {
-//   item: false,
-//   variant: "gradient",
-//   color: "info",
-//   size: "medium",
-//   active: false,
-// };
-
-// // Typechecking props for the Pagination
-// TTPagination.propTypes = {
-//   item: PropTypes.bool,
-//   variant: PropTypes.oneOf(["gradient", "contained"]),
-//   color: PropTypes.oneOf([
-//     "white",
-//     "primary",
-//     "secondary",
-//     "info",
-//     "success",
-//     "warning",
-//     "error",
-//     "light",
-//     "dark",
-//   ]),
-//   size: PropTypes.oneOf(["small", "medium", "large"]),
-//   active: PropTypes.bool,
-//   children: PropTypes.node.isRequired,
-// };
-
-function Tables(){
+function Tables() {
   const { columns, rows } = authorsTableData();
   const { columns: pColumns, rows: pRows } = projectsTableData();
-  return(
+
+  return (
     <DashboardLayout>
+      <DashboardNavbar />
       <TTBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
               <TTBox
+                mx={2}
+                mt={-3}
+                py={3}
+                px={2}
                 variant="gradient"
                 bgColor="info"
                 borderRadius="lg"
                 coloredShadow="info"
-                mx={2} mt={-3}
-                py={3}
-                px={2}
               >
-                <TTTypography variant="h6" color={"white"}>Authors Tables</TTTypography>
+                <TTTypography variant="h6" color="white">
+                  Authors Table
+                </TTTypography>
               </TTBox>
               <TTBox pt={3}>
                 <DataTable
@@ -5944,16 +5706,19 @@ function Tables(){
           </Grid>
           <Grid item xs={12}>
             <Card>
-            <TTBox
+              <TTBox
+                mx={2}
+                mt={-3}
+                py={3}
+                px={2}
                 variant="gradient"
                 bgColor="info"
                 borderRadius="lg"
                 coloredShadow="info"
-                mx={2} mt={-3}
-                py={3}
-                px={2}
               >
-                <TTTypography variant="h6" color={"white"}>Project Tables</TTTypography>
+                <TTTypography variant="h6" color="white">
+                  Projects Table
+                </TTTypography>
               </TTBox>
               <TTBox pt={3}>
                 <DataTable
@@ -5962,50 +5727,15 @@ function Tables(){
                   entriesPerPage={false}
                   showTotalEntries={false}
                   noEndBorder
-                ></DataTable>
-              </TTBox>
-            </Card>
-          </Grid>
-          <Grid item xs={12}>
-            <Card>
-            <TTBox
-                variant="gradient"
-                bgColor="info"
-                borderRadius="lg"
-                coloredShadow="info"
-                mx={2} mt={-3}
-                py={3}
-                px={2}
-              >
-                <TTTypography variant="h6" color={"white"}>Basic Tables</TTTypography>
-              </TTBox>
-              <TTBox pt={3}>
-                {/* <BasicTable /> */}
-              </TTBox>
-            </Card>
-          </Grid>
-          <Grid item xs={12}>
-            <Card>
-            <TTBox
-                variant="gradient"
-                bgColor="info"
-                borderRadius="lg"
-                coloredShadow="info"
-                mx={2} mt={-3}
-                py={3}
-                px={2}
-              >
-                <TTTypography variant="h6" color={"white"}>Enhanced Tables</TTTypography>
-              </TTBox>
-              <TTBox pt={3}>
-                <EnhancedTable></EnhancedTable>
+                />
               </TTBox>
             </Card>
           </Grid>
         </Grid>
       </TTBox>
+      {/* <FooterDash/> */}
     </DashboardLayout>
-  )
+  );
 }
 
 export default FullAppUi;
