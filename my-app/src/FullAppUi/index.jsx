@@ -18,6 +18,7 @@
 */
 
 // react import
+import React from "react";
 import { 
   createContext, 
   useContext, 
@@ -44,13 +45,13 @@ import { ThemeProvider } from "@mui/material/styles"
 // import Icon from "@mui/material/Icon";
 import { 
   Box, Button, Card, CssBaseline, Grid,
-  Link, alpha, Paper, LinearProgress,
+  Link, alpha, Paper, LinearProgress, 
   styled, Typography, Switch, TextField, Checkbox, 
-  AppBar, Drawer, Divider, 
+  AppBar, Drawer, Divider, AlertTitle, Fade,
   Avatar, List, ListItem, ListItemIcon, ListItemText, 
   Alert, TableContainer, Table, TableHead, TableRow, 
   TableCell, TableBody, TableSortLabel, 
-  Tooltip, TablePagination, FormControlLabel, Autocomplete, Stack,
+  Tooltip, TablePagination, FormControlLabel, Autocomplete, Stack, Snackbar,
   // useTheme
 } from "@mui/material";
 import MenuCom from "@mui/material/Menu"
@@ -84,6 +85,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close'
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -98,7 +100,7 @@ import {
   usePagination,
   useAsyncDebounce,
 } from "react-table";
-//resouces
+//resources
 //image
 import logoSpotify from "../assets/images/small-logos/logo-spotify.svg";
 import LogoAsana from "../assets/images/small-logos/logo-asana.svg";
@@ -107,10 +109,14 @@ import logoAtlassian from "../assets/images/small-logos/logo-atlassian.svg";
 import logoSlack from "../assets/images/small-logos/logo-slack.svg";
 import logoInvesion from "../assets/images/small-logos/logo-invision.svg";
 
-const bgImage = require("../assets/images/bg-sign-in-basic.jpeg");
-const bgImage_su = require("../assets/images/bg-sign-up-cover.jpeg");
+// const bgImage = require("../assets/images/bg-sign-in-basic.jpeg");
+const bgImage = require("../assets/images/bg/bg_boat_2.jpeg");
+// const bgImage_su = require("../assets/images/bg-sign-up-cover.jpeg");
+const bgImage_su = require("../assets/images/bg/bg_lake.jpeg");
 const brandWhite = require("../assets/images/logo-ct.png");
 const brandDark =  require("../assets/images/logo-ct-dark.png");
+const bgTest1 = require("../assets/images/bg/background_.png");
+const bgTest2 = require("../assets/images/bg/lake_boat.png");
 // const LogoAsana = require("../assets/images/small-logos/logo-asana.svg");
 // const logoGithub = require("../assets/images/small-logos/github.svg");
 // const logoAtlassian = require("../assets/images/small-logos/logo-atlassian.svg");
@@ -137,9 +143,6 @@ const Home = () => {
     </TTBox>
   )
 }
-//flexGrow:  chỉ định phần tử con đó sẽ được tăng chiều ngang (hoặc dọc nếu flex-direction là column) bao nhiêu so với các phần tử còn lại
-//flexShrink: nó nói với trình duyệt kích thước nhỏ nhất mà phần tử nên có
-//flexBasic:  nó quyết định kích thước lý tưởng của phần tử, mặc định là auto, hiểu nôm na là theo chiều rộng hay chiều dài của nội dung hay các phần tử khác.
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -1259,7 +1262,7 @@ function DashboardNavbar({absolute, light, isMini}){
 
     //when scrolling the window.
     function handleTransparentNavbar(){
-      // console.log("handleTransparentVavbar")
+      // console.log("handleTransparentNavbar")
       setTransparentNavbar(dispatch, (fixedNavbar && window.scrollY === 0) || !fixedNavbar);
     }
     window.addEventListener("scroll", handleTransparentNavbar);
@@ -1320,7 +1323,7 @@ DashboardNavbar.propTypes = {
   isMini: PropTypes.bool,
 };
 
-//navibar
+//navbar
 function DefaultNavbar({ transparent, light, action }) {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
@@ -1614,6 +1617,7 @@ const SignIn = () => {
 
   return (
     <BasicLayout image={bgImage}>
+    {/* <BasicLayout image={bgTest2}> */}
       <Card sx={{mt: 2}}>
         <TTBox
           variant="gradient"
@@ -1710,7 +1714,7 @@ function CoverLayout({coverHight, children, image}){
 
   return(
     <PageLayout>
-      {/* defaultNavibar */}
+      {/* defaultNavbar */}
       <DefaultNavbar 
         action={{
           type: "external",
@@ -1772,6 +1776,7 @@ CoverLayout.propTypes = {
 const SignUp = () => {
   return(
     <CoverLayout image={bgImage_su}>
+    {/* <CoverLayout image={bgTest2}> */}
       <Card>
         {/* intro */}
         <TTBox
@@ -2037,108 +2042,419 @@ const ColorArr = [
   "info", "success", "error", "warning",
   "light", "dark"
 ]
-
-const Notifications = () => {
-  function alertContent(){
-    return "abcd"
-  }
-  function openSuccessSB(){
-    return "efgh"
-  }
-  function renderErrorSB(){
-    return 5
-  }
+const AlertTable = () => {
+  const alertContent = (name) => (
+    <TTTypography variant="body2" color="white">
+      A simple {name} alert with{" "}
+      {/* <TTTypography component="a" href="#" variant="body2" fontWeight="medium" color="white">
+        an example link
+      </TTTypography> */}
+      . Give it a click if you like.
+    </TTTypography>
+  );
   return(
-    <DashboardLayout>
-      {/* <TTBox mt={6} mb={3}> */}
-       <Grid container spacing={3} justifyContent="center" mt={6} mb={3}>
-        <Grid item xs={12} lg={8}>
-          <Card>
-            <TTBox p={2}>
-              <TTTypography variant="h5">Alerts</TTTypography>
-            </TTBox>
-             <TTBox pt={2} px={2}>
-             {ColorArr.map((itemColor) => (
-               <TTTypography variant={"body2"} color="white" key={itemColor}>
-                 {/* A simple {itemColor} alert with{" "}
-                 <TTTypography components={"a"} href="#" variant="body2" fontWeight="medium" color="white">
-                   an example link
-                 </TTTypography>
-                 Give it 8 click if you like */}
-               </TTTypography>
-             ))}
-               {/* <Alert color="primary" dismissible>
-             {/* <TTBox pt={2} px={2}>
-               <Alert color="primary" dismissible>
-                {alertContent("primary")}
-               </Alert> */}
-               {/* <Alert color="secondary" dismissible>
-               </Alert>
-               <Alert color="secondary" dismissible>
-                {alertContent("secondary")}
-              </Alert>
-                <Alert color="success" dismissible>
-                  {alertContent("success")}
-                </Alert>
-                <Alert color="error" dismissible>
-                  {alertContent("error")}
-                </Alert>
-                <Alert color="warning" dismissible>
-                  {alertContent("warning")}
-                </Alert>
-                <Alert color="info" dismissible>
-                  {alertContent("info")}
-                </Alert>
-                <Alert color="light" dismissible>
-                  {alertContent("light")}
-                </Alert>
-                <Alert color="dark" dismissible>
-                  {alertContent("dark")}
-                </Alert>*/}
-              </TTBox> 
-            </Card>
+    <Card>
+    <TTBox p={2}>
+      <TTTypography variant="h5">Alerts</TTTypography>
+    </TTBox>
+     {/* <TTBox pt={2} px={2}>
+     {ColorArr.map((itemColor) => alertContent(itemColor))}
+       <Alert color="primary" dismissible> */}
+       <Stack sx={{ width: '100%' }} spacing={2}>
+        <Alert severity="error">This is an error alert — check it out!</Alert>
+        <Alert severity="warning">This is a warning alert — check it out!</Alert>
+        <Alert severity="info">This is an info alert — check it out!</Alert>
+        <Alert severity="success">This is a success alert — check it out!</Alert>
+      </Stack>
+      <Stack sx={{ width: '100%' }} spacing={2}>
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          This is an error alert — <strong>check it out!</strong>
+        </Alert>
+        <Alert severity="warning">
+          <AlertTitle>Warning</AlertTitle>
+          This is a warning alert — <strong>check it out!</strong>
+        </Alert>
+        <Alert severity="info">
+          <AlertTitle>Info</AlertTitle>
+          This is an info alert — <strong>check it out!</strong>
+        </Alert>
+        <Alert severity="success">
+          <AlertTitle>Success</AlertTitle>
+          This is a success alert — <strong>check it out!</strong>
+        </Alert>
+      </Stack>
+      <Stack sx={{ width: '100%' }} spacing={2}>
+      <Alert onClose={() => {}}>This is a success alert — check it out!</Alert>
+      <Alert
+        action={
+          <Button color="inherit" size="small">
+            UNDO
+          </Button>
+        }
+      >
+        This is a success alert — check it out!
+      </Alert>
+    </Stack>
+      <Stack spacing={2} p={5}>
+        <Alert variant="outlined" severity="error">
+          This is an error alert — check it out!
+        </Alert>
+        <Alert variant="filled" severity="warning">
+          This is a warning alert — check it out!
+        </Alert>
+        <Alert variant="filled" severity="info">
+          This is an info alert — check it out!
+        </Alert>
+        <Alert variant="filled" severity="success">
+          This is a success alert — check it out!
+        </Alert>
+      </Stack>
+     {/* <TTBox pt={2} px={2}>
+       <Alert severity="primary" dismissible>
+        {alertContent("primary")}
+       </Alert>
+       <Alert severity="secondary" dismissible>
+       </Alert>
+       <Alert severity="secondary" dismissible>
+        {alertContent("secondary")}
+      </Alert>
+        <Alert severity="success" dismissible>
+          {alertContent("success")}
+        </Alert>
+        <Alert severity="error" dismissible>
+          {alertContent("error")}
+        </Alert>
+        <Alert severity="warning" dismissible>
+          {alertContent("warning")}
+        </Alert>
+        <Alert severity="info" dismissible>
+          {alertContent("info")}
+        </Alert>
+        <Alert severity="light" dismissible>
+          {alertContent("light")}
+        </Alert>
+        <Alert severity="dark" dismissible>
+          {alertContent("dark")}
+        </Alert>
+      </TTBox>  */}
+    </Card>
+  )
+}
+const TTSnackbarIconStyle = styled(Icon)(({theme, ownerState})=>{
+
+  const { palette, functions, typography } = theme;
+  const { color, bgWhite } = ownerState;
+
+  const { white, transparent, gradients } = palette;
+  const { pxToRem, linearGradient } = functions;
+  const { size } = typography;
+
+  // backgroundImage value
+  let backgroundImageValue;
+  if(bgWhite){
+    backgroundImageValue = gradients[color]
+    ?linearGradient(gradients[color].main, gradients[color].state)
+    :linearGradient(gradients.info.main, gradients.info.state);
+  }else if(color === "light"){
+    backgroundImageValue = linearGradient(gradients.dark.main, gradients.dark.state);
+  }
+  return{
+    backgroundImage: backgroundImageValue,
+    marginRight: pxToRem(8),
+    fontSize: size.lg,
+    transform: `translateY(${pxToRem(-2)})`,
+  }
+})
+const TTSnackbar = ({
+  color, icon, title, dateTime, 
+  content, close, bgWhite, ...rest
+}) => {
+
+  const [controller, dispatch] = useMaterialUIController();
+  const {darkMode} = controller;
+
+  let titleColor;
+  let dateTimeColor;
+  let dividerColor;
+
+  if(bgWhite){
+    titleColor = color;
+    dateTimeColor = "dark";
+    dividerColor = false;
+  } else if (color === "light") {
+    titleColor = darkMode ? "inherit" : "dark";
+    dateTimeColor = darkMode ? "inherit" : "text";
+    dividerColor = false;
+  } else {
+    titleColor = "white";
+    dateTimeColor = "white";
+    dividerColor = true;
+  }
+
+  return(
+    <Snackbar
+      TransitionComponent={Fade}
+      autoHideDuration={5000}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+      {...rest}
+      action={
+        <IconButton size="small" aria-label="close" color="inherit" onClick={close}>
+          <Icon fontSize="small">close</Icon>
+        </IconButton>
+      }
+    >
+      <TTBox
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        color="dark"
+        p={1.5}
+      >
+          {/* string title */}
+          <TTBox display="flex" alignItems="center" lineHeight={0}>
+            <TTSnackbarIconStyle fontSize="small" ownerState={{ color, bgWhite }}>
+              {icon}
+            </TTSnackbarIconStyle>
+            <TTTypography
+              variant="button"
+              fontWeight="medium"
+              color={titleColor}
+              textGradient={bgWhite}
+            >
+              {title}
+            </TTTypography>
+          </TTBox>
+          {/* icon title */}
+          <TTBox display="flex" alignItems="center" lineHeight={0}>
+            <TTTypography variant="caption" color={dateTimeColor}>
+              {dateTime}
+            </TTTypography>
+            <Icon
+              sx={{
+                color: ({ palette: { dark, white } }) =>
+                  (bgWhite && !darkMode) || color === "light" ? dark.main : white.main,
+                fontWeight: ({ typography: { fontWeightBold } }) => fontWeightBold,
+                cursor: "pointer",
+                marginLeft: 2,
+                transform: "translateY(-1px)",
+              }}
+              onClick={close}
+            >
+              close
+            </Icon>
+          </TTBox>
+        <Divider sx={{ margin: 0 }} light={dividerColor} />
+        {/* content */}
+        <TTBox
+          p={1.5}
+          sx={{
+            fontSize: ({ typography: { size } }) => size.sm,
+            color: ({ palette: { white, text } }) => {
+              let colorValue = bgWhite || color === "light" ? text.main : white.main;
+
+              if (darkMode) {
+                colorValue = color === "light" ? "inherit" : white.main;
+              }
+
+              return colorValue;
+            },
+          }}
+        >
+          {content}
+        </TTBox>
+      </TTBox>
+    </Snackbar>
+  )
+}
+// Setting default values for the props of MDSnackbar
+TTSnackbar.defaultProps = {
+  bgWhite: false,
+  color: "info",
+};
+
+TTSnackbar.propTypes = {
+  color: PropTypes.oneOf([
+    "primary",
+    "secondary",
+    "info",
+    "success",
+    "warning",
+    "error",
+    "dark",
+    "light",
+  ]),
+  icon: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
+  dateTime: PropTypes.string.isRequired,
+  content: PropTypes.node.isRequired,
+  close: PropTypes.func.isRequired,
+  bgWhite: PropTypes.bool,
+};
+const NotifiTable = () => {
+  const [successSB, setSuccessSB] = useState(false);
+  const [infoSB, setInfoSB] = useState(false);
+  const [warningSB, setWarningSB] = useState(false);
+  const [errorSB, setErrorSB] = useState(false);
+
+  const openSuccessSB = () => setSuccessSB(true);
+  const closeSuccessSB = () => setSuccessSB(false);
+  const openInfoSB = () => setInfoSB(true);
+  const closeInfoSB = () => setInfoSB(false);
+  const openWarningSB = () => setWarningSB(true);
+  const closeWarningSB = () => setWarningSB(false);
+  const openErrorSB = () => setErrorSB(true);
+  const closeErrorSB = () => setErrorSB(false);
+
+  //
+  const ErrorSB = (
+    <Snackbar
+      color="error"
+      icon="warning"
+      title="Tan dep trai"
+      content="Hello, world! This is a notification message"
+      dateTime="11 mins ago"
+      open={errorSB}
+      onClose={closeErrorSB}
+      close={closeErrorSB}
+      bgWhite
+    />
+  )
+  const SuccessSB = (
+    <TTSnackbar
+      color="success"
+      icon="check"
+      title="Material Dashboard"
+      content="Hello, world! This is a notification message"
+      dateTime="11 mins ago"
+      open={successSB}
+      onClose={closeSuccessSB}
+      close={closeSuccessSB}
+      bgWhite
+    />
+  )
+  const WarningSB = (
+    <TTSnackbar 
+      color="warning"
+      icon="star"
+      title="Tan dep trai"
+      content="Hello, world! This is a notification message"
+      dateTime="11 mins ago"
+      open={warningSB}
+      onClose={closeWarningSB}
+      close={closeWarningSB}
+      bgWhite
+    />
+    
+  )
+  const InfoSB = (
+    <TTSnackbar
+      icon="notifications"
+      title="Material Dashboard"
+      content="Hello, world! This is a notification message"
+      dateTime="11 mins ago"
+      open={infoSB}
+      onClose={closeInfoSB}
+      close={closeInfoSB}
+    />
+  );
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+  const InfoSBTest = (
+    <Snackbar
+      open={open}
+      autoHideDuration={6000}
+      onClose={handleClose}
+      message="Note archived"
+      action={action}
+    />
+
+  )
+  return(
+    <Card>
+      <TTBox p={2} lineHeight={0}>
+        <TTTypography variant="h5">Notifications</TTTypography>
+        <TTTypography variant="button" color="text" fontWeight="regular">
+          Notifications on this page use Toasts from Bootstrap. Read more details here.
+        </TTTypography>
+      </TTBox>
+      <TTBox p={2}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6} lg={3}>
+            <TTButton variant="gradient" color="success" onClick={openSuccessSB} fullWidth>
+              success notification
+            </TTButton>
+            {/* <SuccessSB/> */}
           </Grid>
-          <Grid item xs={12} lg={8}>
-            <Card>
-              <TTBox p={2} lineHeight={0}>
-                <TTTypography variant="h5">Notifications</TTTypography>
-                <TTTypography variant="button" color="text" fontWeight="regular">
-                  Notifications on this page use Toasts from Bootstrap. Read more details here.
-                </TTTypography>
-              </TTBox>
-              <TTBox p={2}>
-                {/* <Grid container spacing={3}>
-                  <Grid item xs={12} sm={6} lg={3}>
-                    <TTButton variant="gradient" color="success" onClick={openSuccessSB} fullWidth>
-                      success notification
-                    </TTButton>
-                    {renderSuccessSB}
-                  </Grid>
-                  <Grid item xs={12} sm={6} lg={3}>
-                    <TTButton variant="gradient" color="info" onClick={openInfoSB} fullWidth>
-                      info notification
-                    </TTButton>
-                    {renderInfoSB}
-                  </Grid>
-                  <Grid item xs={12} sm={6} lg={3}>
-                    <TTButton variant="gradient" color="warning" onClick={openWarningSB} fullWidth>
-                      warning notification
-                    </TTButton>
-                    {renderWarningSB}
-                  </Grid>
-                  <Grid item xs={12} sm={6} lg={3}>
-                    <TTButton variant="gradient" color="error" onClick={openErrorSB} fullWidth>
-                      error notification
-                    </TTButton>
-[                    {renderErrorSB}
-]                  </Grid>
-                </Grid> */}
-              </TTBox>
-            </Card>
+          <Grid item xs={12} sm={6} lg={3}>
+            <TTButton variant="gradient" color="info" onClick={openInfoSB} fullWidth>
+              info notification
+            </TTButton>
+            <Button onClick={handleClick}>Open simple snackbar</Button>
+            {InfoSB}
+          </Grid>
+          <Grid item xs={12} sm={6} lg={3}>
+            <TTButton variant="gradient" color="warning" onClick={openWarningSB} fullWidth>
+              warning notification
+            </TTButton>
+            {WarningSB}
+          </Grid>
+          <Grid item xs={12} sm={6} lg={3}>
+            <TTButton variant="gradient" color="error" onClick={openErrorSB} fullWidth>
+              error notification
+            </TTButton>
+            {ErrorSB}
           </Grid>
         </Grid>
-      {/* </TTBox> */}
-    </DashboardLayout>
+      </TTBox>
+    </Card>
+  )
+}
+const Notifications = () => {
+
+
+  return(
+<DashboardLayout>
+  {/* <TTBox mt={6} mb={3}> */}
+  <Grid container spacing={3} justifyContent="center" mt={6} mb={3}>
+    <Grid item xs={12} lg={8}>
+      <AlertTable/>
+    </Grid>
+    <Grid item xs={12} lg={8}>
+      <NotifiTable/>
+    </Grid>
+  </Grid>
+  {/* </TTBox> */}
+</DashboardLayout>
   )
 }
 
@@ -2165,6 +2481,7 @@ const DashboardLayout = ({children}) => {
         })
       }
     })}> dashboard layout
+      <DashboardNavbar />
       {children}
       {/* <Footer /> */}
       <FooterDash/>
@@ -2178,8 +2495,8 @@ const Dashboard = () => {
   return(
     <DashboardLayout>
       {/* navbar */}
-      {/* contentpage */}
-      <Typography>Tan dep trai</Typography>
+      {/* contentPage */}
+      <Typography>Tan dep </Typography>
       {/* footer */}
     </DashboardLayout>
   )
@@ -2449,7 +2766,7 @@ function SideNavbar({color, brand, brandName, routes, ...rest}){
     return ItemValue;
   });
   return(
-    <SidenavibarStyle 
+    <SideNavbarStyle 
       {...rest}
       variant="permanent"
       ownerState={{transparentSidenav, whiteSidenav, miniSidenav, darkMode}}
@@ -2506,7 +2823,7 @@ function SideNavbar({color, brand, brandName, routes, ...rest}){
           contact me
         </TTButton>
       </TTBox>
-    </SidenavibarStyle>
+    </SideNavbarStyle>
   )
 }
 SideNavbar.defaultProps = {
@@ -2523,7 +2840,7 @@ SideNavbar.propTypes = {
   brandName: PropTypes.string.isRequired,
   routes: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
-const SidenavibarStyle = styled(Drawer)(({theme, ownerState})=>{
+const SideNavbarStyle = styled(Drawer)(({theme, ownerState})=>{
 
   const { palette, boxShadows, transitions, breakpoints, functions } = theme;
   const { transparentSidenav, whiteSidenav, miniSidenav, darkMode } = ownerState;
@@ -2752,7 +3069,7 @@ function ConfigNavbar(){
           sx={({typography: {size}, palette:{dark, white}})=>({
             fontSize:  `${size.lg} !important`,
             color: darkMode?white.main:dark.main,
-            stroke: "currentcolor",
+            stroke: "currentColor",                       //TODO: currentcolor
             strokeWidth: "2px",
             cursor: "pointer",
             transform: "translateY(5px)",
@@ -3073,7 +3390,7 @@ const ChildApp = () => {
           <Route path="/signup" element={<SignUp/>}/>
           <Route path="/reset" element={<SignReset/>}/>
           <Route path="/dashboard" element={<Dashboard />}/>
-          <Route path="/notifi" element={<Notifications/>}/>
+          <Route path="/notifications" element={<Notifications/>}/>
           <Route path="/tables" element={<Tables />}/>
         </Routes>
       </ThemeProvider>
@@ -3347,7 +3664,7 @@ const colors = {
       dark: "#329874",
     },
 
-    dribbble: {
+    dribble: {
       main: "#ea4c89",
       dark: "#e73177",
     },
@@ -4104,7 +4421,7 @@ const outlined = {
   },
 };
 const button = {
-  defaultProps:{ disableRipple: false},  //ripple : hieu ung gon song
+  defaultProps:{ disableRipple: false},  //ripple : effect gon song
   styleOverrides:{
     root: { ...root },
     contained: { ...contained.base },
@@ -4679,7 +4996,7 @@ const routes = [
     name: "Notifications",
     key: "notifications",
     icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/notifi",
+    route: "/notifications",
     component: <Notifications />,
   },
   {
@@ -4827,7 +5144,7 @@ const ProgressStyle = styled(LinearProgress)(({theme, ownerState})=>{
   const { text, gradients } = palette;
   const { linearGradient } = functions;
 
-  console.log("color:", color)
+  // console.log("color:", color)
   let backgroundValue;
   if(variant === "gradient"){backgroundValue = gradients[color]
     ?linearGradient(gradients[color].main, gradients[color].state)
@@ -4835,7 +5152,7 @@ const ProgressStyle = styled(LinearProgress)(({theme, ownerState})=>{
   }else{
     backgroundValue = palette[color] ? palette[color].main : palette.info.main;
   }
-  console.log(palette[color].main)
+  // console.log(palette[color].main)
   return{
     "& .MuiLinearProgress-bar":{
       backgroundColor: backgroundValue,
@@ -5065,8 +5382,8 @@ function DataTableHeadCell({ width, children, sorted, align, ...rest }) {
             <TTBox
               position="absolute"
               top={-6}
-              color={sorted === "asce" ? "text" : "secondary"}
-              opacity={sorted === "asce" ? 1 : 0.5}
+              color={sorted === "asc" ? "text" : "secondary"}
+              opacity={sorted === "asc" ? 1 : 0.5}
             >
               <Icon>arrow_drop_up</Icon>
             </TTBox>
@@ -5096,7 +5413,7 @@ DataTableHeadCell.defaultProps = {
 DataTableHeadCell.propTypes = {
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   children: PropTypes.node.isRequired,
-  sorted: PropTypes.oneOf([false, "none", "asce", "desc"]),
+  sorted: PropTypes.oneOf([false, "none", "asc", "desc"]),
   align: PropTypes.oneOf(["left", "right", "center"]),
 };
 
@@ -5147,7 +5464,7 @@ function DataTable({
   // Set the entries per page value based on the select value
   const setEntriesPerPage = (value) => setPageSize(value);
 
-  // Render the paginations
+  // Render the pagination
   const renderPagination = pageOptions.map((option) => (
     <TTPagination
       item
@@ -5182,7 +5499,7 @@ function DataTable({
     let sortedValue;
 
     if (isSorted && column.isSorted) {
-      sortedValue = column.isSortedDesc ? "desc" : "asce";
+      sortedValue = column.isSortedDesc ? "desc" : "asc";
     } else if (isSorted) {
       sortedValue = "none";
     } else {
@@ -5674,7 +5991,7 @@ function Tables() {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      {/* <DashboardNavbar /> */}
       <TTBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
@@ -5697,7 +6014,7 @@ function Tables() {
                 <DataTable
                   table={{ columns, rows }}
                   isSorted={false}
-                  entriesPerPage={false}
+                  entriesPerPage={true}
                   showTotalEntries={false}
                   noEndBorder
                 />
