@@ -44,14 +44,14 @@ import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material/styles"
 // import Icon from "@mui/material/Icon";
 import { 
-  Box, Button, Card, CssBaseline, Grid,
+  Box, Button, Card, CssBaseline, Grid, Breadcrumbs,
   Link, alpha, Paper, LinearProgress, 
   styled, Typography, Switch, TextField, Checkbox, 
   AppBar, Drawer, Divider, AlertTitle, Fade,
   Avatar, List, ListItem, ListItemIcon, ListItemText, 
   Alert, TableContainer, Table, TableHead, TableRow, 
   TableCell, TableBody, TableSortLabel, 
-  Tooltip, TablePagination, FormControlLabel, Autocomplete, Stack, Snackbar,
+  Tooltip, TablePagination, FormControlLabel, Autocomplete, Stack, Snackbar, Tab, Tabs, CardMedia,
   // useTheme
 } from "@mui/material";
 import MenuCom from "@mui/material/Menu"
@@ -75,7 +75,17 @@ import PropTypes, { func } from "prop-types";
 import propTypes from "prop-types";
 import Icon from '@mui/material/Icon';
 // import { green } from "@mui/material/colors";
-
+import Timeline from '@mui/lab/Timeline';
+import TimelineItem from '@mui/lab/TimelineItem';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import TimelineConnector from '@mui/lab/TimelineConnector';
+import TimelineContent from '@mui/lab/TimelineContent';
+import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
+import TimelineDot from '@mui/lab/TimelineDot';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
+import LaptopMacIcon from '@mui/icons-material/LaptopMac';
+import HotelIcon from '@mui/icons-material/Hotel';
+import RepeatIcon from '@mui/icons-material/Repeat';
 //test
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -93,6 +103,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import InstagramIcon from "@mui/icons-material/Instagram";
 import { 
   useTable, 
   useGlobalFilter, 
@@ -109,24 +120,132 @@ import logoAtlassian from "../assets/images/small-logos/logo-atlassian.svg";
 import logoSlack from "../assets/images/small-logos/logo-slack.svg";
 import logoInvesion from "../assets/images/small-logos/logo-invision.svg";
 
-// const bgImage = require("../assets/images/bg-sign-in-basic.jpeg");
-const bgImage = require("../assets/images/bg/bg_boat_2.jpeg");
-// const bgImage_su = require("../assets/images/bg-sign-up-cover.jpeg");
-const bgImage_su = require("../assets/images/bg/bg_lake.jpeg");
-const brandWhite = require("../assets/images/logo-ct.png");
-const brandDark =  require("../assets/images/logo-ct-dark.png");
-const bgTest1 = require("../assets/images/bg/background_.png");
-const bgTest2 = require("../assets/images/bg/lake_boat.png");
+// Images
+import kal from "../assets/images/kal-visuals-square.jpg";
+import marie from "../assets/images/marie.jpg";
+import ivana from "../assets/images/ivana-square.jpg";
+// import team3 from "../assets/images/team-3.jpg";
+// import team4 from "../assets/images/team-4.jpg";
+import burceMars from "../assets/images/bruce-mars.jpg";
+// import taurus from "../assets/images/avatar/taurus.jpg";
+import taurus from "../assets/images/avatar/taurus.png";
+import backgroundProfile from "../assets/images/bg-profile.jpeg";
+
+// Images
+import homeDecor1 from "../assets/images/home-decor-1.jpg";
+import homeDecor2 from "../assets/images/home-decor-2.jpg";
+import homeDecor3 from "../assets/images/home-decor-3.jpg";
+import homeDecor4 from "../assets/images/home-decor-4.jpeg";
+import team1 from "../assets/images/team-1.jpg";
+import team2 from "../assets/images/team-2.jpg";
+import team3 from "../assets/images/team-3.jpg";
+import team4 from "../assets/images/team-4.jpg";
+// const bgImage = require("../assets/images/bg/bg_boat_2.jpeg");
+// const bgImage_su = require("../assets/images/bg/bg_lake.jpeg");
+// const bgTest1 = require("../assets/images/bg/background_.png");
+// const bgTest2 = require("../assets/images/bg/lake_boat.png");
+
+// Images
+import pattern from "../assets/images/illustrations/pattern-tree.svg";
+import masterCardLogo from "../assets/images/logos/mastercard.png";
+// Images
+// import masterCardLogo from "assets/images/logos/mastercard.png";
+import visaLogo from "../assets/images/logos/visa.png";
 // const LogoAsana = require("../assets/images/small-logos/logo-asana.svg");
 // const logoGithub = require("../assets/images/small-logos/github.svg");
 // const logoAtlassian = require("../assets/images/small-logos/logo-atlassian.svg");
 // const logoSlack = require("../assets/images/small-logos/logo-slack.svg");
 // const logoSpotify = require("../assets/images/small-logos/logo-spotify.svg");
+const bgImage = require("../assets/images/bg-sign-in-basic.jpeg");
+const bgImage_su = require("../assets/images/bg-sign-up-cover.jpeg");
+const brandWhite = require("../assets/images/logo-ct.png");
+const brandDark =  require("../assets/images/logo-ct-dark.png");
+// const team2 = require("../assets/images/team-2.jpg");
+// const team3 = require("../assets/images/team-3.jpg");
+// const team4 = require("../assets/images/team-4.jpg");
 
-const team2 = require("../assets/images/team-2.jpg");
-const team3 = require("../assets/images/team-3.jpg");
-const team4 = require("../assets/images/team-4.jpg");
+const TimeLineExample = () => {
 
+  return(
+    <Timeline position="alternate">
+      <TimelineItem>
+        <TimelineOppositeContent
+          sx={{ m: 'auto 0' }}
+          align="right"
+          variant="body2"
+          color="text.secondary"
+        >
+          9:30 am
+        </TimelineOppositeContent>
+        <TimelineSeparator>
+          <TimelineConnector />
+          <TimelineDot>
+            <FastfoodIcon />
+          </TimelineDot>
+          <TimelineConnector />
+        </TimelineSeparator>
+        <TimelineContent sx={{ py: '12px', px: 2 }}>
+          <Typography variant="h6" component="span">
+            Eat
+          </Typography>
+          <Typography>Because you need strength</Typography>
+        </TimelineContent>
+      </TimelineItem>
+      <TimelineItem>
+        <TimelineOppositeContent
+          sx={{ m: 'auto 0' }}
+          variant="body2"
+          color="text.secondary"
+        >
+          10:00 am
+        </TimelineOppositeContent>
+        <TimelineSeparator>
+          <TimelineConnector />
+          <TimelineDot color="primary">
+            <LaptopMacIcon />
+          </TimelineDot>
+          <TimelineConnector />
+        </TimelineSeparator>
+        <TimelineContent sx={{ py: '12px', px: 2 }}>
+          <Typography variant="h6" component="span">
+            Code
+          </Typography>
+          <Typography>Because it&apos;s awesome!</Typography>
+        </TimelineContent>
+      </TimelineItem>
+      <TimelineItem>
+        <TimelineSeparator>
+          <TimelineConnector />
+          <TimelineDot color="primary" variant="outlined">
+            <HotelIcon />
+          </TimelineDot>
+          <TimelineConnector sx={{ bgcolor: 'secondary.main' }} />
+        </TimelineSeparator>
+        <TimelineContent sx={{ py: '12px', px: 2 }}>
+          <Typography variant="h6" component="span">
+            Sleep
+          </Typography>
+          <Typography>Because you need rest</Typography>
+        </TimelineContent>
+      </TimelineItem>
+      <TimelineItem>
+        <TimelineSeparator>
+          <TimelineConnector sx={{ bgcolor: 'secondary.main' }} />
+          <TimelineDot color="secondary">
+            <RepeatIcon />
+          </TimelineDot>
+          <TimelineConnector />
+        </TimelineSeparator>
+        <TimelineContent sx={{ py: '12px', px: 2 }}>
+          <Typography variant="h6" component="span">
+            Repeat
+          </Typography>
+          <Typography>Because this is the life you love!</Typography>
+        </TimelineContent>
+      </TimelineItem>
+    </Timeline>
+  )
+}
 const Home = () => {
 
   // console.log("home: test start")
@@ -139,7 +258,7 @@ const Home = () => {
         color={"primary"}
         textGradient = {false}
       >Home Page</TTTypography>
-    Home
+      <TimeLineExample/>
     </TTBox>
   )
 }
@@ -1245,15 +1364,261 @@ Footer.defaultProps = {
 Footer.propTypes = {
   light: PropTypes.bool,
 };
+function BreadcrumbsTT({icon, title, route, light}){
 
+  const routes = route.slice(0, -1); 
+
+  return(
+    <TTBox mr={{ xs: 0, xl: 8 }}>
+      <Breadcrumbs sx={{
+        "& .MuiBreadcrumbs-separator": {
+          color: ({ palette: { white, grey } }) => (light ? white.main : grey[600]),
+        }
+      }}>
+        {/* link */}
+        <Link href="/">
+          <TTTypography
+            component="span"
+            variant="body2"
+            color={light ? "white" : "dark"}
+            opacity={light ? 0.8 : 0.5}
+            sx={{ lineHeight: 0 }}
+          >
+            <Icon>{icon}</Icon>
+          </TTTypography>
+        </Link>
+        {/* route */}
+        {routes.map((el)=>(
+          <Link href={`/${el}`} key={el}>
+            <TTTypography
+              component="span"
+              variant="button"
+              fontWeight="regular"
+              textTransform="capitalize"
+              color={light ? "white" : "dark"}
+              opacity={light ? 0.8 : 0.5}
+              sx={{ lineHeight: 0 }}
+            >{el}</TTTypography>
+          </Link>
+        ))}
+        {/* title */}
+        <TTTypography
+          variant="button"
+          fontWeight="regular"
+          textTransform="capitalize"
+          color={light ? "white" : "dark"}
+          sx={{ lineHeight: 0 }}
+        >
+          {title.replace("-", " ")}
+        </TTTypography>
+      </Breadcrumbs>
+      {/* title */}
+      <TTTypography     
+        fontWeight="bold"
+        textTransform="capitalize"
+        variant="h6"
+        color={light ? "white" : "dark"}
+        noWrap
+      >
+        {title.replace("-"," ")}
+      </TTTypography>
+    </TTBox>
+  )
+}
+// Setting default values for the props of Breadcrumbs
+BreadcrumbsTT.defaultProps = {
+  light: false,
+};
+
+// Typechecking props for the Breadcrumbs
+BreadcrumbsTT.propTypes = {
+  icon: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
+  route: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
+  light: PropTypes.bool,
+}
+const navbarContainer = ({ breakpoints }) => ({
+  flexDirection: "column",
+  alignItems: "flex-start",
+  justifyContent: "space-between",
+  pt: 0.5,
+  pb: 0.5,
+
+  [breakpoints.up("md")]: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingTop: "0",
+    paddingBottom: "0",
+  },
+});
+const navbarRow = ({breakpoints},{isMini})=>({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  width: "100%",
+  [breakpoints.up("md")]:{
+    justifyContent: isMini?"space-between": "stretch",
+    width: isMini?"100%": "max-content",
+  },
+  [breakpoints.up("xl")]: {
+    justifyContent: "stretch !important",
+    width: "max-content !important",
+  },
+})
+const navbarIconBtn = ({typography:{size}, breakpoints}) => ({
+  px: 1,
+  "& .material-icon, .material-icon-round": { fontSize: `${size.xl}!important`},
+  "& .MuiTypography-root":{
+    display: "none",
+    [breakpoints.up("sm")]: {
+      display: "inline-block",
+      lineHeight: 1.2,
+      ml: 0.5,
+    },
+  }
+})
+const navbarMobileMenu = ({breakpoints}) => ({
+  display: "inline-block",
+  lineHeight: 0,
+  [breakpoints.up("xl")]:{
+    display: "none"
+  }
+})
+function navbar(theme, ownerState){
+
+  const { palette, boxShadows, functions, transitions, breakpoints, borders } = theme;
+  const { transparentNavbar, absolute, light, darkMode } = ownerState;
+
+  const { dark, white, text, transparent, background, info } = palette;
+  const { navbarBoxShadow } = boxShadows;
+  const { rgba, pxToRem } = functions;
+  const { borderRadius } = borders;
+
+  let boxShadowValue = transparentNavbar || absolute 
+    ? "none"
+    : navbarBoxShadow;
+
+  let backgroundColorValue = transparentNavbar || absolute 
+    ? `${transparent.main} !important`
+    : rgba(darkMode?background.default:white.main, 0.8);
+  
+  let backdropFilterValue = transparentNavbar || absolute 
+  ? "none"
+  : `saturate(200%) blur(${pxToRem(50)})`;
+    // blur()       : lm mo, mo ho
+    // brightness() : do sang
+    // contrast()   : tuong phan
+    // drop-shadow(): bong
+    // grayscale()  : thang do xam
+    // hue-rotate() : xoay mau
+    // invert()     : 
+    // opacity()  
+    // saturate()   : bao hoa
+    // sepia()      : nau do
+    // url() – (for applying SVG filters): dung cho svg
+  
+  let colorValue = dark.main;
+  if (light) {
+    colorValue = white.main;
+  } else if (transparentNavbar) {
+    colorValue = text.main;
+  } else {
+    colorValue = dark.main;
+  }
+
+
+  return{
+    boxShadow: boxShadowValue,
+    backgroundColor: backgroundColorValue,
+    backdropFilter: backdropFilterValue,
+    color: colorValue,
+    opacity: 1,
+    top: absolute ? 0 : pxToRem(12),
+    minHeight: pxToRem(75),
+    display: "grid",
+    alignItems: "center",
+    borderRadius: borderRadius.xl,
+    paddingTop: pxToRem(8),
+    paddingBottom: pxToRem(8),
+    paddingRight: absolute ? pxToRem(8) : 0,
+    paddingLeft: absolute ? pxToRem(16) : 0,
+    "& > *": {
+      transition: transitions.create("all", {
+        easing: transitions.easing.easeInOut,
+        duration: transitions.duration.standard,
+      }),
+    },
+
+    "& .MuiToolbar-root": {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+
+      [breakpoints.up("sm")]: {
+        minHeight: "auto",
+        padding: `${pxToRem(4)} ${pxToRem(16)}`,
+      },
+    },
+  }
+}
+const NavbarMenuItem = (theme) => {
+
+  const { palette, borders, transitions} = theme;
+
+  const { secondary, light, dark } = palette;
+  const { borderRadius } = borders;
+
+  return{
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
+    color: secondary.main,
+    borderRadius: borderRadius.md,
+    transition: transitions.create("background-color", {
+      easing: transitions.easing.easeInOut,
+      duration: transitions.duration.standard,
+    }),
+
+    "& *": {
+      transition: "color 100ms linear",
+    },
+
+    "&:not(:last-child)": {
+      mb: 1,
+    },
+
+    "&:hover": {
+      backgroundColor: light.main,
+
+      "& *": {
+        color: dark.main,
+      },
+    },
+  }
+}
+const NotificationItem = forwardRef(({icon, title, ...rest}, ref)=>(
+  <MenuItem {...rest} ref={ref} sx={(theme) => NavbarMenuItem(theme)}>
+    <TTBox component={Link} py={0.5} display="flex" alignItems="center" lineHeight={1}>
+      <TTTypography variant="body1" color="secondary" lineHeight={0.75}>
+        {icon}
+      </TTTypography>
+      <TTTypography variant="button" fontWeight="regular" sx={{ ml: 1 }}>
+        {title}
+      </TTTypography>
+    </TTBox>
+  </MenuItem>
+));
 function DashboardNavbar({absolute, light, isMini}){
 
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator, darkMode } = controller;
-  const [isOpenMenu, setOpenMenu] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
 
   const route = useLocation().pathname.split("/").slice(1);
+  console.log(route);
+  console.log(useLocation().pathname);
+
   useEffect(()=>{
 
     //setting the navbar type
@@ -1279,9 +1644,23 @@ function DashboardNavbar({absolute, light, isMini}){
   const handleCloseMenu = () => setOpenMenu(false);
   
   //notification menu
-  const MenuComp = () => {
-    
-  }
+  const MenuComp = () => (
+    <Menu
+      anchorEl={openMenu}
+      anchorReference={null}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "left",
+      }}
+      open={Boolean(openMenu)}
+      onClose={handleCloseMenu}
+      sx={{ mt: 2 }}
+    >
+      <NotificationItem icon={<Icon>email</Icon>} title="Check new messages" />
+      <NotificationItem icon={<Icon>podcasts</Icon>} title="Manage Podcast sessions" />
+      <NotificationItem icon={<Icon>shopping_cart</Icon>} title="Payment successfully completed" />
+    </Menu>
+  )
   //style for navbar icon
   const iconsStyle = ({ palette: { dark, white, text }, functions: { rgba } }) => ({
     color: () => {
@@ -1297,15 +1676,63 @@ function DashboardNavbar({absolute, light, isMini}){
   return(
     <AppBar
       position={absolute?"absolute":navbarType}
+      color="inherit"
+      sx={(theme)=>navbar(theme, { transparentNavbar, absolute, light, darkMode })}
     >
-      {/*  */}
-      {/*  */}
-      {/*  */}
-      <TTBox>
-        <IconButton>
-          <Icon sx={iconsStyle}>notifications</Icon>
-        </IconButton>
-      </TTBox>
+      <Toolbar sx={(theme)=>navbarContainer(theme)}>
+        {/* Breadcrumns */}
+        <TTBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
+          <BreadcrumbsTT icon="home" title={route[route.length-1]} route={route} light={false}/>
+        </TTBox>
+        {/*  */}
+        {isMini?null:<TTBox sx={(theme)=>navbarRow(theme,{isMini})}>
+          {/* search bar */}
+          <TTBox pr={1}>
+            <TTInput label={"Search here"}/>
+          </TTBox>
+          {/* icon tool */}
+          <TTBox color={light?"white": "inherit"}>
+            <Link href="/signin">
+              <IconButton sx={navbarIconBtn} size="small" disableRipple>
+                <Icon sx={iconsStyle}>account_circle</Icon>
+              </IconButton>
+            </Link>
+            <IconButton
+                size="small"
+                disableRipple
+                color="inherit"
+                sx={navbarMobileMenu}
+                onClick={handleMiniSidenav}
+              >
+                <Icon sx={iconsStyle} fontSize="medium">
+                  {miniSidenav ? "menu_open" : "menu"}
+                </Icon>
+              </IconButton>
+              <IconButton
+                size="small"
+                disableRipple
+                color="inherit"
+                sx={navbarIconBtn}
+                onClick={handleConfiguratorOpen}
+              >
+                <Icon sx={iconsStyle}>settings</Icon>
+              </IconButton>
+              <IconButton
+                size="small"
+                disableRipple
+                color="inherit"
+                sx={navbarIconBtn}
+                aria-controls="notification-menu"
+                aria-haspopup="true"
+                variant="contained"
+                onClick={handleOpenMenu}
+              >
+                <Icon sx={iconsStyle}>notifications</Icon>
+              </IconButton>
+              {MenuComp()}
+          </TTBox>
+        </TTBox>}
+      </Toolbar>
     </AppBar>
   )
 }
@@ -1913,9 +2340,1354 @@ const SignReset = () =>{
     </CoverLayout>
   )
 }
+
+
+function MasterCard({ color, number, holder, expires }) {
+  const numbers = [...`${number}`];
+
+  if (numbers.length < 16 || numbers.length > 16) {
+    throw new Error(
+      "Invalid value for the prop number, the value for the number prop shouldn't be greater than or less than 16 digits"
+    );
+  }
+
+  const num1 = numbers.slice(0, 4).join("");
+  const num2 = numbers.slice(4, 8).join("");
+  const num3 = numbers.slice(8, 12).join("");
+  const num4 = numbers.slice(12, 16).join("");
+
+  return (
+    <Card
+      sx={({ palette: { gradients }, functions: { linearGradient }, boxShadows: { xl } }) => ({
+        background: gradients[color]
+          ? linearGradient(gradients[color].main, gradients[color].state)
+          : linearGradient(gradients.dark.main, gradients.dark.state),
+        boxShadow: xl,
+        position: "relative",
+      })}
+    >
+      <TTBox
+        position="absolute"
+        top={0}
+        left={0}
+        width="100%"
+        height="100%"
+        opacity={0.2}
+        sx={{
+          backgroundImage: `url(${pattern})`,
+          backgroundSize: "cover",
+        }}
+      />
+      <TTBox position="relative" zIndex={2} p={2}>
+        <TTBox color="white" p={1} lineHeight={0} display="inline-block">
+          <Icon fontSize="default">wifi</Icon>
+        </TTBox>
+        <TTTypography variant="h5" color="white" fontWeight="medium" sx={{ mt: 3, mb: 5, pb: 1 }}>
+          {num1}&nbsp;&nbsp;&nbsp;{num2}&nbsp;&nbsp;&nbsp;{num3}&nbsp;&nbsp;&nbsp;{num4}
+        </TTTypography>
+        <TTBox display="flex" justifyContent="space-between" alignItems="center">
+          <TTBox display="flex" alignItems="center">
+            <TTBox mr={3} lineHeight={1}>
+              <TTTypography variant="button" color="white" fontWeight="regular" opacity={0.8}>
+                Card Holder
+              </TTTypography>
+              <TTTypography
+                variant="h6"
+                color="white"
+                fontWeight="medium"
+                textTransform="capitalize"
+              >
+                {holder}
+              </TTTypography>
+            </TTBox>
+            <TTBox lineHeight={1}>
+              <TTTypography variant="button" color="white" fontWeight="regular" opacity={0.8}>
+                Expires
+              </TTTypography>
+              <TTTypography variant="h6" color="white" fontWeight="medium">
+                {expires}
+              </TTTypography>
+            </TTBox>
+          </TTBox>
+          <TTBox display="flex" justifyContent="flex-end" width="20%">
+            <TTBox component="img" src={masterCardLogo} alt="master card" width="60%" mt={1} />
+          </TTBox>
+        </TTBox>
+      </TTBox>
+    </Card>
+  );
+}
+
+// Setting default values for the props of MasterCard
+MasterCard.defaultProps = {
+  color: "dark",
+};
+
+// Typechecking props for the MasterCard
+MasterCard.propTypes = {
+  color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
+  number: PropTypes.number.isRequired,
+  holder: PropTypes.string.isRequired,
+  expires: PropTypes.string.isRequired,
+};
+function PaymentMethod() {
+  const [controller] = useMaterialUIController();
+  const { darkMode } = controller;
+
+  return (
+    <Card id="delete-account">
+      <TTBox pt={2} px={2} display="flex" justifyContent="space-between" alignItems="center">
+        <TTTypography variant="h6" fontWeight="medium">
+          Payment Method
+        </TTTypography>
+        <TTButton variant="gradient" color="dark">
+          <Icon sx={{ fontWeight: "bold" }}>add</Icon>
+          &nbsp;add new card
+        </TTButton>
+      </TTBox>
+      <TTBox p={2}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <TTBox
+              borderRadius="lg"
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              p={3}
+              sx={{
+                border: ({ borders: { borderWidth, borderColor } }) =>
+                  `${borderWidth[1]} solid ${borderColor}`,
+              }}
+            >
+              <TTBox component="img" src={masterCardLogo} alt="master card" width="10%" mr={2} />
+              <TTTypography variant="h6" fontWeight="medium">
+                ****&nbsp;&nbsp;****&nbsp;&nbsp;****&nbsp;&nbsp;7852
+              </TTTypography>
+              <TTBox ml="auto" lineHeight={0} color={darkMode ? "white" : "dark"}>
+                <Tooltip title="Edit Card" placement="top">
+                  <Icon sx={{ cursor: "pointer" }} fontSize="small">
+                    edit
+                  </Icon>
+                </Tooltip>
+              </TTBox>
+            </TTBox>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TTBox
+              borderRadius="lg"
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              p={3}
+              sx={{
+                border: ({ borders: { borderWidth, borderColor } }) =>
+                  `${borderWidth[1]} solid ${borderColor}`,
+              }}
+            >
+              <TTBox component="img" src={visaLogo} alt="master card" width="10%" mr={2} />
+              <TTTypography variant="h6" fontWeight="medium">
+                ****&nbsp;&nbsp;****&nbsp;&nbsp;****&nbsp;&nbsp;5248
+              </TTTypography>
+              <TTBox ml="auto" lineHeight={0} color={darkMode ? "white" : "dark"}>
+                <Tooltip title="Edit Card" placement="top">
+                  <Icon sx={{ cursor: "pointer" }} fontSize="small">
+                    edit
+                  </Icon>
+                </Tooltip>
+              </TTBox>
+            </TTBox>
+          </Grid>
+        </Grid>
+      </TTBox>
+    </Card>
+  );
+}
+function Invoice({ date, id, price, noGutter }) {
+  return (
+    <TTBox
+      component="li"
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      py={1}
+      pr={1}
+      mb={noGutter ? 0 : 1}
+    >
+      <TTBox lineHeight={1.125}>
+        <TTTypography display="block" variant="button" fontWeight="medium">
+          {date}
+        </TTTypography>
+        <TTTypography variant="caption" fontWeight="regular" color="text">
+          {id}
+        </TTTypography>
+      </TTBox>
+      <TTBox display="flex" alignItems="center">
+        <TTTypography variant="button" fontWeight="regular" color="text">
+          {price}
+        </TTTypography>
+        <TTBox display="flex" alignItems="center" lineHeight={1} ml={3} sx={{ cursor: "pointer" }}>
+          <Icon fontSize="small">picture_as_pdf</Icon>
+          <TTTypography variant="button" fontWeight="bold">
+            &nbsp;PDF
+          </TTTypography>
+        </TTBox>
+      </TTBox>
+    </TTBox>
+  );
+}
+
+// Setting default values for the props of Invoice
+Invoice.defaultProps = {
+  noGutter: false,
+};
+
+// Typechecking props for the Invoice
+Invoice.propTypes = {
+  date: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  price: PropTypes.string.isRequired,
+  noGutter: PropTypes.bool,
+};
+function Invoices() {
+  return (
+    <Card sx={{ height: "100%" }}>
+      <TTBox pt={2} px={2} display="flex" justifyContent="space-between" alignItems="center">
+        <TTTypography variant="h6" fontWeight="medium">
+          Invoices
+        </TTTypography>
+        <TTButton variant="outlined" color="info" size="small">
+          view all
+        </TTButton>
+      </TTBox>
+      <TTBox p={2}>
+        <TTBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
+          <Invoice date="March, 01, 2020" id="#MS-415646" price="$180" />
+          <Invoice date="February, 10, 2021" id="#RV-126749" price="$250" />
+          <Invoice date="April, 05, 2020" id="#QW-103578" price="$120" />
+          <Invoice date="June, 25, 2019" id="#MS-415646" price="$180" />
+          <Invoice date="March, 01, 2019" id="#AR-803481" price="$300" noGutter />
+        </TTBox>
+      </TTBox>
+    </Card>
+  );
+}
+function Transactions() {
+  return (
+    <Card sx={{ height: "100%" }}>
+      <TTBox display="flex" justifyContent="space-between" alignItems="center" pt={3} px={2}>
+        <TTTypography variant="h6" fontWeight="medium" textTransform="capitalize">
+          Your Transaction&apos;s
+        </TTTypography>
+        <TTBox display="flex" alignItems="flex-start">
+          <TTBox color="text" mr={0.5} lineHeight={0}>
+            <Icon color="inherit" fontSize="small">
+              date_range
+            </Icon>
+          </TTBox>
+          <TTTypography variant="button" color="text" fontWeight="regular">
+            23 - 30 March 2020
+          </TTTypography>
+        </TTBox>
+      </TTBox>
+      <TTBox pt={3} pb={2} px={2}>
+        <TTBox mb={2}>
+          <TTTypography variant="caption" color="text" fontWeight="bold" textTransform="uppercase">
+            newest
+          </TTTypography>
+        </TTBox>
+        <TTBox
+          component="ul"
+          display="flex"
+          flexDirection="column"
+          p={0}
+          m={0}
+          sx={{ listStyle: "none" }}
+        >
+          <Transaction
+            color="error"
+            icon="expand_more"
+            name="Netflix"
+            description="27 March 2020, at 12:30 PM"
+            value="- $ 2,500"
+          />
+          <Transaction
+            color="success"
+            icon="expand_less"
+            name="Apple"
+            description="27 March 2020, at 04:30 AM"
+            value="+ $ 2,000"
+          />
+        </TTBox>
+        <TTBox mt={1} mb={2}>
+          <TTTypography variant="caption" color="text" fontWeight="bold" textTransform="uppercase">
+            yesterday
+          </TTTypography>
+        </TTBox>
+        <TTBox
+          component="ul"
+          display="flex"
+          flexDirection="column"
+          p={0}
+          m={0}
+          sx={{ listStyle: "none" }}
+        >
+          <Transaction
+            color="success"
+            icon="expand_less"
+            name="Stripe"
+            description="26 March 2020, at 13:45 PM"
+            value="+ $ 750"
+          />
+          <Transaction
+            color="success"
+            icon="expand_less"
+            name="HubSpot"
+            description="26 March 2020, at 12:30 PM"
+            value="+ $ 1,000"
+          />
+          <Transaction
+            color="success"
+            icon="expand_less"
+            name="Creative Tim"
+            description="26 March 2020, at 08:30 AM"
+            value="+ $ 2,500"
+          />
+          <Transaction
+            color="dark"
+            icon="priority_high"
+            name="Webflow"
+            description="26 March 2020, at 05:00 AM"
+            value="Pending"
+          />
+        </TTBox>
+      </TTBox>
+    </Card>
+  );
+}
+function Transaction({ color, icon, name, description, value }) {
+  return (
+    <TTBox key={name} component="li" py={1} pr={2} mb={1}>
+      <TTBox display="flex" justifyContent="space-between" alignItems="center">
+        <TTBox display="flex" alignItems="center">
+          <TTBox mr={2}>
+            <TTButton variant="outlined" color={color} iconOnly circular>
+              <Icon sx={{ fontWeight: "bold" }}>{icon}</Icon>
+            </TTButton>
+          </TTBox>
+          <TTBox display="flex" flexDirection="column">
+            <TTTypography variant="button" fontWeight="medium" gutterBottom>
+              {name}
+            </TTTypography>
+            <TTTypography variant="caption" color="text" fontWeight="regular">
+              {description}
+            </TTTypography>
+          </TTBox>
+        </TTBox>
+        <TTTypography variant="button" color={color} fontWeight="medium" textGradient>
+          {value}
+        </TTTypography>
+      </TTBox>
+    </TTBox>
+  );
+}
+
+// Typechecking props of the Transaction
+Transaction.propTypes = {
+  color: PropTypes.oneOf([
+    "primary",
+    "secondary",
+    "info",
+    "success",
+    "warning",
+    "error",
+    "light",
+    "dark",
+  ]).isRequired,
+  icon: PropTypes.node.isRequired,
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+};
+
+function Bill({ name, company, email, vat, noGutter }) {
+  const [controller] = useMaterialUIController();
+  const { darkMode } = controller;
+
+  return (
+    <TTBox
+      component="li"
+      display="flex"
+      justifyContent="space-between"
+      alignItems="flex-start"
+      bgColor={darkMode ? "transparent" : "grey-100"}
+      borderRadius="lg"
+      p={3}
+      mb={noGutter ? 0 : 1}
+      mt={2}
+    >
+      <TTBox width="100%" display="flex" flexDirection="column">
+        <TTBox
+          display="flex"
+          justifyContent="space-between"
+          alignItems={{ xs: "flex-start", sm: "center" }}
+          flexDirection={{ xs: "column", sm: "row" }}
+          mb={2}
+        >
+          <TTTypography variant="button" fontWeight="medium" textTransform="capitalize">
+            {name}
+          </TTTypography>
+
+          <TTBox display="flex" alignItems="center" mt={{ xs: 2, sm: 0 }} ml={{ xs: -1.5, sm: 0 }}>
+            <TTBox mr={1}>
+              <TTButton variant="text" color="error">
+                <Icon>delete</Icon>&nbsp;delete
+              </TTButton>
+            </TTBox>
+            <TTButton variant="text" color={darkMode ? "white" : "dark"}>
+              <Icon>edit</Icon>&nbsp;edit
+            </TTButton>
+          </TTBox>
+        </TTBox>
+        <TTBox mb={1} lineHeight={0}>
+          <TTTypography variant="caption" color="text">
+            Company Name:&nbsp;&nbsp;&nbsp;
+            <TTTypography variant="caption" fontWeight="medium" textTransform="capitalize">
+              {company}
+            </TTTypography>
+          </TTTypography>
+        </TTBox>
+        <TTBox mb={1} lineHeight={0}>
+          <TTTypography variant="caption" color="text">
+            Email Address:&nbsp;&nbsp;&nbsp;
+            <TTTypography variant="caption" fontWeight="medium">
+              {email}
+            </TTTypography>
+          </TTTypography>
+        </TTBox>
+        <TTTypography variant="caption" color="text">
+          VAT Number:&nbsp;&nbsp;&nbsp;
+          <TTTypography variant="caption" fontWeight="medium">
+            {vat}
+          </TTTypography>
+        </TTTypography>
+      </TTBox>
+    </TTBox>
+  );
+}
+
+// Setting default values for the props of Bill
+Bill.defaultProps = {
+  noGutter: false,
+};
+
+// Typechecking props for the Bill
+Bill.propTypes = {
+  name: PropTypes.string.isRequired,
+  company: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  vat: PropTypes.string.isRequired,
+  noGutter: PropTypes.bool,
+};
+
+function BillingInformation() {
+  return (
+    <Card id="delete-account">
+      <TTBox pt={3} px={2}>
+        <TTTypography variant="h6" fontWeight="medium">
+          Billing Information
+        </TTTypography>
+      </TTBox>
+      <TTBox pt={1} pb={2} px={2}>
+        <TTBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
+          <Bill
+            name="oliver liam"
+            company="viking burrito"
+            email="oliver@burrito.com"
+            vat="FRB1235476"
+          />
+          <Bill
+            name="lucas harper"
+            company="stone tech zone"
+            email="lucas@stone-tech.com"
+            vat="FRB1235476"
+          />
+          <Bill
+            name="ethan james"
+            company="fiber notion"
+            email="ethan@fiber.com"
+            vat="FRB1235476"
+            noGutter
+          />
+        </TTBox>
+      </TTBox>
+    </Card>
+  );
+}
+const Billing = () => {
+
+  return(
+    <DashboardLayout>
+      <TTBox mt={8}>
+        <TTBox mb={3}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} lg={8}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} xl={6}>
+                  <MasterCard number={4562112245947852} holder="jack peterson" expires="11/22" />
+                </Grid>
+                <Grid item xs={12} md={6} xl={3}>
+                  <DefaultInfoCard
+                    icon="account_balance"
+                    title="salary"
+                    description="Belong Interactive"
+                    value="+$2000"
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} xl={3}>
+                  <DefaultInfoCard
+                    icon="paypal"
+                    title="paypal"
+                    description="Freelance Payment"
+                    value="$455.00"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <PaymentMethod />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} lg={4}>
+              <Invoices />
+            </Grid>
+          </Grid>
+        </TTBox>
+        <TTBox mb={3}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={7}>
+              <BillingInformation />
+            </Grid>
+            <Grid item xs={12} md={5}>
+              <Transactions />
+            </Grid>
+          </Grid>
+        </TTBox>
+      </TTBox>
+    </DashboardLayout>
+  )
+}
+const profilesListData = [
+  {
+    image: kal,
+    name: "Sophie B.",
+    description: "Hi! I need more information..",
+    action: {
+      type: "internal",
+      route: "/pages/profile/profile-overview",
+      color: "info",
+      label: "reply",
+    },
+  },
+  {
+    image: marie,
+    name: "Anne Marie",
+    description: "Awesome work, can you..",
+    action: {
+      type: "internal",
+      route: "/pages/profile/profile-overview",
+      color: "info",
+      label: "reply",
+    },
+  },
+  {
+    image: ivana,
+    name: "Ivanna",
+    description: "About files I can..",
+    action: {
+      type: "internal",
+      route: "/pages/profile/profile-overview",
+      color: "info",
+      label: "reply",
+    },
+  },
+  {
+    image: team4,
+    name: "Peterson",
+    description: "Have a great afternoon..",
+    action: {
+      type: "internal",
+      route: "/pages/profile/profile-overview",
+      color: "info",
+      label: "reply",
+    },
+  },
+  {
+    image: team3,
+    name: "Nick Daniel",
+    description: "Hi! I need more information..",
+    action: {
+      type: "internal",
+      route: "/pages/profile/profile-overview",
+      color: "info",
+      label: "reply",
+    },
+  },
+];
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+const ProfileHeader = ({children}) => {
+
+  const [tabsOrientation, setTabsOrientation] = useState("horizontal");
+  const [tabValue, setTabValue] = useState(0);
+
+  useEffect(() => {
+    // A function that sets the orientation state of the tabs.
+    function handleTabsOrientation() {
+      return window.innerWidth < breakpoints.values.sm
+        ? setTabsOrientation("vertical")
+        : setTabsOrientation("horizontal");
+    }
+
+    window.addEventListener("resize", handleTabsOrientation);
+
+    // Call the handleTabsOrientation function to set the state with the initial value.
+    handleTabsOrientation();
+
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleTabsOrientation);
+  }, [tabsOrientation]);
+
+  const handleSetTabValue = (event, newValue) => setTabValue(newValue);
+
+  return(
+    <TTBox position={"relative"} mb={5}>
+      {/* header image */}
+      <TTBox
+        display="flex"
+        alignItems="center"
+        position="relative"
+        minHeight="18.75rem"
+        borderRadius="xl"
+        sx={{
+          backgroundImage: ({ functions: { rgba, linearGradient }, palette: { gradients } }) =>
+            `${linearGradient(
+              rgba(gradients.info.main, 0.6),
+              rgba(gradients.info.state, 0.6)
+            )}, url(${backgroundProfile})`,
+          backgroundSize: "cover",
+          backgroundPosition: "50%",
+          overflow: "hidden",
+        }}
+      />
+      {/*  */}
+      <Card sx = {{
+        position: "relative",
+        mt: -8,
+        mx: 3,
+        py: 2,
+        px: 2,
+      }}>
+        <Grid container spacing={3} alignItems="center">
+          {/* avartar */}
+          <Grid item>
+            <TTAvatar src={taurus} alt="profile-image" size="xl" shadow="sm"/>
+          </Grid>
+          {/* name info */}
+          <Grid item>
+            <TTBox height="100%" mt={0.5} lineHeight={1}>
+              <TTTypography variant="h5" fontWeight="medium">
+                Thanh Tan
+              </TTTypography>
+              <TTTypography variant="button" color="text" fontWeight="regular">
+                TEST / Co-Founder
+              </TTTypography>
+            </TTBox>
+          </Grid>
+          {/*  */}
+          <Grid item xs={12} md={6} lg={4} sx={{ ml: "auto" }}>
+            <AppBar position="static">
+              <Tabs orientation={tabsOrientation} value={tabValue} onChange={handleSetTabValue}>
+                {/* tab app */}
+                <Tab 
+                  label="App"
+                  icon={
+                    <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                      home
+                    </Icon>
+                  }
+                  {...a11yProps(0)}
+                />
+                {/* tab mesage */}
+                <Tab
+                  label="Message"
+                  icon={
+                    <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                      email
+                    </Icon>
+                  }
+                 {...a11yProps(1)}
+                />
+                {/* tab setting */}
+                <Tab 
+                  label="Settings"
+                  icon={
+                    <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                      settings
+                    </Icon>
+                  }
+                  {...a11yProps(2)}
+                />
+              </Tabs>
+            </AppBar>
+            <TabPanel value={tabValue} index={0}>
+              Item One
+            </TabPanel>
+            <TabPanel value={tabValue} index={1}>
+              Item Two
+            </TabPanel>
+            <TabPanel value={tabValue} index={2}>
+              Item Three
+            </TabPanel>
+          </Grid>
+        </Grid>
+        {children}
+      </Card>
+      
+    </TTBox>
+  )
+}
+// Setting default props for the Header
+ProfileHeader.defaultProps = {
+  children: "",
+};
+
+// Typechecking props for the Header
+ProfileHeader.propTypes = {
+  children: PropTypes.node,
+};
+function PlatformSettings() {
+  const [followsMe, setFollowsMe] = useState(true);
+  const [answersPost, setAnswersPost] = useState(false);
+  const [mentionsMe, setMentionsMe] = useState(true);
+  const [newLaunches, setNewLaunches] = useState(false);
+  const [productUpdate, setProductUpdate] = useState(true);
+  const [newsletter, setNewsletter] = useState(false);
+
+  return (
+    <Card sx={{ boxShadow: "none" }}>
+      <TTBox p={2}>
+        <TTTypography variant="h6" fontWeight="medium" textTransform="capitalize">
+          platform settings
+        </TTTypography>
+      </TTBox>
+      <TTBox pt={1} pb={2} px={2} lineHeight={1.25}>
+        <TTTypography variant="caption" fontWeight="bold" color="text" textTransform="uppercase">
+          account
+        </TTTypography>
+        <TTBox display="flex" alignItems="center" mb={0.5} ml={-1.5}>
+          <TTBox mt={0.5}>
+            <Switch checked={followsMe} onChange={() => setFollowsMe(!followsMe)} />
+          </TTBox>
+          <TTBox width="80%" ml={0.5}>
+            <TTTypography variant="button" fontWeight="regular" color="text">
+              Email me when someone follows me
+            </TTTypography>
+          </TTBox>
+        </TTBox>
+        <TTBox display="flex" alignItems="center" mb={0.5} ml={-1.5}>
+          <TTBox mt={0.5}>
+            <Switch checked={answersPost} onChange={() => setAnswersPost(!answersPost)} />
+          </TTBox>
+          <TTBox width="80%" ml={0.5}>
+            <TTTypography variant="button" fontWeight="regular" color="text">
+              Email me when someone answers on my post
+            </TTTypography>
+          </TTBox>
+        </TTBox>
+        <TTBox display="flex" alignItems="center" mb={0.5} ml={-1.5}>
+          <TTBox mt={0.5}>
+            <Switch checked={mentionsMe} onChange={() => setMentionsMe(!mentionsMe)} />
+          </TTBox>
+          <TTBox width="80%" ml={0.5}>
+            <TTTypography variant="button" fontWeight="regular" color="text">
+              Email me when someone mentions me
+            </TTTypography>
+          </TTBox>
+        </TTBox>
+        <TTBox mt={3}>
+          <TTTypography variant="caption" fontWeight="bold" color="text" textTransform="uppercase">
+            application
+          </TTTypography>
+        </TTBox>
+        <TTBox display="flex" alignItems="center" mb={0.5} ml={-1.5}>
+          <TTBox mt={0.5}>
+            <Switch checked={newLaunches} onChange={() => setNewLaunches(!newLaunches)} />
+          </TTBox>
+          <TTBox width="80%" ml={0.5}>
+            <TTTypography variant="button" fontWeight="regular" color="text">
+              New launches and projects
+            </TTTypography>
+          </TTBox>
+        </TTBox>
+        <TTBox display="flex" alignItems="center" mb={0.5} ml={-1.5}>
+          <TTBox mt={0.5}>
+            <Switch checked={productUpdate} onChange={() => setProductUpdate(!productUpdate)} />
+          </TTBox>
+          <TTBox width="80%" ml={0.5}>
+            <TTTypography variant="button" fontWeight="regular" color="text">
+              Monthly product updates
+            </TTTypography>
+          </TTBox>
+        </TTBox>
+        <TTBox display="flex" alignItems="center" mb={0.5} ml={-1.5}>
+          <TTBox mt={0.5}>
+            <Switch checked={newsletter} onChange={() => setNewsletter(!newsletter)} />
+          </TTBox>
+          <TTBox width="80%" ml={0.5}>
+            <TTTypography variant="button" fontWeight="regular" color="text">
+              Subscribe to newsletter
+            </TTTypography>
+          </TTBox>
+        </TTBox>
+      </TTBox>
+    </Card>
+  );
+}
+function DefaultInfoCard({ color, icon, title, description, value }) {
+  return (
+    <Card>
+      <TTBox p={2} mx={3} display="flex" justifyContent="center">
+        <TTBox
+          display="grid"
+          justifyContent="center"
+          alignItems="center"
+          bgColor={color}
+          color="white"
+          width="4rem"
+          height="4rem"
+          shadow="md"
+          borderRadius="lg"
+          variant="gradient"
+        >
+          <Icon fontSize="default">{icon}</Icon>
+        </TTBox>
+      </TTBox>
+      <TTBox pb={2} px={2} textAlign="center" lineHeight={1.25}>
+        <TTTypography variant="h6" fontWeight="medium" textTransform="capitalize">
+          {title}
+        </TTTypography>
+        {description && (
+          <TTTypography variant="caption" color="text" fontWeight="regular">
+            {description}
+          </TTTypography>
+        )}
+        {description && !value ? null : <Divider />}
+        {value && (
+          <TTTypography variant="h5" fontWeight="medium">
+            {value}
+          </TTTypography>
+        )}
+      </TTBox>
+    </Card>
+  );
+}
+
+// Setting default values for the props of DefaultInfoCard
+DefaultInfoCard.defaultProps = {
+  color: "info",
+  value: "",
+  description: "",
+};
+
+// Typechecking props for the DefaultInfoCard
+DefaultInfoCard.propTypes = {
+  color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
+  icon: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
+function ProfileInfoCard({ title, description, info, social, action, shadow }) {
+  const labels = [];
+  const values = [];
+  const { socialMediaColors } = colors;
+  const { size } = typography;
+
+  // Convert this form `objectKey` of the object key in to this `object key`
+  Object.keys(info).forEach((el) => {
+    if (el.match(/[A-Z\s]+/)) {
+      const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
+      const newElement = el.replace(uppercaseLetter, ` ${uppercaseLetter.toLowerCase()}`);
+
+      labels.push(newElement);
+    } else {
+      labels.push(el);
+    }
+  });
+
+  // Push the object values into the values array
+  Object.values(info).forEach((el) => values.push(el));
+
+  // Render the card info items
+  const renderItems = labels.map((label, key) => (
+    <TTBox key={label} display="flex" py={1} pr={2}>
+      <TTTypography variant="button" fontWeight="bold" textTransform="capitalize">
+        {label}: &nbsp;
+      </TTTypography>
+      <TTTypography variant="button" fontWeight="regular" color="text">
+        &nbsp;{values[key]}
+      </TTTypography>
+    </TTBox>
+  ));
+
+  // Render the card social media icons
+  const renderSocial = social.map(({ link, icon, color }) => (
+    <TTBox
+      key={color}
+      component="a"
+      href={link}
+      target="_blank"
+      rel="noreferrer"
+      fontSize={size.lg}
+      color={socialMediaColors[color].main}
+      pr={1}
+      pl={0.5}
+      lineHeight={1}
+    >
+      {icon}
+    </TTBox>
+  ));
+
+  return (
+    <Card sx={{ height: "100%", boxShadow: !shadow && "none" }}>
+      <TTBox display="flex" justifyContent="space-between" alignItems="center" pt={2} px={2}>
+        <TTTypography variant="h6" fontWeight="medium" textTransform="capitalize">
+          {title}
+        </TTTypography>
+        <TTTypography component={Link} to={action.route} variant="body2" color="secondary">
+          <Tooltip title={action.tooltip} placement="top">
+            <Icon>edit</Icon>
+          </Tooltip>
+        </TTTypography>
+      </TTBox>
+      <TTBox p={2}>
+        <TTBox mb={2} lineHeight={1}>
+          <TTTypography variant="button" color="text" fontWeight="light">
+            {description}
+          </TTTypography>
+        </TTBox>
+        <TTBox opacity={0.3}>
+          <Divider />
+        </TTBox>
+        <TTBox>
+          {renderItems}
+          <TTBox display="flex" py={1} pr={2}>
+            <TTTypography variant="button" fontWeight="bold" textTransform="capitalize">
+              social: &nbsp;
+            </TTTypography>
+            {renderSocial}
+          </TTBox>
+        </TTBox>
+      </TTBox>
+    </Card>
+  );
+}
+
+// Setting default props for the ProfileInfoCard
+ProfileInfoCard.defaultProps = {
+  shadow: true,
+};
+
+// Typechecking props for the ProfileInfoCard
+ProfileInfoCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  info: PropTypes.objectOf(PropTypes.string).isRequired,
+  social: PropTypes.arrayOf(PropTypes.object).isRequired,
+  action: PropTypes.shape({
+    route: PropTypes.string.isRequired,
+    tooltip: PropTypes.string.isRequired,
+  }).isRequired,
+  shadow: PropTypes.bool,
+};
+function DefaultProjectCard({ image, label, title, description, action, authors }) {
+  const renderAuthors = authors.map(({ image: media, name }) => (
+    <Tooltip key={name} title={name} placement="bottom">
+      <TTAvatar
+        src={media}
+        alt={name}
+        size="xs"
+        sx={({ borders: { borderWidth }, palette: { white } }) => ({
+          border: `${borderWidth[2]} solid ${white.main}`,
+          cursor: "pointer",
+          position: "relative",
+          ml: -1.25,
+
+          "&:hover, &:focus": {
+            zIndex: "10",
+          },
+        })}
+      />
+    </Tooltip>
+  ));
+
+  return (
+    <Card
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "transparent",
+        boxShadow: "none",
+        overflow: "visible",
+      }}
+    >
+      <TTBox position="relative" width="100.25%" shadow="xl" borderRadius="xl">
+        <CardMedia
+          src={image}
+          component="img"
+          title={title}
+          sx={{
+            maxWidth: "100%",
+            margin: 0,
+            boxShadow: ({ boxShadows: { md } }) => md,
+            objectFit: "cover",
+            objectPosition: "center",
+          }}
+        />
+      </TTBox>
+      <TTBox mt={1} mx={0.5}>
+        <TTTypography variant="button" fontWeight="regular" color="text" textTransform="capitalize">
+          {label}
+        </TTTypography>
+        <TTBox mb={1}>
+          {action.type === "internal" ? (
+            <TTTypography
+              component={Link}
+              to={action.route}
+              variant="h5"
+              textTransform="capitalize"
+            >
+              {title}
+            </TTTypography>
+          ) : (
+            <TTTypography
+              component="a"
+              href={action.route}
+              target="_blank"
+              rel="noreferrer"
+              variant="h5"
+              textTransform="capitalize"
+            >
+              {title}
+            </TTTypography>
+          )}
+        </TTBox>
+        <TTBox mb={3} lineHeight={0}>
+          <TTTypography variant="button" fontWeight="light" color="text">
+            {description}
+          </TTTypography>
+        </TTBox>
+        <TTBox display="flex" justifyContent="space-between" alignItems="center">
+          {action.type === "internal" ? (
+            <TTButton
+              component={Link}
+              to={action.route}
+              variant="outlined"
+              size="small"
+              color={action.color}
+            >
+              {action.label}
+            </TTButton>
+          ) : (
+            <TTButton
+              component="a"
+              href={action.route}
+              target="_blank"
+              rel="noreferrer"
+              variant="outlined"
+              size="small"
+              color={action.color}
+            >
+              {action.label}
+            </TTButton>
+          )}
+          <TTBox display="flex">{renderAuthors}</TTBox>
+        </TTBox>
+      </TTBox>
+    </Card>
+  );
+}
+
+// Setting default values for the props of DefaultProjectCard
+DefaultProjectCard.defaultProps = {
+  authors: [],
+};
+
+// Typechecking props for the DefaultProjectCard
+DefaultProjectCard.propTypes = {
+  image: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  action: PropTypes.shape({
+    type: PropTypes.oneOf(["external", "internal"]),
+    route: PropTypes.string.isRequired,
+    color: PropTypes.oneOf([
+      "primary",
+      "secondary",
+      "info",
+      "success",
+      "warning",
+      "error",
+      "light",
+      "dark",
+      "white",
+    ]).isRequired,
+    label: PropTypes.string.isRequired,
+  }).isRequired,
+  authors: PropTypes.arrayOf(PropTypes.object),
+};
+function ProfilesList({ title, profiles, shadow }) {
+  const renderProfiles = profiles.map(({ image, name, description, action }) => (
+    <TTBox key={name} component="li" display="flex" alignItems="center" py={1} mb={1}>
+      <TTBox mr={2}>
+        <TTAvatar src={image} alt="something here" shadow="md" />
+      </TTBox>
+      <TTBox display="flex" flexDirection="column" alignItems="flex-start" justifyContent="center">
+        <TTTypography variant="button" fontWeight="medium">
+          {name}
+        </TTTypography>
+        <TTTypography variant="caption" color="text">
+          {description}
+        </TTTypography>
+      </TTBox>
+      <TTBox ml="auto">
+        {action.type === "internal" ? (
+          <TTButton component={Link} to={action.route} variant="text" color="info">
+            {action.label}
+          </TTButton>
+        ) : (
+          <TTButton
+            component="a"
+            href={action.route}
+            target="_blank"
+            rel="noreferrer"
+            variant="text"
+            color={action.color}
+          >
+            {action.label}
+          </TTButton>
+        )}
+      </TTBox>
+    </TTBox>
+  ));
+
+  return (
+    <Card sx={{ height: "100%", boxShadow: !shadow && "none" }}>
+      <TTBox pt={2} px={2}>
+        <TTTypography variant="h6" fontWeight="medium" textTransform="capitalize">
+          {title}
+        </TTTypography>
+      </TTBox>
+      <TTBox p={2}>
+        <TTBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
+          {renderProfiles}
+        </TTBox>
+      </TTBox>
+    </Card>
+  );
+}
+
+// Setting default props for the ProfilesList
+ProfilesList.defaultProps = {
+  shadow: true,
+};
+
+// Typechecking props for the ProfilesList
+ProfilesList.propTypes = {
+  title: PropTypes.string.isRequired,
+  profiles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  shadow: PropTypes.bool,
+};
+
 const Profile = () => {
   return(
-    <TTBox>Profile</TTBox>
+    <DashboardLayout>
+      <TTBox mb = {2}/>
+      <ProfileHeader>
+        {/* config */}
+        <TTBox mt={5} mb={3}>
+          <Grid container spacing={1}>
+            {/* platform setting */}
+            <Grid item xs={12} md={6} xl={4}>
+              <PlatformSettings />
+            </Grid>
+            {/* profile info card */}
+            <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+              <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+              <ProfileInfoCard 
+                title="profile information"
+                description="Hi, I’m Alec Thompson, Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
+                info={{
+                  fullName: "Alec M. Thompson",
+                  mobile: "(44) 123 1234 123",
+                  email: "alecthompson@mail.com",
+                  location: "USA",
+                }}
+                social={[
+                  {
+                    link: "https://www.facebook.com/CreativeTim/",
+                    icon: <FacebookIcon />,
+                    color: "facebook",
+                  },
+                  {
+                    link: "https://twitter.com/creativetim",
+                    icon: <TwitterIcon />,
+                    color: "twitter",
+                  },
+                  {
+                    link: "https://www.instagram.com/creativetimofficial/",
+                    icon: <InstagramIcon />,
+                    color: "instagram",
+                  },
+                ]}
+                action={{ route: "", tooltip: "Edit Profile" }}
+                shadow={false}
+              />
+              <Divider orientation="vertical" sx={{ mx: 0 }} />
+            </Grid>
+            {/* profile list */}
+            <Grid item xs={12} xl={4}>
+              <ProfilesList title="conversations" profiles={profilesListData} shadow={false} />
+            </Grid>
+          </Grid>
+        </TTBox>
+        {/* project */}
+        <TTBox pt={2} px={2} lineHeight={1.25}>
+          <TTTypography variant="h6" fontWeight="medium">
+            Projects
+          </TTTypography>
+          <TTBox mb={1}>
+            <TTTypography variant="button" color="text">
+              Architects design houses
+            </TTTypography>
+          </TTBox>
+        </TTBox>
+        <TTBox p={2}>
+          <Grid container spacing={6}>
+            <Grid item xs={12} md={6} xl={3}>
+              <DefaultProjectCard
+                image={homeDecor1}
+                label="project #2"
+                title="modern"
+                description="As Uber works through a huge amount of internal management turmoil."
+                action={{
+                  type: "internal",
+                  route: "/pages/profile/profile-overview",
+                  color: "info",
+                  label: "view project",
+                }}
+                authors={[
+                  { image: team1, name: "Elena Morison" },
+                  { image: team2, name: "Ryan Milly" },
+                  { image: team3, name: "Nick Daniel" },
+                  { image: team4, name: "Peterson" },
+                ]}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} xl={3}>
+              <DefaultProjectCard
+                image={homeDecor2}
+                label="project #1"
+                title="scandinavian"
+                description="Music is something that everyone has their own specific opinion about."
+                action={{
+                  type: "internal",
+                  route: "/pages/profile/profile-overview",
+                  color: "info",
+                  label: "view project",
+                }}
+                authors={[
+                  { image: team3, name: "Nick Daniel" },
+                  { image: team4, name: "Peterson" },
+                  { image: team1, name: "Elena Morison" },
+                  { image: team2, name: "Ryan Milly" },
+                ]}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} xl={3}>
+              <DefaultProjectCard
+                image={homeDecor3}
+                label="project #3"
+                title="minimalist"
+                description="Different people have different taste, and various types of music."
+                action={{
+                  type: "internal",
+                  route: "/pages/profile/profile-overview",
+                  color: "info",
+                  label: "view project",
+                }}
+                authors={[
+                  { image: team4, name: "Peterson" },
+                  { image: team3, name: "Nick Daniel" },
+                  { image: team2, name: "Ryan Milly" },
+                  { image: team1, name: "Elena Morison" },
+                ]}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} xl={3}>
+              <DefaultProjectCard
+                image={homeDecor4}
+                label="project #4"
+                title="gothic"
+                description="Why would anyone pick blue over pink? Pink is obviously a better color."
+                action={{
+                  type: "internal",
+                  route: "/pages/profile/profile-overview",
+                  color: "info",
+                  label: "view project",
+                }}
+                authors={[
+                  { image: team4, name: "Peterson" },
+                  { image: team3, name: "Nick Daniel" },
+                  { image: team2, name: "Ryan Milly" },
+                  { image: team1, name: "Elena Morison" },
+                ]}
+              />
+            </Grid>
+          </Grid>
+        </TTBox>
+      </ProfileHeader>
+    </DashboardLayout>
   )
 }
 
@@ -1923,9 +3695,53 @@ const Profile = () => {
 const TTAlert = ({
   color, dismissible, children, ...rest
 })=>{
-  <AlertStyle>
-    {children}
-  </AlertStyle>
+
+  const [alertStatus, setAlerStatus] = useState("mount");
+  const handleAlertStatus =()=> setAlerStatus("fadeOut");
+
+  const alertTemplate = (mount = true) => (
+    <Fade in={mount} timeout={300}>
+      <AlertStyle ownerState={{color}}{...rest}>
+        <TTBox display="flex" alignItems="center" color="white">
+          {children}
+        </TTBox>
+        {dismissible?(
+          <AlertIconStyle onClick={mount?handleAlertStatus:null}>
+            &times;
+          </AlertIconStyle>):null
+        }
+      </AlertStyle>
+    </Fade>
+  )
+  // useEffect(()=>{
+  //   let moutn = false
+  //   return()=>moutn = true;
+  // },[alertStatus]);
+  //the template for the alert
+
+  switch (true) {
+    case alertStatus === "mount":
+      return alertTemplate();
+    case alertStatus === "fadeOut":
+      setTimeout(() => setAlerStatus("unmount"), 400);
+      return alertTemplate(false);
+    default:
+      alertTemplate();
+      break;
+  }
+
+  // return(
+  //   <AlertStyle ownerState={{color}} {...rest}>
+  //     <TTBox display="flex" alignItems="center" color="white">
+  //     {children}
+  //     </TTBox>
+  //     {dismissible?(
+  //       <AlertIconStyle>
+  //         &times;
+  //       </AlertIconStyle>):null
+  //     }
+  //   </AlertStyle>
+  // )
 };
 // Setting default values for the props of MDAlert
 TTAlert.defaultProps = {
@@ -1950,10 +3766,49 @@ TTAlert.propTypes = {
 };
 const  AlertStyle = styled(Box)(({theme, ownerState})=>{
   
+  const {palette, typography, borders, functions} = theme;
+  const { color } = ownerState;
 
+  const { white, gradients} = palette;
+  const { fontSizeRegular, fontWeightMedium} = typography;
+  const { borderRadius } = borders;
+  const { pxToRem, linearGradient } = functions;
+
+  let backgroundImageValue = gradients[color]
+    ?linearGradient(gradients[color].main, gradients[color].state)
+    :linearGradient(gradients.info.main, gradients.info.state)
   return{
-    display: "flex"
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    minHeight: pxToRem(60),
+    backgroundImage: backgroundImageValue,
+    color: white.main,
+    position: "relative",
+    padding: pxToRem(16),
+    marginBottom: pxToRem(16),
+    borderRadius: borderRadius.md,
+    fontSize: fontSizeRegular,
+    fontWeight: fontWeightMedium,
   }
+})
+const AlertIconStyle = styled("span")(({theme, ownerState})=>{
+
+  const { palette, typography, functions } = theme;
+
+  const { white } = palette;
+  const { size, fontWeightMedium } = typography;
+  const { pxToRem } = functions;
+
+  return {
+    color: white.main,
+    fontSize: size.xl,
+    padding: `${pxToRem(9)} ${pxToRem(6)} ${pxToRem(8)}`,
+    marginLeft: pxToRem(40),
+    fontWeight: fontWeightMedium,
+    cursor: "pointer",
+    lineHeight: 0,
+  };
 })
 // dashboard of footer
 function FooterDash({company, links}){
@@ -2046,9 +3901,9 @@ const AlertTable = () => {
   const alertContent = (name) => (
     <TTTypography variant="body2" color="white">
       A simple {name} alert with{" "}
-      {/* <TTTypography component="a" href="#" variant="body2" fontWeight="medium" color="white">
+      <TTTypography component="a" href="#" variant="body2" fontWeight="medium" color="white">
         an example link
-      </TTTypography> */}
+      </TTTypography>
       . Give it a click if you like.
     </TTTypography>
   );
@@ -2056,6 +3911,11 @@ const AlertTable = () => {
     <Card>
     <TTBox p={2}>
       <TTTypography variant="h5">Alerts</TTTypography>
+    </TTBox>
+    <TTBox pt={2} px={2}>
+      <TTAlert color="primary" dismissible={true}>
+        {alertContent("primary")}
+      </TTAlert>
     </TTBox>
      {/* <TTBox pt={2} px={2}>
      {ColorArr.map((itemColor) => alertContent(itemColor))}
@@ -2162,6 +4022,8 @@ const TTSnackbarIconStyle = styled(Icon)(({theme, ownerState})=>{
   return{
     backgroundImage: backgroundImageValue,
     marginRight: pxToRem(8),
+    WebkitTextFillColor: bgWhite || color === "light" ? transparent.main : white.main,
+    WebkitBackgroundClip: "text",
     fontSize: size.lg,
     transform: `translateY(${pxToRem(-2)})`,
   }
@@ -2208,12 +4070,25 @@ const TTSnackbar = ({
       }
     >
       <TTBox
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        color="dark"
-        p={1.5}
+        maxWidth = "100%"
+        minWidth = "21.875rem"
+        bgColor={bgWhite?"white":color}
+        variant = {bgWhite?"contained":"gradient"}
+        shadow = "md"
+        borderRadius = "md"
+        p = {1}
+        sx ={{
+          backgroundColor: ({palette})=>darkMode?palette.background.card:palette[color]||palette.white.main,
+        }}
       >
+        {/* header */}
+        <TTBox
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          color="dark"
+          p={1.5}
+        >
           {/* string title */}
           <TTBox display="flex" alignItems="center" lineHeight={0}>
             <TTSnackbarIconStyle fontSize="small" ownerState={{ color, bgWhite }}>
@@ -2247,6 +4122,7 @@ const TTSnackbar = ({
               close
             </Icon>
           </TTBox>
+        </TTBox>
         <Divider sx={{ margin: 0 }} light={dividerColor} />
         {/* content */}
         <TTBox
@@ -2310,8 +4186,7 @@ const NotifiTable = () => {
   const closeErrorSB = () => setErrorSB(false);
 
   //
-  const ErrorSB = (
-    <Snackbar
+  const ErrorSB = (<TTSnackbar
       color="error"
       icon="warning"
       title="Tan dep trai"
@@ -2350,18 +4225,19 @@ const NotifiTable = () => {
     />
     
   )
+  const [open, setOpen] = React.useState(false);
   const InfoSB = (
     <TTSnackbar
       icon="notifications"
       title="Material Dashboard"
       content="Hello, world! This is a notification message"
       dateTime="11 mins ago"
-      open={infoSB}
+      open={open}
       onClose={closeInfoSB}
       close={closeInfoSB}
     />
   );
-  const [open, setOpen] = React.useState(false);
+  
 
   const handleClick = () => {
     setOpen(true);
@@ -2389,16 +4265,7 @@ const NotifiTable = () => {
       </IconButton>
     </React.Fragment>
   );
-  const InfoSBTest = (
-    <Snackbar
-      open={open}
-      autoHideDuration={6000}
-      onClose={handleClose}
-      message="Note archived"
-      action={action}
-    />
 
-  )
   return(
     <Card>
       <TTBox p={2} lineHeight={0}>
@@ -2480,8 +4347,10 @@ const DashboardLayout = ({children}) => {
           duration: transitions.duration.standard,
         })
       }
-    })}> dashboard layout
+    })}>
+      {/* navibar */}
       <DashboardNavbar />
+      {/* content */}
       {children}
       {/* <Footer /> */}
       <FooterDash/>
@@ -2491,13 +4360,193 @@ const DashboardLayout = ({children}) => {
 DashboardLayout.propTypes = {
   children: PropTypes.node.isRequired,
 };
+const ComplexStatisticsCard = ({
+  color, title, count, percentage, icon
+}) => {
+  return(
+    <Card>
+      {/* content */}
+      <TTBox display="flex" justifyContent="space-between" pt={1} px={2}>
+        {/* icon */}
+        <TTBox
+          variant="gradient"
+          bgColor={color}
+          color={color === "light" ? "dark" : "white"}
+          coloredShadow={color}
+          borderRadius="xl"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          width="4rem"
+          height="4rem"
+          mt={-3}
+        >
+          <Icon fontSize="medium" color="inherit">{icon}</Icon>
+        </TTBox>
+        {/* title */}
+        <TTBox textAlign="right" lineHeight={1.25}>
+          <TTTypography variant="button" fontWeight="light" color="text">{title}</TTTypography>
+          <TTTypography variant="h4">{count}</TTTypography>
+        </TTBox>
+      </TTBox>
+      <Divider/>
+      {/* percentage */}
+      <TTBox pb={2} px={2}>
+        <TTTypography
+          component="p" 
+          variant="button"
+          color="text"
+          display="flex"
+        >
+          <TTTypography 
+            component="span"
+            variant="button"
+            fontWeight="bold"
+            color={percentage.color}
+          >{percentage.amount}</TTTypography>
+          &nbsp;{percentage.label}
+        </TTTypography>
+      </TTBox>
+    </Card>
+  )
+}
+// Setting default values for the props of ComplexStatisticsCard
+ComplexStatisticsCard.defaultProps = {
+  color: "info",
+  percentage: {
+    color: "success",
+    text: "",
+    label: "",
+  },
+};
+
+// Typechecking props for the ComplexStatisticsCard
+ComplexStatisticsCard.propTypes = {
+  color: PropTypes.oneOf([
+    "primary",
+    "secondary",
+    "info",
+    "success",
+    "warning",
+    "error",
+    "light",
+    "dark",
+  ]),
+  title: PropTypes.string.isRequired,
+  count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  percentage: PropTypes.shape({
+    color: PropTypes.oneOf([
+      "primary",
+      "secondary",
+      "info",
+      "success",
+      "warning",
+      "error",
+      "dark",
+      "white",
+    ]),
+    amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    label: PropTypes.string,
+  }),
+  icon: PropTypes.node.isRequired,
+};
+const DataOrder = [
+  {
+    color:"dark",
+    icon:"weekend",
+    title:"Bookings",
+    count:281,
+    percentage:{
+      color: "success",
+      amount: "+55%",
+      label: "than lask week",
+    }
+  },
+  {
+    color:"primary",
+    icon:"person_add",
+    title:"Followers",
+    count:"+91",
+    percentage:{
+      color: "success",
+      amount: "",
+      label: "Just updated",
+    },
+  },
+  {
+    icon:"leaderboard",
+    title:"Today's Users",
+    count:"2,300",
+    percentage:{
+      color: "success",
+      amount: "+3%",
+      label: "than last month",
+    }
+  },
+  {
+    color:"success",
+    icon:"store",
+    title:"Revenue",
+    count:"34k",
+    percentage:{
+      color: "success",
+      amount: "+1%",
+      label: "than yesterday",
+    }
+  },
+]
+const OrdersOverview = ({}) => {
+
+  return(
+    <Card>
+      <TTBox>
+        {/* title */}
+        {/* content (timeline) */}
+      </TTBox>
+    </Card>
+  )
+}
 const Dashboard = () => {
   return(
     <DashboardLayout>
-      {/* navbar */}
-      {/* contentPage */}
-      <Typography>Tan dep </Typography>
-      {/* footer */}
+      <TTBox py={3}>
+        {/* grid totem */}
+        <Grid container spacing={3}>
+          {DataOrder.map((item, idx)=>(
+            <Grid item xs={12} md={6} lg={3} key={idx}>
+              <TTBox mb={1.5}>
+                <ComplexStatisticsCard
+                  color={item.color}
+                  icon={item.icon}
+                  title={item.title}
+                  count={item.count}
+                  percentage={{
+                    color: item.percentage.color,
+                    amount: item.percentage.amount,
+                    label: item.percentage.label,
+                  }}
+                />
+              </TTBox>
+            </Grid>
+          ))}
+
+        </Grid>
+        {/* chart */}
+        {/* over view */}
+        <TTBox>
+          <Grid container spacing={3}>
+          {/* project */}
+            <Grid item xs={12} md={6} lg={8}>
+              {/* <Projects /> */}
+            </Grid>
+            {/* step view */}
+            <Grid item xs={12} md={6} lg={4}>
+              <OrdersOverview />
+            </Grid>
+          </Grid>
+        </TTBox>
+
+      </TTBox>
     </DashboardLayout>
   )
 }
@@ -3285,7 +5334,7 @@ const ChildApp = () => {
   const [controller, dispatch] = useMaterialUIController();
   const {
     miniSidenav,
-    direction,
+    // direction,
     layout,
     openConfigurator,
     sidenavColor,
@@ -3316,84 +5365,41 @@ const ChildApp = () => {
 
   // Change the openConfigurator state
   const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
-  // const ConfigButton = (
-  //   <TTBox
-  //     display="flex"
-  //     justifyContent="center"
-  //     shadow="sm"
-  //     alignItems="center"
-  //     position={"fixed"}
-  //     width="3.25rem"
-  //     height={"3.25rem"}
-  //     bgColor="white"
-  //     right={"2rem"}
-  //     bottom="2rem"
-  //     sx={{cursor: "pointer"}}
-  //     color="dark"
-  //     borderRadius="50%"
-  //     onClick={handleConfiguratorOpen}
-  //   >
-  //     <Icon fontSize="small" color="inherit">settings</Icon>
-  //   </TTBox>
-  // )
+
   
   return(
-    // direction === "rtl" ? (
-    //   <CacheProvider value={rtlCache}>
-    //     <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
-    //       <CssBaseline />
-    //       {layout === "dashboard" && (
-    //         <>
-    //           <Sidenav
-    //             color={sidenavColor}
-    //             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-    //             brandName="Material Dashboard 2"
-    //             routes={routes}
-    //             onMouseEnter={handleOnMouseEnter}
-    //             onMouseLeave={handleOnMouseLeave}
-    //           />
-    //           <Configurator />
-    //           {configsButton}
-    //         </>
-    //       )}
-    //       {layout === "vr" && <Configurator />}
-    //       <Routes>
-    //         {getRoutes(routes)}
-    //         <Route path="*" element={<Navigate to="/dashboard" />} />
-    //       </Routes>
-    //     </ThemeProvider>
-    //   </CacheProvider>
-    // ) : (
-      <ThemeProvider theme={darkMode?themeDark:themeLight}>
-        <CssBaseline />
-        {layout === "dashboard" && (
-          <>
-            <SideNavbar 
-              color={sidenavColor}
-              brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-              brandName="Learn Japanese"
-              routes={routes}
-              onMouseEnter={handleOnMouseEnter}
-              onMouseLeave={handleOnMouseLeave}            
-            />
-            <ConfigNavbar />
-            <ConfigButton handleConfiguratorOpen={handleConfiguratorOpen}/>
-          </>
-        )}
-        {layout === "vr" && <ConfigNavbar />}
-        <Routes>
-          {/* {getRoutes(routes)} */}
-          {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
-          <Route path="*" element={<Home />}/>
-          <Route path="/test" element={<TestMaterial/>}/>
-          <Route path="/signin" element={<SignIn/>}/>
-          <Route path="/signup" element={<SignUp/>}/>
-          <Route path="/reset" element={<SignReset/>}/>
-          <Route path="/dashboard" element={<Dashboard />}/>
-          <Route path="/notifications" element={<Notifications/>}/>
-          <Route path="/tables" element={<Tables />}/>
-        </Routes>
-      </ThemeProvider>
+    <ThemeProvider theme={darkMode?themeDark:themeLight}>
+      <CssBaseline />
+      {layout === "dashboard" && (
+        <>
+          <SideNavbar 
+            color={sidenavColor}
+            brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+            brandName="Learn Japanese"
+            routes={routes}
+            onMouseEnter={handleOnMouseEnter}
+            onMouseLeave={handleOnMouseLeave}            
+          />
+          <ConfigNavbar />
+          <ConfigButton handleConfiguratorOpen={handleConfiguratorOpen}/>
+        </>
+      )}
+      {layout === "vr" && <ConfigNavbar />}
+      <Routes>
+        {/* {getRoutes(routes)} */}
+        {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
+        <Route path="*" element={<Home />}/>
+        <Route path="/test" element={<TestMaterial/>}/>
+        <Route path="/signin" element={<SignIn/>}/>
+        <Route path="/signup" element={<SignUp/>}/>
+        <Route path="/reset" element={<SignReset/>}/>
+        <Route path="/dashboard" element={<Dashboard />}/>
+        <Route path="/notifications" element={<Notifications/>}/>
+        <Route path="/tables" element={<Tables />}/>
+        <Route path="/profile" element={<Profile/>}/>
+        <Route path="/billing" element={<Billing />}/>
+      </Routes>
+    </ThemeProvider>
   )
 }
 const FullAppUi = () => {
@@ -3500,7 +5506,7 @@ const setSidenavColor = (dispatch, value) => dispatch({ type: "SIDENAV_COLOR", v
 const setTransparentNavbar = (dispatch, value) => dispatch({ type: "TRANSPARENT_NAVBAR", value });
 const setFixedNavbar = (dispatch, value) => dispatch({ type: "FIXED_NAVBAR", value });
 const setOpenConfigurator = (dispatch, value) => dispatch({ type: "OPEN_CONFIGURATOR", value });
-const setDirection = (dispatch, value) => dispatch({ type: "DIRECTION", value });
+// const setDirection = (dispatch, value) => dispatch({ type: "DIRECTION", value });
 const setLayout = (dispatch, value) => dispatch({ type: "LAYOUT", value });
 const setDarkMode = (dispatch, value) => dispatch({ type: "DARKMODE", value });
 // Theme
@@ -3843,12 +5849,8 @@ const boxShadows = {
     )}`,
   },
 
-  navbarBoxShadow: `${boxShadow([0, 0], [1, 1], white.main, 0.9, "inset")}, ${boxShadow(
-    [0, 20],
-    [27, 0],
-    black.main,
-    0.05
-  )}`,
+  navbarBoxShadow: `${boxShadow([0, 0], [1, 1], white.main, 0.9, "inset")}, 
+                    ${boxShadow([0, 20], [27, 0], black.main, 0.05)}`,
   sliderBoxShadow: {
     thumb: boxShadow([0, 1], [13, 0], black.main, 0.2),
   },
@@ -4859,7 +6861,17 @@ const tableHead = {
     },
   },
 };
+const appBar = {
+  defaultProps: {
+    color: "transparent",
+  },
 
+  styleOverrides: {
+    root: {
+      boxShadow: "none",
+    },
+  },
+};
 // const { borderWidth } = borders;
 // const { light } = colors;
 
@@ -4868,6 +6880,119 @@ const tableCell = {
     root: {
       padding: `${pxToRem(12)} ${pxToRem(16)}`,
       borderBottom: `${borderWidth[1]} solid ${light.main}`,
+    },
+  },
+};
+// const { grey } = colors;
+// const { size } = typography;
+
+const breadcrumbs = {
+  styleOverrides: {
+    li: {
+      lineHeight: 0,
+    },
+
+    separator: {
+      fontSize: size.sm,
+      color: grey[600],
+    },
+  },
+};
+// const { transparent } = colors;
+const iconButton = {
+  styleOverrides: {
+    root: {
+      "&:hover": {
+        backgroundColor: transparent.main,
+      },
+    },
+  },
+};
+const link = {
+  defaultProps: {
+    underline: "none",
+    color: "inherit",
+  },
+};
+
+// const { grey, white } = colors;
+// const { borderRadius } = borders;
+const { tabsBoxShadow } = boxShadows;
+
+const tabstt = {
+  styleOverrides: {
+    root: {
+      position: "relative",
+      backgroundColor: grey[100],
+      borderRadius: borderRadius.xl,
+      minHeight: "unset",
+      padding: pxToRem(4),
+    },
+
+    flexContainer: {
+      height: "100%",
+      position: "relative",
+      zIndex: 10,
+    },
+
+    fixed: {
+      overflow: "unset !important",
+      overflowX: "unset !important",
+    },
+
+    vertical: {
+      "& .MuiTabs-indicator": {
+        width: "100%",
+      },
+    },
+
+    indicator: {
+      height: "100%",
+      borderRadius: borderRadius.lg,
+      backgroundColor: white.main,
+      boxShadow: tabsBoxShadow.indicator,
+      transition: "all 500ms ease",
+    },
+  },
+};
+// const { size, fontWeightRegular } = typography;
+const { fontWeightRegular } = typography;
+// const { borderRadius } = borders;
+// const { dark } = colors;
+
+const tabtt = {
+  styleOverrides: {
+    root: {
+      display: "flex",
+      alignItems: "center",
+      flexDirection: "row",
+      flex: "1 1 auto",
+      textAlign: "center",
+      maxWidth: "unset !important",
+      minWidth: "unset !important",
+      minHeight: "unset !important",
+      fontSize: size.md,
+      fontWeight: fontWeightRegular,
+      textTransform: "none",
+      lineHeight: "inherit",
+      padding: pxToRem(4),
+      borderRadius: borderRadius.lg,
+      color: `${dark.main} !important`,
+      opacity: "1 !important",
+
+      "& .material-icons, .material-icons-round": {
+        marginBottom: "0 !important",
+        marginRight: pxToRem(6),
+      },
+
+      "& svg": {
+        marginBottom: "0 !important",
+        marginRight: pxToRem(6),
+      },
+    },
+
+    labelIcon: {
+      paddingTop: pxToRem(4),
     },
   },
 };
@@ -4914,7 +7039,7 @@ const themeLight = createTheme({
     // MuiCardMedia: { ...cardMedia },
     // MuiCardContent: { ...cardContent },
     MuiButton: { ...button },
-    // MuiIconButton: { ...iconButton },
+    MuiIconButton: { ...iconButton },
     MuiInput: { ...input },
     MuiInputLabel: { ...inputLabel },
     MuiOutlinedInput: { ...inputOutlined },
@@ -4927,13 +7052,13 @@ const themeLight = createTheme({
     MuiTableHead: { ...tableHead },
     MuiTableCell: { ...tableCell },
     MuiLinearProgress: { ...linearProgress },
-    // MuiBreadcrumbs: { ...breadcrumbs },
+    MuiBreadcrumbs: { ...breadcrumbs },
     // MuiSlider: { ...slider },
     MuiAvatar: { ...avatar },
     // MuiTooltip: { ...tooltip },
-    // MuiAppBar: { ...appBar },
-    // MuiTabs: { ...tabs },
-    // MuiTab: { ...tab },
+    MuiAppBar: { ...appBar },
+    MuiTabs: { ...tabstt },
+    MuiTab: { ...tabtt },
     // MuiStepper: { ...stepper },
     // MuiStep: { ...step },
     // MuiStepConnector: { ...stepConnector },
@@ -4949,7 +7074,7 @@ const themeLight = createTheme({
     // MuiButtonBase: { ...buttonBase },
     MuiIcon: { ...icon },
     // MuiSvgIcon: { ...svgIcon },
-    // MuiLink: { ...link },
+    MuiLink: { ...link },
     // MuiDialog: { ...dialog },
     // MuiDialogTitle: { ...dialogTitle },
     // MuiDialogContent: { ...dialogContent },
@@ -4975,14 +7100,14 @@ const routes = [
     route: "/tables",
     component: <Tables />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "Billing",
-  //   key: "billing",
-  //   icon: <Icon fontSize="small">receipt_long</Icon>,
-  //   route: "/billing",
-  //   component: <Billing />,
-  // },
+  {
+    type: "collapse",
+    name: "Billing",
+    key: "billing",
+    icon: <Icon fontSize="small">receipt_long</Icon>,
+    route: "/billing",
+    component: <Billing />,
+  },
   // {
   //   type: "collapse",
   //   name: "RTL",
@@ -5141,7 +7266,8 @@ const ProgressStyle = styled(LinearProgress)(({theme, ownerState})=>{
 
   const { palette, functions } = theme;
   const { color, value, variant } = ownerState;
-  const { text, gradients } = palette;
+  // const { text, gradients } = palette;
+  const { gradients } = palette;
   const { linearGradient } = functions;
 
   // console.log("color:", color)
@@ -6056,6 +8182,4 @@ function Tables() {
 }
 
 export default FullAppUi;
-
-
 
