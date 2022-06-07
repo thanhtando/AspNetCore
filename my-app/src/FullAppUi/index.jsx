@@ -30,6 +30,9 @@ import {
 } from "react";
 
 // router import
+import { Bar, Line } from "react-chartjs-2";
+import { Chart, registerables } from 'chart.js';
+
 import { 
   BrowserRouter, 
   NavLink, 
@@ -45,19 +48,19 @@ import { ThemeProvider } from "@mui/material/styles"
 // import Icon from "@mui/material/Icon";
 import { 
   Box, Button, Card, CssBaseline, Grid, Breadcrumbs,
-  Link, alpha, Paper, LinearProgress, 
+  Link, alpha, LinearProgress, 
   styled, Typography, Switch, TextField, Checkbox, 
   AppBar, Drawer, Divider, AlertTitle, Fade,
   Avatar, List, ListItem, ListItemIcon, ListItemText, 
-  Alert, TableContainer, Table, TableHead, TableRow, 
-  TableCell, TableBody, TableSortLabel, 
-  Tooltip, TablePagination, FormControlLabel, Autocomplete, Stack, Snackbar, Tab, Tabs, CardMedia,
+  Alert, TableContainer, Table, TableRow, 
+  TableBody,
+  Tooltip, Autocomplete, Stack, Snackbar, Tab, Tabs, CardMedia,
   // useTheme
 } from "@mui/material";
 import MenuCom from "@mui/material/Menu"
 // prop-types is a library for typechecking of props
 // chroma-js is a library for all kinds of color conversions and color scales.
-import chroma, { scale } from "chroma-js";
+import chroma from "chroma-js";
 import GitHubButton from "react-github-btn";
 import Container from "@mui/material/Container";
 import MuiLink from "@mui/material/Link";
@@ -71,8 +74,7 @@ import TwitterIcon from "@mui/icons-material/Twitter"
 // import {
 //   AccountCircle, DonutLarge, Key, Person, Menu, Close
 // } from "@mui/icons-material";
-import PropTypes, { func } from "prop-types";
-import propTypes from "prop-types";
+import PropTypes from "prop-types";
 import Icon from '@mui/material/Icon';
 // import { green } from "@mui/material/colors";
 import Timeline from '@mui/lab/Timeline';
@@ -95,14 +97,11 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import CloseIcon from '@mui/icons-material/Close'
+// import CloseIcon from '@mui/icons-material/Close'
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import { visuallyHidden } from "@mui/utils";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import { 
   useTable, 
@@ -126,20 +125,28 @@ import marie from "../assets/images/marie.jpg";
 import ivana from "../assets/images/ivana-square.jpg";
 // import team3 from "../assets/images/team-3.jpg";
 // import team4 from "../assets/images/team-4.jpg";
-import burceMars from "../assets/images/bruce-mars.jpg";
-// import taurus from "../assets/images/avatar/taurus.jpg";
-import taurus from "../assets/images/avatar/taurus.png";
+// import burceMars from "../assets/images/bruce-mars.jpg";
+import taurus from "../assets/images/avatar/taurus.jpg";
 import backgroundProfile from "../assets/images/bg-profile.jpeg";
-
+import logoXD from "../assets/images/small-logos/logo-xd.svg";
+// import logoAtlassian from "../assets/images/small-logos/logo-atlassian.svg";
+// import logoSlack from "../assets/images/small-logos/logo-slack.svg";
+// import logoSpotify from "../assets/images/small-logos/logo-spotify.svg";
+import logoJira from "../assets/images/small-logos/logo-jira.svg";
+// import logoInvesion from "../assets/images/small-logos/logo-invision.svg";
+import team1 from "../assets/images/team-1.jpg";
+import team2 from "../assets/images/team-2.jpg";
+import team3 from "../assets/images/team-3.jpg";
+import team4 from "../assets/images/team-4.jpg";
 // Images
 import homeDecor1 from "../assets/images/home-decor-1.jpg";
 import homeDecor2 from "../assets/images/home-decor-2.jpg";
 import homeDecor3 from "../assets/images/home-decor-3.jpg";
 import homeDecor4 from "../assets/images/home-decor-4.jpeg";
-import team1 from "../assets/images/team-1.jpg";
-import team2 from "../assets/images/team-2.jpg";
-import team3 from "../assets/images/team-3.jpg";
-import team4 from "../assets/images/team-4.jpg";
+// import team1 from "../assets/images/team-1.jpg";
+// import team2 from "../assets/images/team-2.jpg";
+// import team3 from "../assets/images/team-3.jpg";
+// import team4 from "../assets/images/team-4.jpg";
 // const bgImage = require("../assets/images/bg/bg_boat_2.jpeg");
 // const bgImage_su = require("../assets/images/bg/bg_lake.jpeg");
 // const bgTest1 = require("../assets/images/bg/background_.png");
@@ -163,11 +170,12 @@ const brandDark =  require("../assets/images/logo-ct-dark.png");
 // const team2 = require("../assets/images/team-2.jpg");
 // const team3 = require("../assets/images/team-3.jpg");
 // const team4 = require("../assets/images/team-4.jpg");
-
+Chart.register(...registerables);
 const TimeLineExample = () => {
 
   return(
     <Timeline position="alternate">
+
       <TimelineItem>
         <TimelineOppositeContent
           sx={{ m: 'auto 0' }}
@@ -191,6 +199,7 @@ const TimeLineExample = () => {
           <Typography>Because you need strength</Typography>
         </TimelineContent>
       </TimelineItem>
+
       <TimelineItem>
         <TimelineOppositeContent
           sx={{ m: 'auto 0' }}
@@ -213,6 +222,7 @@ const TimeLineExample = () => {
           <Typography>Because it&apos;s awesome!</Typography>
         </TimelineContent>
       </TimelineItem>
+
       <TimelineItem>
         <TimelineSeparator>
           <TimelineConnector />
@@ -228,6 +238,7 @@ const TimeLineExample = () => {
           <Typography>Because you need rest</Typography>
         </TimelineContent>
       </TimelineItem>
+
       <TimelineItem>
         <TimelineSeparator>
           <TimelineConnector sx={{ bgcolor: 'secondary.main' }} />
@@ -1489,7 +1500,7 @@ function navbar(theme, ownerState){
   const { palette, boxShadows, functions, transitions, breakpoints, borders } = theme;
   const { transparentNavbar, absolute, light, darkMode } = ownerState;
 
-  const { dark, white, text, transparent, background, info } = palette;
+  const { dark, white, text, transparent, background } = palette;
   const { navbarBoxShadow } = boxShadows;
   const { rgba, pxToRem } = functions;
   const { borderRadius } = borders;
@@ -2114,7 +2125,7 @@ const SignIn = () => {
                 sign in
               </TTButton>
             </TTBox>
-            <TTBox mt={3} mb={1} textAlign="center">
+            <TTBox mt={3} mb={1} textAlign="center" display="flex" flexDirection="column">
               <TTTypography variant="button" color="text">
                 Don&apos;t have an account?{" "}
                 <TTTypography
@@ -2129,6 +2140,18 @@ const SignIn = () => {
                   Sign up
                 </TTTypography>
               </TTTypography>
+                <TTTypography
+                  component={Link}
+                  // to="/signup"
+                  href="/reset"
+                  variant="button"
+                  color="info"
+                  fontWeight="medium"
+                  textGradient={true}
+                >
+                  Reset Password
+                </TTTypography>
+
             </TTBox>
           </TTBox>
         </TTBox>
@@ -2295,11 +2318,6 @@ const SignUp = () => {
         </TTBox>
       </Card>
     </CoverLayout>
-  )
-}
-const SignOut = () => {
-  return(
-    <TTBox>Sign Out</TTBox>
   )
 }
 const SignReset = () =>{
@@ -3743,13 +3761,13 @@ const TTAlert = ({
   //   </AlertStyle>
   // )
 };
-// Setting default values for the props of MDAlert
+// Setting default values for the props of TTAlert
 TTAlert.defaultProps = {
   color: "info",
   dismissible: false,
 };
 
-// Typechecking props of the MDAlert
+// Typechecking props of the TTAlert
 TTAlert.propTypes = {
   color: PropTypes.oneOf([
     "primary",
@@ -3892,11 +3910,11 @@ FooterDash.propTypes = {
   company: PropTypes.objectOf(PropTypes.string),
   links: PropTypes.arrayOf(PropTypes.object),
 }
-const ColorArr = [
-  "primary", "secondary", 
-  "info", "success", "error", "warning",
-  "light", "dark"
-]
+// const ColorArr = [
+//   "primary", "secondary", 
+//   "info", "success", "error", "warning",
+//   "light", "dark"
+// ]
 const AlertTable = () => {
   const alertContent = (name) => (
     <TTTypography variant="body2" color="white">
@@ -4033,7 +4051,7 @@ const TTSnackbar = ({
   content, close, bgWhite, ...rest
 }) => {
 
-  const [controller, dispatch] = useMaterialUIController();
+  const [controller] = useMaterialUIController();
   const {darkMode} = controller;
 
   let titleColor;
@@ -4225,14 +4243,14 @@ const NotifiTable = () => {
     />
     
   )
-  const [open, setOpen] = React.useState(false);
+  // const [open, setOpen] = React.useState(false);
   const InfoSB = (
     <TTSnackbar
       icon="notifications"
       title="Material Dashboard"
       content="Hello, world! This is a notification message"
       dateTime="11 mins ago"
-      open={open}
+      open={infoSB}
       onClose={closeInfoSB}
       close={closeInfoSB}
     />
@@ -4240,31 +4258,31 @@ const NotifiTable = () => {
   
 
   const handleClick = () => {
-    setOpen(true);
+    setInfoSB(true);
   };
 
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
+  // const handleClose = (event, reason) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
 
-    setOpen(false);
-  };
-  const action = (
-    <React.Fragment>
-      <Button color="secondary" size="small" onClick={handleClose}>
-        UNDO
-      </Button>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
+  //   setOpen(false);
+  // };
+  // const action = (
+  //   <React.Fragment>
+  //     <Button color="secondary" size="small" onClick={handleClose}>
+  //       UNDO
+  //     </Button>
+  //     <IconButton
+  //       size="small"
+  //       aria-label="close"
+  //       color="inherit"
+  //       onClick={handleClose}
+  //     >
+  //       <CloseIcon fontSize="small" />
+  //     </IconButton>
+  //   </React.Fragment>
+  // );
 
   return(
     <Card>
@@ -4280,7 +4298,7 @@ const NotifiTable = () => {
             <TTButton variant="gradient" color="success" onClick={openSuccessSB} fullWidth>
               success notification
             </TTButton>
-            {/* <SuccessSB/> */}
+            <SuccessSB/>
           </Grid>
           <Grid item xs={12} sm={6} lg={3}>
             <TTButton variant="gradient" color="info" onClick={openInfoSB} fullWidth>
@@ -4495,18 +4513,748 @@ const DataOrder = [
     }
   },
 ]
-const OrdersOverview = ({}) => {
+const DataTimeline = [
+  {
+    color:"success",
+    icon:"notifications",
+    title:"$2400, Design changes",
+    dateTime:"22 DEC 7:20 PM",
+  },
+  {
+    color:"error",
+    icon:"inventory_2",
+    title:"New order #1832412",
+    dateTime:"21 DEC 11 PM",
+  },
+  {
+    color:"warning",
+    icon:"payment",
+    title:"New card added for order #4395133",
+    dateTime:"20 DEC 2:20 AM",
+  },
+  {
+    color:"primary",
+    icon:"vpn_key",
+    title:"New card added for order #4395133",
+    dateTime:"18 DEC 4:54 AM",
+  },
+]
+// The Timeline main context
+const TimelineCT = createContext();
+
+// Timeline context provider
+function TimelineProvider({ children, value }) {
+  return <TimelineCT.Provider value={value}>{children}</TimelineCT.Provider>;
+}
+
+// Timeline custom hook for using context
+function useTimeline() {
+  return useContext(TimelineCT);
+}
+function TimelineList({ title, dark, children }) {
+  const [controller] = useMaterialUIController();
+  const { darkMode } = controller;
+
+  return (
+    <TimelineProvider value={dark}>
+      <Card>
+        <TTBox
+          bgColor={dark ? "dark" : "white"}
+          variant="gradient"
+          borderRadius="xl"
+          sx={{ background: ({ palette: { background } }) => darkMode && background.card }}
+        >
+          <TTBox pt={3} px={3}>
+            <TTTypography variant="h6" fontWeight="medium" color={dark ? "white" : "dark"}>
+              {title}
+            </TTTypography>
+          </TTBox>
+          <TTBox p={2}>{children}</TTBox>
+        </TTBox>
+      </Card>
+    </TimelineProvider>
+  );
+}
+
+// Setting default values for the props of TimelineList
+TimelineList.defaultProps = {
+  dark: false,
+};
+
+// Typechecking props for the TimelineList
+TimelineList.propTypes = {
+  title: PropTypes.string.isRequired,
+  dark: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+};
+const TimelineChild = ({
+  color, icon, title, dateTime, 
+  description, lastItem
+}) => {
+
+  const isDark = useTimeline();
+
+  return (
+    <TTBox position="relative" mb={3} sx={(theme) => TimelineChildStyle(theme, { lastItem, isDark })}>
+      <TTBox
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        bgColor={color}
+        color="white"
+        width="2rem"
+        height="2rem"
+        borderRadius="50%"
+        position="absolute"
+        top="8%"
+        left="2px"
+        zIndex={2}
+        sx={{ fontSize: ({ typography: { size } }) => size.sm }}
+      >
+        <Icon fontSize="inherit">{icon}</Icon>
+      </TTBox>
+      <TTBox ml={5.75} pt={description ? 0.7 : 0.5} lineHeight={0} maxWidth="30rem">
+        <TTTypography variant="button" fontWeight="medium" color={isDark ? "white" : "dark"}>
+          {title}
+        </TTTypography>
+        <TTBox mt={0.5}>
+          <TTTypography variant="caption" color={isDark ? "secondary" : "text"}>
+            {dateTime}
+          </TTTypography>
+        </TTBox>
+        <TTBox mt={2} mb={1.5}>
+          {description ? (
+            <TTTypography variant="button" color={isDark ? "white" : "dark"}>
+              {description}
+            </TTTypography>
+          ) : null}
+        </TTBox>
+      </TTBox>
+    </TTBox>
+  );
+}
+// Setting default values for the props of TimelineItem
+TimelineChild.defaultProps = {
+  color: "info",
+  lastItem: false,
+  description: "",
+};
+
+// Typechecking props for the TimelineItem
+TimelineChild.propTypes = {
+  color: PropTypes.oneOf([
+    "primary",
+    "secondary",
+    "info",
+    "success",
+    "warning",
+    "error",
+    "dark",
+    "light",
+  ]),
+  icon: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
+  dateTime: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  lastItem: PropTypes.bool,
+};
+function TimelineChildStyle(theme, ownerState){
+
+  const { borders } = theme;
+  const { lastItem, isDark} = ownerState;
+
+  const { borderWidth, borderColor} = borders;
+
+  return{
+    "&: after":{
+      content: !lastItem && "''",
+      position: "absolute",
+      top: "2rem",
+      left: "17px",
+      height: "100%",
+      opacity: isDark ? 0.1 : 1,
+      borderRight: `${borderWidth[2]} solid ${borderColor}`,
+    }
+  }
+}
+const OrdersOverview = () => {
 
   return(
-    <Card>
-      <TTBox>
-        {/* title */}
-        {/* content (timeline) */}
+    <Card sx={{height: "100%"}}>
+      {/* title */}
+      <TTBox pt={3} px={3}>
+        <TTTypography variant="h6" fontWeight="medium"> Orders Overview</TTTypography>
+        <TTBox mt={0} mb={2}>
+          <TTTypography variant="button" color="text" fontWeight="regular">
+            <TTTypography
+              display="inline" variant="body2" verticalAlign="middle"
+            >
+              <Icon
+                sx={{color:({palette:{success}})=>success.main}}
+              >arrow_upward</Icon>
+            </TTTypography>&nbsp;
+            <TTTypography
+              variant="button" color="text" fontWeight="medium"
+            >24%</TTTypography>{" "} this month
+          </TTTypography>
+        </TTBox>
+      </TTBox>
+      {/* content (timeline) */}
+      <TTBox p={2}>
+      {DataTimeline.map((item, index)=>(
+        <TimelineChild key={index}
+          color={item.color}
+          icon={item.icon}
+          title={item.title}
+          dateTime={item.dateTime}
+          lastItem={index===3}
+        />
+      ))}
       </TTBox>
     </Card>
   )
 }
+const ProjectDatas = () => {
+  const avatars = (members) =>
+  members.map(([image, name]) => (
+    <Tooltip key={name} title={name} placeholder="bottom">
+      <TTAvatar
+        src={image}
+        alt="name"
+        size="xs"
+        sx={{
+          border: ({ borders: { borderWidth }, palette: { white } }) =>
+            `${borderWidth[2]} solid ${white.main}`,
+          cursor: "pointer",
+          position: "relative",
+
+          "&:not(:first-of-type)": {
+            ml: -1.25,
+          },
+
+          "&:hover, &:focus": {
+            zIndex: "10",
+          },
+        }}
+      />
+    </Tooltip>
+  ));
+
+  const Company = ({ image, name }) => (
+    <TTBox display="flex" alignItems="center" lineHeight={1}>
+      <TTAvatar src={image} name={name} size="sm" />
+      <TTTypography variant="button" fontWeight="medium" ml={1} lineHeight={1}>
+        {name}
+      </TTTypography>
+    </TTBox>
+  );
+
+  return {
+    columns: [
+      { Header: "companies", accessor: "companies", width: "45%", align: "left" },
+      { Header: "members", accessor: "members", width: "10%", align: "left" },
+      { Header: "budget", accessor: "budget", align: "center" },
+      { Header: "completion", accessor: "completion", align: "center" },
+    ],
+
+    rows: [
+      {
+        companies: <Company image={logoXD} name="Material UI XD Version" />,
+        members: (
+          <TTBox display="flex" py={1}>
+            {avatars([
+              [team1, "Ryan Tompson"],
+              [team2, "Romina Hadid"],
+              [team3, "Alexander Smith"],
+              [team4, "Jessica Doe"],
+            ])}
+          </TTBox>
+        ),
+        budget: (
+          <TTTypography variant="caption" color="text" fontWeight="medium">
+            $14,000
+          </TTTypography>
+        ),
+        completion: (
+          <TTBox width="8rem" textAlign="left">
+            <TTProgress value={60} color="info" variant="gradient" label={false} />
+          </TTBox>
+        ),
+      },
+      {
+        companies: <Company image={logoAtlassian} name="Add Progress Track" />,
+        members: (
+          <TTBox display="flex" py={1}>
+            {avatars([
+              [team2, "Romina Hadid"],
+              [team4, "Jessica Doe"],
+            ])}
+          </TTBox>
+        ),
+        budget: (
+          <TTTypography variant="caption" color="text" fontWeight="medium">
+            $3,000
+          </TTTypography>
+        ),
+        completion: (
+          <TTBox width="8rem" textAlign="left">
+            <TTProgress value={10} color="info" variant="gradient" label={false} />
+          </TTBox>
+        ),
+      },
+      {
+        companies: <Company image={logoSlack} name="Fix Platform Errors" />,
+        members: (
+          <TTBox display="flex" py={1}>
+            {avatars([
+              [team1, "Ryan Tompson"],
+              [team3, "Alexander Smith"],
+            ])}
+          </TTBox>
+        ),
+        budget: (
+          <TTTypography variant="caption" color="text" fontWeight="medium">
+            Not set
+          </TTTypography>
+        ),
+        completion: (
+          <TTBox width="8rem" textAlign="left">
+            <TTProgress value={100} color="success" variant="gradient" label={false} />
+          </TTBox>
+        ),
+      },
+      {
+        companies: <Company image={logoSpotify} name="Launch our Mobile App" />,
+        members: (
+          <TTBox display="flex" py={1}>
+            {avatars([
+              [team4, "Jessica Doe"],
+              [team3, "Alexander Smith"],
+              [team2, "Romina Hadid"],
+              [team1, "Ryan Tompson"],
+            ])}
+          </TTBox>
+        ),
+        budget: (
+          <TTTypography variant="caption" color="text" fontWeight="medium">
+            $20,500
+          </TTTypography>
+        ),
+        completion: (
+          <TTBox width="8rem" textAlign="left">
+            <TTProgress value={100} color="success" variant="gradient" label={false} />
+          </TTBox>
+        ),
+      },
+      {
+        companies: <Company image={logoJira} name="Add the New Pricing Page" />,
+        members: (
+          <TTBox display="flex" py={1}>
+            {avatars([[team4, "Jessica Doe"]])}
+          </TTBox>
+        ),
+        budget: (
+          <TTTypography variant="caption" color="text" fontWeight="medium">
+            $500
+          </TTTypography>
+        ),
+        completion: (
+          <TTBox width="8rem" textAlign="left">
+            <TTProgress value={25} color="info" variant="gradient" label={false} />
+          </TTBox>
+        ),
+      },
+      {
+        companies: <Company image={logoInvesion} name="Redesign New Online Shop" />,
+        members: (
+          <TTBox display="flex" py={1}>
+            {avatars([
+              [team1, "Ryan Tompson"],
+              [team4, "Jessica Doe"],
+            ])}
+          </TTBox>
+        ),
+        budget: (
+          <TTTypography variant="caption" color="text" fontWeight="medium">
+            $2,000
+          </TTTypography>
+        ),
+        completion: (
+          <TTBox width="8rem" textAlign="left">
+            <TTProgress value={40} color="info" variant="gradient" label={false} />
+          </TTBox>
+        ),
+      },
+    ],
+  };
+}
+function Projects() {
+  const { columns, rows } = ProjectDatas();
+  const [menu, setMenu] = useState(null);
+
+  const openMenu = ({ currentTarget }) => setMenu(currentTarget);
+  const closeMenu = () => setMenu(null);
+
+  const renderMenu = (
+    <Menu
+      id="simple-menu"
+      anchorEl={menu}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "left",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={Boolean(menu)}
+      onClose={closeMenu}
+    >
+      <MenuItem onClick={closeMenu}>Action</MenuItem>
+      <MenuItem onClick={closeMenu}>Another action</MenuItem>
+      <MenuItem onClick={closeMenu}>Something else</MenuItem>
+    </Menu>
+  );
+
+  return (
+    <Card>
+      <TTBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+        <TTBox>
+          <TTTypography variant="h6" gutterBottom>
+            Projects
+          </TTTypography>
+          <TTBox display="flex" alignItems="center" lineHeight={0}>
+            <Icon
+              sx={{
+                fontWeight: "bold",
+                color: ({ palette: { info } }) => info.main,
+                mt: -0.5,
+              }}
+            >
+              done
+            </Icon>
+            <TTTypography variant="button" fontWeight="regular" color="text">
+              &nbsp;<strong>30 done</strong> this month
+            </TTTypography>
+          </TTBox>
+        </TTBox>
+        <TTBox color="text" px={2}>
+          <Icon sx={{ cursor: "pointer", fontWeight: "bold" }} fontSize="small" onClick={openMenu}>
+            more_vert
+          </Icon>
+        </TTBox>
+        {renderMenu}
+      </TTBox>
+      <TTBox>
+        <DataTable
+          table={{ columns, rows }}
+          showTotalEntries={false}
+          isSorted={false}
+          noEndBorder
+          entriesPerPage={false}
+        />
+      </TTBox>
+    </Card>
+  );
+}
+
+
+function configsBarChart(labels, datasets) {
+  return {
+    data: {
+      labels,
+      datasets: [
+        {
+          label: datasets.label,
+          tension: 0.4,
+          borderWidth: 0,
+          borderRadius: 4,
+          borderSkipped: false,
+          backgroundColor: "rgba(255, 255, 255, 0.8)",
+          data: datasets.data,
+          maxBarThickness: 6,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
+      interaction: {
+        intersect: false,
+        mode: "index",
+      },
+      scales: {
+        y: {
+          grid: {
+            drawBorder: false,
+            display: true,
+            drawOnChartArea: true,
+            drawTicks: false,
+            borderDash: [5, 5],
+            color: "rgba(255, 255, 255, .2)",
+          },
+          ticks: {
+            suggestedMin: 0,
+            suggestedMax: 500,
+            beginAtZero: true,
+            padding: 10,
+            font: {
+              size: 14,
+              weight: 300,
+              family: "Roboto",
+              style: "normal",
+              lineHeight: 2,
+            },
+            color: "#fff",
+          },
+        },
+        x: {
+          grid: {
+            drawBorder: false,
+            display: true,
+            drawOnChartArea: true,
+            drawTicks: false,
+            borderDash: [5, 5],
+            color: "rgba(255, 255, 255, .2)",
+          },
+          ticks: {
+            display: true,
+            color: "#f8f9fa",
+            padding: 10,
+            font: {
+              size: 14,
+              weight: 300,
+              family: "Roboto",
+              style: "normal",
+              lineHeight: 2,
+            },
+          },
+        },
+      },
+    },
+  };
+}
+function ReportsBarChart({ color, title, description, date, chart }) {
+  const { data, options } = configsBarChart(chart.labels || [], chart.datasets || {});
+
+  return (
+    <Card sx={{ height: "100%" }}>
+      <TTBox padding="1rem">
+        {useMemo(
+          () => (
+            <TTBox
+              variant="gradient"
+              bgColor={color}
+              borderRadius="lg"
+              coloredShadow={color}
+              py={2}
+              pr={0.5}
+              mt={-5}
+              height="12.5rem"
+            >
+              <Bar data={data} options={options} />
+            </TTBox>
+          ),
+          [color, data, options]
+        )}
+        <TTBox pt={3} pb={1} px={1}>
+          <TTTypography variant="h6" textTransform="capitalize">
+            {title}
+          </TTTypography>
+          <TTTypography component="div" variant="button" color="text" fontWeight="light">
+            {description}
+          </TTTypography>
+          <Divider />
+          <TTBox display="flex" alignItems="center">
+            <TTTypography variant="button" color="text" lineHeight={1} sx={{ mt: 0.15, mr: 0.5 }}>
+              <Icon>schedule</Icon>
+            </TTTypography>
+            <TTTypography variant="button" color="text" fontWeight="light">
+              {date}
+            </TTTypography>
+          </TTBox>
+        </TTBox>
+      </TTBox>
+    </Card>
+  );
+}
+
+// Setting default values for the props of ReportsBarChart
+ReportsBarChart.defaultProps = {
+  color: "dark",
+  description: "",
+};
+
+// Typechecking props for the ReportsBarChart
+ReportsBarChart.propTypes = {
+  color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
+  title: PropTypes.string.isRequired,
+  description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  date: PropTypes.string.isRequired,
+  chart: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.array, PropTypes.object])).isRequired,
+};
+const reportsBarChartData = {
+  labels: ["M", "T", "W", "T", "F", "S", "S"],
+  datasets: { label: "Sales", data: [50, 20, 10, 22, 50, 10, 40] },
+};
+const reportsLineChartData = {
+  sales: {
+    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    datasets: { label: "Mobile apps", data: [50, 40, 300, 320, 500, 350, 200, 230, 500] },
+  },
+  tasks: {
+    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    datasets: { label: "Desktop apps", data: [50, 40, 300, 220, 500, 250, 400, 230, 500] },
+  },
+};
+function configsLineChart(labels, datasets) {
+  return {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: datasets.label,
+          tension: 0,
+          pointRadius: 5,
+          pointBorderColor: "transparent",
+          pointBackgroundColor: "rgba(255, 255, 255, .8)",
+          borderColor: "rgba(255, 255, 255, .8)",
+          borderWidth: 4,
+          backgroundColor: "transparent",
+          fill: true,
+          data: datasets.data,
+          maxBarThickness: 6,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
+      interaction: {
+        intersect: false,
+        mode: "index",
+      },
+      scales: {
+        y: {
+          grid: {
+            drawBorder: false,
+            display: true,
+            drawOnChartArea: true,
+            drawTicks: false,
+            borderDash: [5, 5],
+            color: "rgba(255, 255, 255, .2)",
+          },
+          ticks: {
+            display: true,
+            color: "#f8f9fa",
+            padding: 10,
+            font: {
+              size: 14,
+              weight: 300,
+              family: "Roboto",
+              style: "normal",
+              lineHeight: 2,
+            },
+          },
+        },
+        x: {
+          grid: {
+            drawBorder: false,
+            display: false,
+            drawOnChartArea: false,
+            drawTicks: false,
+            borderDash: [5, 5],
+          },
+          ticks: {
+            display: true,
+            color: "#f8f9fa",
+            padding: 10,
+            font: {
+              size: 14,
+              weight: 300,
+              family: "Roboto",
+              style: "normal",
+              lineHeight: 2,
+            },
+          },
+        },
+      },
+    },
+  };
+}
+function ReportsLineChart({ color, title, description, date, chart }) {
+  const { data, options } = configsLineChart(chart.labels || [], chart.datasets || {});
+
+  return (
+    <Card sx={{ height: "100%" }}>
+      <TTBox padding="1rem">
+        {useMemo(
+          () => (
+            <TTBox
+              variant="gradient"
+              bgColor={color}
+              borderRadius="lg"
+              coloredShadow={color}
+              py={2}
+              pr={0.5}
+              mt={-5}
+              height="12.5rem"
+            >
+              <Line data={data} options={options} key={"test1"}/>
+            </TTBox>
+          ),
+          [color, data, options]
+        )}
+        <TTBox pt={3} pb={1} px={1}>
+          <TTTypography variant="h6" textTransform="capitalize">
+            {title}
+          </TTTypography>
+          <TTTypography component="div" variant="button" color="text" fontWeight="light">
+            {description}
+          </TTTypography>
+          <Divider />
+          <TTBox display="flex" alignItems="center">
+            <TTTypography variant="button" color="text" lineHeight={1} sx={{ mt: 0.15, mr: 0.5 }}>
+              <Icon>schedule</Icon>
+            </TTTypography>
+            <TTTypography variant="button" color="text" fontWeight="light">
+              {date}
+            </TTTypography>
+          </TTBox>
+        </TTBox>
+      </TTBox>
+    </Card>
+  );
+}
+
+// Setting default values for the props of ReportsLineChart
+ReportsLineChart.defaultProps = {
+  color: "dark",
+  description: "",
+};
+
+// Typechecking props for the ReportsLineChart
+ReportsLineChart.propTypes = {
+  color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
+  title: PropTypes.string.isRequired,
+  description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  date: PropTypes.string.isRequired,
+  chart: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.array, PropTypes.object])).isRequired,
+};
+
 const Dashboard = () => {
+  const { sales, tasks } = reportsLineChartData;
   return(
     <DashboardLayout>
       <TTBox py={3}>
@@ -4532,14 +5280,55 @@ const Dashboard = () => {
 
         </Grid>
         {/* chart */}
+        <TTBox mt={4.5}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={4}>
+              <TTBox mb={3}>
+                <ReportsBarChart
+                  color="info"
+                  title="website views"
+                  description="Last Campaign Performance"
+                  date="campaign sent 2 days ago"
+                  chart={reportsBarChartData}
+                />
+              </TTBox>
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <TTBox mb={3}>
+                <ReportsLineChart
+                  color="success"
+                  title="daily sales"
+                  description={
+                    <>
+                      (<strong>+15%</strong>) increase in today sales.
+                    </>
+                  }
+                  date="updated 4 min ago"
+                  chart={sales}
+                />
+              </TTBox>
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <TTBox mb={3}>
+                <ReportsLineChart
+                  color="dark"
+                  title="completed tasks"
+                  description="Last Campaign Performance"
+                  date="just updated"
+                  chart={tasks} 
+                />
+              </TTBox>
+            </Grid>
+          </Grid>
+        </TTBox>
         {/* over view */}
         <TTBox>
           <Grid container spacing={3}>
           {/* project */}
             <Grid item xs={12} md={6} lg={8}>
-              {/* <Projects /> */}
+              <Projects />
             </Grid>
-            {/* step view */}
+            {/* timeline view */}
             <Grid item xs={12} md={6} lg={4}>
               <OrdersOverview />
             </Grid>
@@ -4984,6 +5773,52 @@ const ConfigButton = ({handleConfiguratorOpen}) => {
     </TTBox>
   )
 }
+const SwitchStyle = styled(Switch)(({ theme }) => ({
+  width: 62,
+  height: 34,
+  padding: 7,
+  '& .MuiSwitch-switchBase': {
+    margin: 1,
+    padding: 0,
+    transform: 'translateX(6px)',
+    '&.Mui-checked': {
+      color: '#fff',
+      transform: 'translateX(22px)',
+      '& .MuiSwitch-thumb:before': {
+        backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
+          '#fff',
+        )}" d="M4.2 2.5l-.7 1.8-1.8.7 1.8.7.7 1.8.6-1.8L6.7 5l-1.9-.7-.6-1.8zm15 8.3a6.7 6.7 0 11-6.6-6.6 5.8 5.8 0 006.6 6.6z"/></svg>')`,
+      },
+      '& + .MuiSwitch-track': {
+        opacity: 1,
+        backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#aab4be',
+      },
+    },
+  },
+  '& .MuiSwitch-thumb': {
+    backgroundColor: theme.palette.mode === 'dark' ? '#003892' : '#001e3c',
+    width: 32,
+    height: 32,
+    '&:before': {
+      content: "''",
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      left: 0,
+      top: 0,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
+        '#fff',
+      )}" d="M9.305 1.667V3.75h1.389V1.667h-1.39zm-4.707 1.95l-.982.982L5.09 6.072l.982-.982-1.473-1.473zm10.802 0L13.927 5.09l.982.982 1.473-1.473-.982-.982zM10 5.139a4.872 4.872 0 00-4.862 4.86A4.872 4.872 0 0010 14.862 4.872 4.872 0 0014.86 10 4.872 4.872 0 0010 5.139zm0 1.389A3.462 3.462 0 0113.471 10a3.462 3.462 0 01-3.473 3.472A3.462 3.462 0 016.527 10 3.462 3.462 0 0110 6.528zM1.665 9.305v1.39h2.083v-1.39H1.666zm14.583 0v1.39h2.084v-1.39h-2.084zM5.09 13.928L3.616 15.4l.982.982 1.473-1.473-.982-.982zm9.82 0l-.982.982 1.473 1.473.982-.982-1.473-1.473zM9.305 16.25v2.083h1.389V16.25h-1.39z"/></svg>')`,
+    },
+  },
+  '& .MuiSwitch-track': {
+    opacity: 1,
+    backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#aab4be',
+    borderRadius: 20 / 2,
+  },
+}));
 function ConfigNavbar(){
 
   const [controller, dispatch] = useMaterialUIController();
@@ -5223,6 +6058,7 @@ function ConfigNavbar(){
           >
             <TTTypography variant="body2">Light/Dark</TTTypography>
             <Switch checked={darkMode} onChange={handleDarkMode}/>
+            <SwitchStyle checked={darkMode} onChange = {handleDarkMode}/>
           </TTBox>
         </TTBox>
       </TTBox>
@@ -6041,6 +6877,158 @@ const typography = {
   d6: {
     fontSize: pxToRem(40),
     ...baseDisplayProperties,
+  },
+
+  size: {
+    xxs: baseProperties.fontSizeXXS,
+    xs: baseProperties.fontSizeXS,
+    sm: baseProperties.fontSizeSM,
+    md: baseProperties.fontSizeMD,
+    lg: baseProperties.fontSizeLG,
+    xl: baseProperties.fontSizeXL,
+    "2xl": baseProperties.fontSize2XL,
+    "3xl": baseProperties.fontSize3XL,
+  },
+
+  lineHeight: {
+    sm: 1.25,
+    md: 1.5,
+    lg: 2,
+  },
+};
+
+const baseHeadingProperties_dark = {
+  fontFamily: baseProperties.fontFamily,
+  color: white.main,
+  fontWeight: baseProperties.fontWeightBold,
+};
+
+const baseDisplayProperties_dark = {
+  fontFamily: baseProperties.fontFamily,
+  color: white.main,
+  fontWeight: baseProperties.fontWeightLight,
+  lineHeight: 1.2,
+};
+
+const typography_dark = {
+  fontFamily: baseProperties.fontFamily,
+  fontWeightLighter: baseProperties.fontWeightLighter,
+  fontWeightLight: baseProperties.fontWeightLight,
+  fontWeightRegular: baseProperties.fontWeightRegular,
+  fontWeightMedium: baseProperties.fontWeightMedium,
+  fontWeightBold: baseProperties.fontWeightBold,
+
+  h1: {
+    fontSize: pxToRem(48),
+    lineHeight: 1.25,
+    ...baseHeadingProperties_dark,
+  },
+
+  h2: {
+    fontSize: pxToRem(36),
+    lineHeight: 1.3,
+    ...baseHeadingProperties_dark,
+  },
+
+  h3: {
+    fontSize: pxToRem(30),
+    lineHeight: 1.375,
+    ...baseHeadingProperties_dark,
+  },
+
+  h4: {
+    fontSize: pxToRem(24),
+    lineHeight: 1.375,
+    ...baseHeadingProperties_dark,
+  },
+
+  h5: {
+    fontSize: pxToRem(20),
+    lineHeight: 1.375,
+    ...baseHeadingProperties_dark,
+  },
+
+  h6: {
+    fontSize: pxToRem(16),
+    lineHeight: 1.625,
+    ...baseHeadingProperties_dark,
+  },
+
+  subtitle1: {
+    fontFamily: baseProperties.fontFamily,
+    fontSize: baseProperties.fontSizeXL,
+    fontWeight: baseProperties.fontWeightLight,
+    lineHeight: 1.625,
+  },
+
+  subtitle2: {
+    fontFamily: baseProperties.fontFamily,
+    fontSize: baseProperties.fontSizeMD,
+    fontWeight: baseProperties.fontWeightLight,
+    lineHeight: 1.6,
+  },
+
+  body1: {
+    fontFamily: baseProperties.fontFamily,
+    fontSize: baseProperties.fontSizeXL,
+    fontWeight: baseProperties.fontWeightRegular,
+    lineHeight: 1.625,
+  },
+
+  body2: {
+    fontFamily: baseProperties.fontFamily,
+    fontSize: baseProperties.fontSizeMD,
+    fontWeight: baseProperties.fontWeightLight,
+    lineHeight: 1.6,
+  },
+
+  button: {
+    fontFamily: baseProperties.fontFamily,
+    fontSize: baseProperties.fontSizeSM,
+    fontWeight: baseProperties.fontWeightLight,
+    lineHeight: 1.5,
+    textTransform: "uppercase",
+  },
+
+  caption: {
+    fontFamily: baseProperties.fontFamily,
+    fontSize: baseProperties.fontSizeXS,
+    fontWeight: baseProperties.fontWeightLight,
+    lineHeight: 1.25,
+  },
+
+  overline: {
+    fontFamily: baseProperties.fontFamily,
+  },
+
+  d1: {
+    fontSize: pxToRem(80),
+    ...baseDisplayProperties_dark,
+  },
+
+  d2: {
+    fontSize: pxToRem(72),
+    ...baseDisplayProperties_dark,
+  },
+
+  d3: {
+    fontSize: pxToRem(64),
+    ...baseDisplayProperties_dark,
+  },
+
+  d4: {
+    fontSize: pxToRem(56),
+    ...baseDisplayProperties_dark,
+  },
+
+  d5: {
+    fontSize: pxToRem(48),
+    ...baseDisplayProperties_dark,
+  },
+
+  d6: {
+    fontSize: pxToRem(40),
+    ...baseDisplayProperties_dark,
   },
 
   size: {
@@ -6996,32 +7984,157 @@ const tabtt = {
     },
   },
 };
+function gradientChartLine(chart, color, opacity = 0.2) {
+  const ctx = chart.getContext("2d");
+  const gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+  const primaryColor = rgba(color, opacity).toString();
+
+  gradientStroke.addColorStop(1, primaryColor);
+  gradientStroke.addColorStop(0.2, "rgba(72, 72, 176, 0.0)");
+  gradientStroke.addColorStop(0, "rgba(203, 12, 159, 0)");
+
+  return gradientStroke;
+}
 const themeDark = createTheme({
   breakpoints: { ...breakpoints },
-  palette: { ...colors },
-  typography: { ...typography },
-  boxShadows: { ...boxShadows },
-  borders: { ...borders },
+  palette: { 
+    ...colors,
+    background: {
+      default: "#1a2035",
+      sidenav: "#1f283e",
+      card: "#202940",
+    },
+    text: {
+      main: "#ffffffcc",
+      focus: "#ffffffcc",
+    },
+    light: {
+      main: "#f0f2f566",
+      focus: "#f0f2f566",
+    },
+    dark: {
+      main: "#323a54",
+      state: "#1a2035",
+    },
+  },
+  typography: { ...typography_dark },
+  boxShadows: { ...boxShadows,
+    md: `${boxShadow([0, 2], [2, 0], black.main, 0.14)}, 
+         ${boxShadow([0, 3], [1, -2],black.main, 0.2)}, 
+         ${boxShadow([0, 1], [5, 0], black.main, 0.12)}`,
+    navbarBoxShadow: `${boxShadow([0, 0], [1, 1], dark.main, 0.9, "inset")}, 
+                      ${boxShadow([0, 20], [27, 0], black.main, 0.05)}`,
+
+  },
+  borders: { 
+    ...borders,
+    borderColor: rgba(white.main, 0.4),
+  },
   functions: {
     boxShadow,
     hexToRgb,
     linearGradient,
     pxToRem,
     rgba,
+    gradientChartLine
+  },
+
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        ...globals,
+        ...container,
+      },
+    },
+    MuiDrawer: { ...sidenav },
+    // MuiList: { ...list },
+    // MuiListItem: { ...listItem },
+    // MuiListItemText: { ...listItemText },
+    MuiCard: { ...card },
+    // MuiCardMedia: { ...cardMedia },
+    // MuiCardContent: { ...cardContent },
+    MuiButton: { ...button },
+    MuiIconButton: { ...iconButton },
+    MuiInput: { ...input },
+    MuiInputLabel: { ...inputLabel },
+    MuiOutlinedInput: { ...inputOutlined },
+    MuiTextField: { ...textField },
+    MuiMenu: { ...menuCom },
+    MuiMenuItem: { ...menuItem },
+    MuiSwitch: { ...switchButton },
+    MuiDivider: { ...divider },
+    MuiTableContainer: { ...tableContainer },
+    MuiTableHead: { ...tableHead },
+    MuiTableCell: { ...tableCell },
+    MuiLinearProgress: { ...linearProgress },
+    MuiBreadcrumbs: { ...breadcrumbs },
+    // MuiSlider: { ...slider },
+    MuiAvatar: { ...avatar },
+    // MuiTooltip: { ...tooltip },
+    MuiAppBar: { ...appBar },
+    MuiTabs: { ...tabstt },
+    MuiTab: { ...tabtt },
+    // MuiStepper: { ...stepper },
+    // MuiStep: { ...step },
+    // MuiStepConnector: { ...stepConnector },
+    // MuiStepLabel: { ...stepLabel },
+    // MuiStepIcon: { ...stepIcon },
+    // MuiSelect: { ...select },
+    // MuiFormControlLabel: { ...formControlLabel },
+    // MuiFormLabel: { ...formLabel },
+    MuiCheckbox: { ...checkbox },
+    // MuiRadio: { ...radio },
+    // MuiAutocomplete: { ...autocomplete },
+    // MuiPopover: { ...popover },
+    // MuiButtonBase: { ...buttonBase },
+    MuiIcon: { ...icon },
+    // MuiSvgIcon: { ...svgIcon },
+    MuiLink: { ...link },
+    // MuiDialog: { ...dialog },
+    // MuiDialogTitle: { ...dialogTitle },
+    // MuiDialogContent: { ...dialogContent },
+    // MuiDialogContentText: { ...dialogContentText },
+    // MuiDialogActions: { ...dialogActions },
   },
 })
 const themeLight = createTheme({
   breakpoints: { ...breakpoints },
-  palette: { ...colors },
+  palette: { 
+    ...colors,
+    background: {
+      default: "#f0f2f5",
+    },
+    text: {
+      main: "#7b809a",
+      focus: "#7b809a",
+    },
+    light: {
+      main: "#f0f2f5",
+      focus: "#f0f2f5",
+    },
+    dark: {
+      main: "#42424a",
+      state: "#191919",
+    },
+  },
   typography: { ...typography },
-  boxShadows: { ...boxShadows },
-  borders: { ...borders },
+  boxShadows: { ...boxShadows,
+    md: `${boxShadow([0, 4], [6, -1], black.main, 0.1)}, 
+         ${boxShadow([0, 2], [4, -1], black.main, 0.06)}`,
+    navbarBoxShadow: `${boxShadow([0, 0], [1, 1], white.main, 0.9, "inset")}, 
+                      ${boxShadow([0, 20],[27, 0], black.main, 0.05 )}`,
+  },
+  borders: { 
+    ...borders,
+    borderColor: grey[300],
+  },
   functions: {
     boxShadow,
     hexToRgb,
     linearGradient,
     pxToRem,
     rgba,
+    gradientChartLine
   },
 
   components: {
@@ -7234,7 +8347,7 @@ const TTPagination = forwardRef(
   }
 );
 
-// Setting default values for the props of MDPagination
+// Setting default values for the props of TTPagination
 TTPagination.defaultProps = {
   item: false,
   variant: "gradient",
@@ -7243,7 +8356,7 @@ TTPagination.defaultProps = {
   active: false,
 };
 
-// Typechecking props for the MDPagination
+// Typechecking props for the TTPagination
 TTPagination.propTypes = {
   item: PropTypes.bool,
   variant: PropTypes.oneOf(["gradient", "contained"]),
@@ -7304,7 +8417,7 @@ const TTProgress = forwardRef(({ variant, color, value, label, ...rest }, ref) =
   </>
 ));
 
-// Setting default values for the props of MDProgress
+// Setting default values for the props of TTProgress
 TTProgress.defaultProps = {
   variant: "contained",
   color: "info",
@@ -7312,7 +8425,7 @@ TTProgress.defaultProps = {
   label: false,
 };
 
-// Typechecking props for the MDProgress
+// Typechecking props for the TTProgress
 TTProgress.propTypes = {
   variant: PropTypes.oneOf(["contained", "gradient"]),
   color: PropTypes.oneOf([
