@@ -16,6 +16,20 @@
   rel="stylesheet"
   /> 
 */
+//FIREBASE
+import { 
+  createUserWithEmailAndPassword, 
+  getAuth, 
+  signInWithEmailAndPassword,
+  GoogleAuthProvider, 
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged
+
+} from 'firebase/auth';
+import { collection, getFirestore, addDoc, getDocs} from 'firebase/firestore';
+import { query, where, onSnapshot, setDoc, doc, getDoc } from 'firebase/firestore'
+import { initializeApp } from "firebase/app";
 
 // react import
 import React from "react";
@@ -39,6 +53,7 @@ import {
   Route, 
   Routes,
   useLocation,
+  useNavigate,
   // Navigate,
 } from "react-router-dom";
 
@@ -126,7 +141,7 @@ import ivana from "../assets/images/ivana-square.jpg";
 // import team3 from "../assets/images/team-3.jpg";
 // import team4 from "../assets/images/team-4.jpg";
 // import burceMars from "../assets/images/bruce-mars.jpg";
-import taurus from "../assets/images/avatar/taurus.jpg";
+import taurus from "../assets/images/avatar/taurus.png";
 import backgroundProfile from "../assets/images/bg-profile.jpeg";
 import logoXD from "../assets/images/small-logos/logo-xd.svg";
 // import logoAtlassian from "../assets/images/small-logos/logo-atlassian.svg";
@@ -158,6 +173,7 @@ import masterCardLogo from "../assets/images/logos/mastercard.png";
 // Images
 // import masterCardLogo from "assets/images/logos/mastercard.png";
 import visaLogo from "../assets/images/logos/visa.png";
+import MeasureRender from './optimes.js';
 // const LogoAsana = require("../assets/images/small-logos/logo-asana.svg");
 // const logoGithub = require("../assets/images/small-logos/github.svg");
 // const logoAtlassian = require("../assets/images/small-logos/logo-atlassian.svg");
@@ -170,6 +186,329 @@ const brandDark =  require("../assets/images/logo-ct-dark.png");
 // const team2 = require("../assets/images/team-2.jpg");
 // const team3 = require("../assets/images/team-3.jpg");
 // const team4 = require("../assets/images/team-4.jpg");
+
+
+//FIREBASE//
+const firebaseConfig2 = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGE_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  mesurentId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+}
+const appFb = initializeApp(firebaseConfig2);
+const auth = getAuth(appFb);
+
+// intro
+// export const auth = getAuth(appFb);
+// export const firestore = getFirestore(appFb);
+// export const provider = new GoogleAuthProvider();
+// provider.setCustomParameters({ prompt: 'select_account' });
+
+//export default appFb;
+
+const FirestoreExmpleGetData = () => {
+  const db = getFirestore(appFb);
+
+  const ExampleData = async () => {
+    const citiesRef = collection(db, "cities");
+    await setDoc(doc(citiesRef, "SF"), {
+        name: "San Francisco", state: "CA", country: "USA",
+        capital: false, population: 860000,
+        regions: ["west_coast", "norcal"] });
+    await setDoc(doc(citiesRef, "LA"), {
+        name: "Los Angeles", state: "CA", country: "USA",
+        capital: false, population: 3900000,
+        regions: ["west_coast", "socal"] });
+    await setDoc(doc(citiesRef, "DC"), {
+        name: "Washington, D.C.", state: null, country: "USA",
+        capital: true, population: 680000,
+        regions: ["east_coast"] });
+    await setDoc(doc(citiesRef, "TOK"), {
+        name: "Tokyo", state: null, country: "Japan",
+        capital: true, population: 9000000,
+        regions: ["kanto", "honshu"] });
+    await setDoc(doc(citiesRef, "BJ"), {
+        name: "Beijing", state: null, country: "China",
+        capital: true, population: 21500000,
+        regions: ["jingjinji", "hebei"] });
+  }
+  const GetDocument = async () => {
+    const docRef = doc(db, "cities", "SF");
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      // console.log("Document data:", docSnap.data());
+    } else {
+      // doc.data() will be undefined in this case
+      // console.log("No such document!");
+    }
+  }
+  const getMultDocFromCol = async () => {
+    const q = query(collection(db, "cities"), where("capital", "==", true));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      // console.log(doc.id, " => ", doc.data());
+    });
+  }
+  return(
+    <div style={{backgroundColor: 'aqua', display: 'flex', flexDirection: 'row'}}>
+      <button onClick={ExampleData}>mock data</button>
+      <button onClick={GetDocument}>get data</button>
+      <button onClick={getMultDocFromCol}>get multi</button>
+    </div>
+  )
+}
+const FbAuthSignupBtn = () => {
+  const onSignup = () => {
+
+    const emailAddress ='tantan4@test.com';
+    const password = 'password';
+    // const auth = getAuth(appFb);
+    console.log(auth);
+    createUserWithEmailAndPassword(auth, emailAddress, password)
+      .then((userCredential)=>{
+        // console.log('user crated');
+      })
+      .catch((error)=>{
+        // alert(error.message);
+        console.error(error);
+      })
+  }
+  return(
+    <div>
+      <button onClick={onSignup}> create user</button>
+    </div>
+  )
+}
+const FbAuthSigninBtn = () => {
+  const onSignin = () => {
+    try{
+      const auth = getAuth(appFb);
+      const emailAddress = 'test@test.com';
+      const password = 'password';
+      signInWithEmailAndPassword(auth, emailAddress, password)
+        .then((user)=>{
+          // console.log('log in with ', user);
+        })
+        .catch((error)=>{
+          alert(error.message);
+          console.error(error);
+        })
+    }catch(e){
+      console.error(e);
+    }  
+
+  }
+  return(
+    <div>
+      <button onClick={onSignin}> log in with user</button>
+    </div>
+  )
+}
+
+const FbAuthGgBtn = () => {
+  const onGGsignin = () => {
+    const provider = new GoogleAuthProvider()
+  
+    const auth = getAuth()
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // console.log('Googleアカウントでログインしました。')
+      }).catch((error) => {
+        console.error(error)
+      })
+  }
+  return (
+    <div>
+      <button onClick={onGGsignin}>Googleアカウントでログイン</button>
+    </div>
+  );
+}
+const FbAuthSignOutBtn = () => {
+
+  const onSignout = () => {
+    const auth = getAuth(appFb)
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      alert('サインアウトしました。')
+    }).catch((error) => {
+      // An error happened.
+      console.error(error)
+    })
+  }
+  return (
+    <div>
+      <button onClick={onSignout}>ログアウト</button>
+    </div>
+  );
+}
+
+// export const createNote = async (note) => {
+//   await addDoc(collection(db, 'notes'), coin);
+// };
+// createNote(note);
+const FsGetBtn = () => {
+  const onGet = async () => {
+    // console.log("test get firestore")
+    const db = getFirestore(appFb);
+    const querySnapshot = await getDocs(collection(db, "tasks"));
+    querySnapshot.forEach((doc) => {
+      // console.log(`${doc.id} => ${doc.data()}`);
+    });
+  }
+  return(<div>
+    <button onClick={onGet}> Firestore get</button>
+  </div>)
+  
+}
+const FsAddBtn = () => {
+  const onAdd = async () => {
+
+    const id = "05";
+    const name = "tan_test";
+    const uid = "";
+    // console.log("test add firestore");
+    const db = getFirestore(appFb);
+    const docRef = await addDoc(collection(db, 'tasks'),{
+      uid: uid,
+      id: id,
+      name: name
+    })
+    // console.log('Document', docRef.id);
+    // Create our initial doc
+    // const docRef = await addDoc(collection(db, "cities"), {
+    //   name: "Tokyo",
+    //   country: "Japan"
+    // });
+    // console.log("Document written with ID: ", docRef.id);
+
+    // db.collection("users").doc("frank").set({
+    //   name: "Frank",
+    //   favorites: {
+    //     food: "Pizza",
+    //     color: "Blue",
+    //     subject: "Recess"
+    //   },
+    //   age: 12
+    // }).then(function() {
+    //   console.log("Frank created");
+    // });
+
+    // Update the doc without using dot notation.
+    // Notice the map value for favorites.
+    // db.collection("users").doc("frank").update({
+    //   favorites: {
+    //     food: "Ice Cream"
+    //   }
+    // }).then(function() {
+    //   console.log("Frank food updated");
+    // });
+    // try {
+    //   const docRef = await addDoc(collection(db, "users"), {
+    //     first: "Ada",
+    //     last: "Lovelace",
+    //     born: 1815
+    //   });
+    //   console.log("Document written with ID: ", docRef.id);
+    // } catch (e) {
+    //   console.error("Error adding document: ", e);
+    // }
+    
+    // Add a new document in collection "cities"
+    // await setDoc(doc(db, "cities", "LA"), {
+    //   name: "Los Angeles",
+    //   state: "CA",
+    //   country: "USA"
+    // });
+
+   
+  }
+  return(
+    <div>
+      <button onClick={()=>{
+        // console.log("onclick")
+        onAdd()
+        }}> Firestore add</button>
+    </div>
+  )
+}
+function FirestoreList() {
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    const auth = getAuth(appFb)
+  
+    // login状態が変更されたら
+    // console.log("authe.name:",auth.name);
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // console.log("user:", user)
+        const db = getFirestore()
+        // loginしてたら
+        let tasks = []
+        const q = query(collection(db, 'tasks'), where('uid', '==', `${user.uid}`))
+        onSnapshot(q, (snapshot) => {
+          snapshot.docChanges().forEach((change) => {
+            if (change.type === 'added') {
+              // console.log('added: ', change.doc.data())
+              tasks.push({
+                id: change.doc.id,
+                name: change.doc.data().name
+              })
+              // console.log(tasks)
+            }
+          })
+          setTasks(tasks)
+        })
+      }
+    })
+  }, []);
+
+  return (
+    <div>
+      {tasks.map(val => (
+        <div key={val.name}>{val.name}</div>
+      ))}
+    </div>
+  );
+}
+// const googleHandler = async () => {
+//     provider.setCustomParameters({ prompt: 'select_account' });
+//     signInWithPopup(auth, provider)
+//         .then((result) => {
+//             // This gives you a Google Access Token. You can use it to access the Google API.
+//             const credential = GoogleAuthProvider.credentialFromResult(result);
+//             const token = credential.accessToken;
+//             // The signed-in user info.
+//             const user = result.user;
+//             // redux action? --> dispatch({ type: SET_USER, user });
+//         })
+//         .catch((error) => {
+//             // Handle Errors here.
+//             const errorCode = error.code;
+//             const errorMessage = error.message;
+//             // The email of the user's account used.
+//             const email = error.email;
+//             // The AuthCredential type that was used.
+//             const credential = GoogleAuthProvider.credentialFromError(error);
+//             // ...
+//         });
+// };
+// signOut(auth)
+// .then(() => {
+//     console.log('logged out');
+//     // navigate('/');
+// })
+// .catch((error) => {
+//     console.log(error);
+// });
+
+
 Chart.register(...registerables);
 const TimeLineExample = () => {
 
@@ -258,8 +597,9 @@ const TimeLineExample = () => {
   )
 }
 const Home = () => {
+  
+  console.log("REACT_APP_TEST_ALPHAB:", process.env.REACT_APP_FIREBASE_TEST_ALPHAB);
 
-  // console.log("home: test start")
   return(
     <TTBox>
       
@@ -269,6 +609,8 @@ const Home = () => {
         color={"primary"}
         textGradient = {false}
       >Home Page</TTTypography>
+      {/* <FbAuthSignupBtn/> */}
+      {console.log("abc")}
       <TimeLineExample/>
     </TTBox>
   )
@@ -2052,6 +2394,7 @@ const SignIn = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  //
 
   return (
     <BasicLayout image={bgImage}>
@@ -2090,7 +2433,7 @@ const SignIn = () => {
           </Grid>
         </TTBox>
         <TTBox pt={4} pb={3} px={3}>
-          <TTBox component="form" role="form">
+          <TTBox component="form" role="form" >
             <TTBox mb={2}>
               <TTInput 
                 type="email" 
@@ -2121,6 +2464,7 @@ const SignIn = () => {
                 variant="gradient" 
                 color="info" 
                 fullWidth = {true}
+                // onClick={handleSubmit}
               >
                 sign in
               </TTButton>
@@ -2224,6 +2568,25 @@ CoverLayout.propTypes = {
   children: PropTypes.node.isRequired,
 }
 const SignUp = () => {
+
+  const navigate = useNavigate();
+  const handleSubmit = (event) => {
+      event.preventDefault();
+      //firebase
+      const { email, password, name } = event.target.elements;
+      createUserWithEmailAndPassword(auth, email.value, password.value)
+        .then((userCredential)=>{
+            //signed in
+            const user = userCredential.user;
+            console.log("user: ", user);
+            navigate("/dashboard")
+        })
+        .catch((error)=>{
+            // const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log("errorMessage: ", errorMessage);
+        })
+  }
   return(
     <CoverLayout image={bgImage_su}>
     {/* <CoverLayout image={bgTest2}> */}
@@ -2254,20 +2617,19 @@ const SignUp = () => {
           >Enter your email and password to register</TTTypography>
         </TTBox>
         {/* content form*/}
-        <TTBox
-          component="form" role="form"
+        <TTBox  component="form" role="form" onSubmit={handleSubmit}
           pt={4} pb={3} px={3}
         >
           {/* input */}
           <TTBox>
             <TTBox mb={2}>
-              <TTInput type="text" label="Name" variant="standard" fullWidth></TTInput>
+              <TTInput type="text" name="name" variant="standard" fullWidth></TTInput>
             </TTBox>
             <TTBox mb={2}>
-              <TTInput type="email" label="Email" variant="standard" fullWidth></TTInput>
+              <TTInput type="email" name="email" variant="standard" fullWidth></TTInput>
             </TTBox>
             <TTBox mb={2}>
-              <TTInput type="password" label="Password" variant="standard" fullWidth></TTInput>
+              <TTInput type="password" name="password" variant="standard" fullWidth></TTInput>
             </TTBox>
           </TTBox>
           {/* term and condition */}
@@ -2298,6 +2660,7 @@ const SignUp = () => {
               variant="gradient"
               color="info"
               fullWidth
+              type="submit"
             >sign Up</TTButton>
           </TTBox>
           {/* form of footer */}
@@ -2362,7 +2725,7 @@ const SignReset = () =>{
 
 function MasterCard({ color, number, holder, expires }) {
   const numbers = [...`${number}`];
-
+  
   if (numbers.length < 16 || numbers.length > 16) {
     throw new Error(
       "Invalid value for the prop number, the value for the number prop shouldn't be greater than or less than 16 digits"
@@ -6204,6 +6567,7 @@ const ChildApp = () => {
 
   
   return(
+    <MeasureRender name="ChildApp">
     <ThemeProvider theme={darkMode?themeDark:themeLight}>
       <CssBaseline />
       {layout === "dashboard" && (
@@ -6236,16 +6600,20 @@ const ChildApp = () => {
         <Route path="/billing" element={<Billing />}/>
       </Routes>
     </ThemeProvider>
+    </MeasureRender>
   )
 }
 const FullAppUi = () => {
   // console.log("full app")
   return(
-    <BrowserRouter>
-      <MaterialUIControllerProvider>
-        <ChildApp />
-      </MaterialUIControllerProvider>
-  </BrowserRouter>
+    <MeasureRender name={"FullAppUi"}>
+      <BrowserRouter>
+        <MaterialUIControllerProvider>
+          <ChildApp />
+        </MaterialUIControllerProvider>
+      </BrowserRouter>
+    </MeasureRender>
+
   )
 
 }
@@ -9295,4 +9663,81 @@ function Tables() {
 }
 
 export default FullAppUi;
+
+
+// https://reactforyou.com/componentdidupdate-with-react-hooks/
+// https://reactjs.org/docs/hooks-effect.html
+// https://viblo.asia/p/thay-the-cac-life-cycle-method-bang-react-hooks-Ljy5VXAyZra
+// export default class MeasureRender extends React.Component {
+//   constructor() {
+//     super();
+
+//     this.mounted = false;
+//     console.log("measure Start")
+//   }
+
+//   render() {
+//     const name = this.props.name;
+//     if (this.mounted) {
+//       window.performance.mark(`${name}UpdateStart`);
+//     } else {
+//       window.performance.mark(`${name}MountStart`);
+//     }
+//     return this.props.children;
+//   }
+
+//   componentDidMount() {
+//     this.mounted = true;
+    
+//     const name = this.props.name;
+//     window.performance.mark(`${name}MountEnd`);
+//     window.performance.measure(`${name}Mount`, `${name}MountStart`, `${name}MountEnd`);
+//   }
+
+//   componentDidUpdate() {
+//     const name = this.props.name;
+//     window.performance.mark(`${name}UpdateEnd`);
+//     window.performance.measure(`${name}Update`, `${name}UpdateStart`, `${name}UpdateEnd`);
+//   }
+// }
+
+
+//life circle
+
+const MeasureRenderHook = (props) =>{
+
+  //initialization
+  // setup props and state
+  // const [mount, setMount] = useState(false);
+  // const [count, setCount] = useState(0);
+  //Mounting
+  //  componentWillMount
+  // useEffect(()=>{})
+  //  -> 
+  //  render
+  //  -> 
+  //  componentDidMount
+  const {name} = props
+  console.log(name);
+  useEffect(() => {
+    console.log('mounted');
+    window.performance.mark(`${name}MountEnd`)
+    console.log(window.performance.mark(`${name}MountEnd`).duration)
+  });
+
+  //Update
+  //(props)  
+  // componentWillReceiveProps -> 
+  // shouldComponentUpdate -> 
+  // componentWillUpdate -> render -> componentDidUpdate
+  //(states)                              
+  // shouldComponentUpdate -> 
+  // componentWillUpdate -> render -> componentDidUpdate
+  
+  //Unmounting
+  // componentWillUnmount
+
+
+  return props.children;
+}
 
