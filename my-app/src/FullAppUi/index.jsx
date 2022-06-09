@@ -41,6 +41,7 @@ import {
   useState,
   useEffect,
   forwardRef,
+  useRef,
 } from "react";
 
 // router import
@@ -49,6 +50,7 @@ import { Chart, registerables } from 'chart.js';
 
 import { 
   BrowserRouter, 
+  Navigate, 
   NavLink, 
   Route, 
   Routes,
@@ -141,7 +143,7 @@ import ivana from "../assets/images/ivana-square.jpg";
 // import team3 from "../assets/images/team-3.jpg";
 // import team4 from "../assets/images/team-4.jpg";
 // import burceMars from "../assets/images/bruce-mars.jpg";
-import taurus from "../assets/images/avatar/taurus.png";
+import taurus from "../assets/images/avatar/taurus.jpg";
 import backgroundProfile from "../assets/images/bg-profile.jpeg";
 import logoXD from "../assets/images/small-logos/logo-xd.svg";
 // import logoAtlassian from "../assets/images/small-logos/logo-atlassian.svg";
@@ -173,7 +175,7 @@ import masterCardLogo from "../assets/images/logos/mastercard.png";
 // Images
 // import masterCardLogo from "assets/images/logos/mastercard.png";
 import visaLogo from "../assets/images/logos/visa.png";
-import MeasureRender from './optimes.js';
+import MeasureRender from './mesure';
 // const LogoAsana = require("../assets/images/small-logos/logo-asana.svg");
 // const logoGithub = require("../assets/images/small-logos/github.svg");
 // const logoAtlassian = require("../assets/images/small-logos/logo-atlassian.svg");
@@ -597,8 +599,6 @@ const TimeLineExample = () => {
   )
 }
 const Home = () => {
-  
-  console.log("REACT_APP_TEST_ALPHAB:", process.env.REACT_APP_FIREBASE_TEST_ALPHAB);
 
   return(
     <TTBox>
@@ -610,7 +610,6 @@ const Home = () => {
         textGradient = {false}
       >Home Page</TTTypography>
       {/* <FbAuthSignupBtn/> */}
-      {console.log("abc")}
       <TimeLineExample/>
     </TTBox>
   )
@@ -2026,6 +2025,12 @@ function DashboardNavbar({absolute, light, isMini}){
       return colorValue;
     },
   });
+
+  const handleSignOut = () =>{
+    auth.signOut()
+      .then(()=>{console.log("log out success")})
+      .catch((error)=>{console.log(error)});
+  }
   return(
     <AppBar
       position={absolute?"absolute":navbarType}
@@ -2046,7 +2051,7 @@ function DashboardNavbar({absolute, light, isMini}){
           {/* icon tool */}
           <TTBox color={light?"white": "inherit"}>
             <Link href="/signin">
-              <IconButton sx={navbarIconBtn} size="small" disableRipple>
+              <IconButton onClick={handleSignOut} sx={navbarIconBtn} size="small" disableRipple>
                 <Icon sx={iconsStyle}>account_circle</Icon>
               </IconButton>
             </Link>
@@ -2395,7 +2400,24 @@ const SignIn = () => {
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
   //
-
+  const navigate = useNavigate()
+  const handleSubmit = (event) => {
+      event.preventDefault();
+      //firebase
+      const { email, password } = event.target.elements;
+      signInWithEmailAndPassword(auth, email.value, password.value)
+          .then((userCredential)=>{
+              //signed in
+              const user = userCredential.user;
+              console.log("user: ", user);
+              navigate("/dashboard");
+          })
+          .catch((error)=>{
+              // const errorCode = error.code;
+              const errorMessage = error.message;
+              console.log("errorMessage: ", errorMessage);
+          })
+  }
   return (
     <BasicLayout image={bgImage}>
     {/* <BasicLayout image={bgTest2}> */}
@@ -2433,11 +2455,11 @@ const SignIn = () => {
           </Grid>
         </TTBox>
         <TTBox pt={4} pb={3} px={3}>
-          <TTBox component="form" role="form" >
+          <TTBox component="form" role="form" onSubmit={handleSubmit}>
             <TTBox mb={2}>
               <TTInput 
                 type="email" 
-                label="Email" 
+                name="email" 
                 fullWidth
                 // disabled 
                 // error
@@ -2445,7 +2467,7 @@ const SignIn = () => {
               />
             </TTBox>
             <TTBox mb={2}>
-              <TTInput type="password" label="Password" fullWidth />
+              <TTInput type="password" name="password" fullWidth />
             </TTBox>
             <TTBox display="flex" alignItems="center" ml={-1}>
               <Switch checked={rememberMe} onChange={handleSetRememberMe} />
@@ -2464,6 +2486,7 @@ const SignIn = () => {
                 variant="gradient" 
                 color="info" 
                 fullWidth = {true}
+                type="submit"
                 // onClick={handleSubmit}
               >
                 sign in
@@ -4661,7 +4684,7 @@ const NotifiTable = () => {
             <TTButton variant="gradient" color="success" onClick={openSuccessSB} fullWidth>
               success notification
             </TTButton>
-            <SuccessSB/>
+            {SuccessSB}
           </Grid>
           <Grid item xs={12} sm={6} lg={3}>
             <TTButton variant="gradient" color="info" onClick={openInfoSB} fullWidth>
@@ -4687,6 +4710,17 @@ const NotifiTable = () => {
     </Card>
   )
 }
+const TestDb = () => {
+
+  const {user} = useAuthContext();
+
+  if(user){
+    // setDoc(doc(db, 'users', user.uid), {
+    //   email: user,
+    //   registeredAt: Timestamp.fromDate(new Date()),
+    // });
+  }
+}
 const Notifications = () => {
 
 
@@ -4699,6 +4733,9 @@ const Notifications = () => {
     </Grid>
     <Grid item xs={12} lg={8}>
       <NotifiTable/>
+    </Grid>
+    <Grid item xs={12} lg={8}>
+      <TestDb />
     </Grid>
   </Grid>
   {/* </TTBox> */}
@@ -5618,6 +5655,7 @@ ReportsLineChart.propTypes = {
 
 const Dashboard = () => {
   const { sales, tasks } = reportsLineChartData;
+
   return(
     <DashboardLayout>
       <TTBox py={3}>
@@ -6525,7 +6563,53 @@ const ConfigNavbarStyle = styled(Drawer)(({theme, ownerState})=>{
     },
   }
 })
+const AuthContext = createContext();
+AuthContext.displayName = "Authhorizon";
 
+export function useAuthContext() {
+    return useContext(AuthContext);
+  }
+const AuthProvider = ({children}) => {
+    const [user, setUser] = useState("");
+    const [loading, setLoading] = useState(true);
+    const value = { user, loading };
+
+    useEffect(()=>{
+        const unsubscribed = auth.onAuthStateChanged((user)=>{
+            // console.log("user: ", user)
+            setUser(user);
+            setLoading(false);
+        });
+        return()=>{
+            unsubscribed();
+        };
+    }, []);
+    // const value = useMemo(()=>[],[])
+    return(
+        <AuthContext.Provider value={value}>
+            {!loading && children}
+        </AuthContext.Provider>
+    )
+}
+// export default AuthProvider;
+export const PrivateRoute = ({children}) => {
+  const location = useLocation();
+  console.log("location:", location.pathname, location.state)
+  const {user, loading} = useAuthContext();
+
+  if(loading){
+      return(<p>Checking Authentication</p>)
+  }
+  // if(user){
+  //     return<Navigate to={"/login"} state={{from: location}}/>
+  // }
+  return user?children:<Navigate to={"/login"} state={{from: location}}/>;
+}
+export const PublicRoute = () => {
+  return(
+     <Route path="/" element={<Home/>}/> 
+  )
+}
 const ChildApp = () => {
 
   // console.log("child app")
@@ -6593,7 +6677,12 @@ const ChildApp = () => {
         <Route path="/signin" element={<SignIn/>}/>
         <Route path="/signup" element={<SignUp/>}/>
         <Route path="/reset" element={<SignReset/>}/>
-        <Route path="/dashboard" element={<Dashboard />}/>
+        <Route path="/dashboard" element={
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+          
+        }/>
         <Route path="/notifications" element={<Notifications/>}/>
         <Route path="/tables" element={<Tables />}/>
         <Route path="/profile" element={<Profile/>}/>
@@ -6607,11 +6696,13 @@ const FullAppUi = () => {
   // console.log("full app")
   return(
     <MeasureRender name={"FullAppUi"}>
-      <BrowserRouter>
-        <MaterialUIControllerProvider>
-          <ChildApp />
-        </MaterialUIControllerProvider>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <MaterialUIControllerProvider>
+            <ChildApp />
+          </MaterialUIControllerProvider>
+        </BrowserRouter>
+      </AuthProvider>
     </MeasureRender>
 
   )
@@ -9663,8 +9754,6 @@ function Tables() {
 }
 
 export default FullAppUi;
-
-
 // https://reactforyou.com/componentdidupdate-with-react-hooks/
 // https://reactjs.org/docs/hooks-effect.html
 // https://viblo.asia/p/thay-the-cac-life-cycle-method-bang-react-hooks-Ljy5VXAyZra
@@ -9680,8 +9769,10 @@ export default FullAppUi;
 //     const name = this.props.name;
 //     if (this.mounted) {
 //       window.performance.mark(`${name}UpdateStart`);
+//       console.log(window.performance.mark(`${name}UpdateStart`))
 //     } else {
 //       window.performance.mark(`${name}MountStart`);
+//       console.log(window.performance.mark(`${name}MountStart`));
 //     }
 //     return this.props.children;
 //   }
@@ -9691,53 +9782,107 @@ export default FullAppUi;
     
 //     const name = this.props.name;
 //     window.performance.mark(`${name}MountEnd`);
+//     console.log("mount_end:", window.performance.mark(`${name}MountEnd`))
 //     window.performance.measure(`${name}Mount`, `${name}MountStart`, `${name}MountEnd`);
+//     console.log("mount_end_measure",window.performance.measure(`${name}Mount`, `${name}MountStart`, `${name}MountEnd`))
 //   }
 
 //   componentDidUpdate() {
 //     const name = this.props.name;
 //     window.performance.mark(`${name}UpdateEnd`);
+//     console.log("update_end",window.performance.mark(`${name}UpdateEnd`))
 //     window.performance.measure(`${name}Update`, `${name}UpdateStart`, `${name}UpdateEnd`);
+//     console.log(window.performance.measure(`${name}Update`, `${name}UpdateStart`, `${name}UpdateEnd`))
 //   }
 // }
-
-
+// REACT_APP_TEST_ALPHAB = ABCDEF
+// REACT_APP_TEST_NUMBER = 123456
 //life circle
 
 const MeasureRenderHook = (props) =>{
 
   //initialization
   // setup props and state
+  const [value,setValue]=useState(0)            //initialize your state here
   // const [mount, setMount] = useState(false);
   // const [count, setCount] = useState(0);
   //Mounting
   //  componentWillMount
-  // useEffect(()=>{})
+  console.log('componentWillMount')
+  // 
   //  -> 
   //  render
   //  -> 
   //  componentDidMount
-  const {name} = props
-  console.log(name);
   useEffect(() => {
-    console.log('mounted');
-    window.performance.mark(`${name}MountEnd`)
-    console.log(window.performance.mark(`${name}MountEnd`).duration)
-  });
+    // Your code here
+  }, []);
+
+
 
   //Update
   //(props)  
   // componentWillReceiveProps -> 
   // shouldComponentUpdate -> 
-  // componentWillUpdate -> render -> componentDidUpdate
+  // componentWillUpdate -> render -> 
+  //  componentDidUpdate
+      useEffect(()=>{},[])
   //(states)                              
   // shouldComponentUpdate -> 
-  // componentWillUpdate -> render -> componentDidUpdate
-  
+  // componentWillUpdate -> render -> 
+  // componentDidUpdate
+      useEffect(()=>{},[])
   //Unmounting
   // componentWillUnmount
-
+    useEffect(() => {
+      window.addEventListener('mousemove', () => {});
+    
+      // returned function will be called on component unmount 
+      return () => {
+        window.removeEventListener('mousemove', () => {})
+      }
+    }, [])
 
   return props.children;
 }
+function RenderLog(props) {
+  console.log('Render log: ' + props.children);
+  return (<>{props.children}</>);
+}
 
+function Component(props) {
+
+  console.log('Body');
+  const [count, setCount] = useState(0);
+  const willMount = useRef(true);
+
+  if (willMount.current) {
+      console.log('First time load (it runs only once)');
+      setCount(2);
+      willMount.current = false;
+  } else {
+      console.log('Repeated load');
+  }
+
+  useEffect(() => {
+      console.log('Component did mount (it runs only once)');
+      return () => console.log('Component will unmount');
+  }, []);
+
+  useEffect(() => {
+      console.log('Component did update');
+  });
+
+  useEffect(() => {
+      console.log('Component will receive props');
+  }, [count]);
+
+
+  return (
+      <>
+      <h1>{count}</h1>
+      <RenderLog>{count}</RenderLog>
+      </>
+  );
+}
+//https://dev.to/vcnsiqueira/react-authentication-tutorial-with-firebase-v9-and-firestore-id6
