@@ -27,6 +27,7 @@ import {
   onAuthStateChanged
 
 } from 'firebase/auth';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import { collection, getFirestore, addDoc, getDocs} from 'firebase/firestore';
 import { query, where, onSnapshot, setDoc, doc, getDoc } from 'firebase/firestore'
 import { initializeApp } from "firebase/app";
@@ -71,7 +72,7 @@ import {
   Avatar, List, ListItem, ListItemIcon, ListItemText, 
   Alert, TableContainer, Table, TableRow, 
   TableBody,
-  Tooltip, Autocomplete, Stack, Snackbar, Tab, Tabs, CardMedia,
+  Tooltip, Autocomplete, Stack, Snackbar, Tab, Tabs, CardMedia, Modal,
   // useTheme
 } from "@mui/material";
 import MenuCom from "@mui/material/Menu"
@@ -176,6 +177,7 @@ import masterCardLogo from "../assets/images/logos/mastercard.png";
 // import masterCardLogo from "assets/images/logos/mastercard.png";
 import visaLogo from "../assets/images/logos/visa.png";
 import MeasureRender from './mesure';
+import { configureStore, createSlice } from '@reduxjs/toolkit';
 // const LogoAsana = require("../assets/images/small-logos/logo-asana.svg");
 // const logoGithub = require("../assets/images/small-logos/github.svg");
 // const logoAtlassian = require("../assets/images/small-logos/logo-atlassian.svg");
@@ -446,7 +448,7 @@ function FirestoreList() {
     const auth = getAuth(appFb)
   
     // login状態が変更されたら
-    // console.log("authe.name:",auth.name);
+    console.log("authe.name:",auth.name);
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // console.log("user:", user)
@@ -598,8 +600,213 @@ const TimeLineExample = () => {
     </Timeline>
   )
 }
+const BadgeStyle = styled(Badge)(({theme, ownerState})=>{
+
+  const { palette, typography, borders, functions } = theme;
+  const { color, circular, border, size, indicator, variant, container, children } = ownerState;
+
+  const { white, dark, gradients, badgeColors } = palette;
+  const { size: fontSize, fontWeightBold } = typography;
+  const { borderRadius, borderWidth } = borders;
+  const { pxToRem, linearGradient } = functions;
+
+  // padding values
+  const paddings = {
+    xs: "0.45em 0.775em",
+    sm: "0.55em 0.9em",
+    md: "0.65em 1em",
+    lg: "0.85em 1.375em",
+  };
+
+  // fontSize value
+  const fontSizeValue = size === "xs" ? fontSize.xxs : fontSize.xs;
+
+  // border value
+  const borderValue = border ? `${borderWidth[3]} solid ${white.main}` : "none";
+
+  // borderRadius value
+  const borderRadiusValue = circular ? borderRadius.section : borderRadius.md;
+
+  // styles for the badge with indicator={true}
+  const indicatorStyles = (sizeProp) => {
+    let widthValue = pxToRem(20);
+    let heightValue = pxToRem(20);
+
+    if (sizeProp === "medium") {
+      widthValue = pxToRem(24);
+      heightValue = pxToRem(24);
+    } else if (sizeProp === "large") {
+      widthValue = pxToRem(32);
+      heightValue = pxToRem(32);
+    }
+
+    return {
+      width: widthValue,
+      height: heightValue,
+      display: "grid",
+      placeItems: "center",
+      textAlign: "center",
+      borderRadius: "50%",
+      padding: 0,
+      border: borderValue,
+    };
+  };
+
+  // styles for the badge with variant="gradient"
+  const gradientStyles = (colorProp) => {
+    const backgroundValue = gradients[colorProp]
+      ? linearGradient(gradients[colorProp].main, gradients[colorProp].state)
+      : linearGradient(gradients.info.main, gradients.info.state);
+    const colorValue = colorProp === "light" ? dark.main : white.main;
+
+    return {
+      background: backgroundValue,
+      color: colorValue,
+    };
+  };
+
+  // styles for the badge with variant="contained"
+  const containedStyles = (colorProp) => {
+    const backgroundValue = badgeColors[colorProp]
+      ? badgeColors[colorProp].background
+      : badgeColors.info.background;
+    let colorValue = badgeColors[colorProp] ? badgeColors[colorProp].text : badgeColors.info.text;
+
+    if (colorProp === "light") {
+      colorValue = dark.main;
+    }
+    return {
+      background: backgroundValue,
+      color: colorValue,
+    };
+  };
+
+  // styles for the badge with no children and container={false}
+  const standAloneStyles = () => ({
+    position: "static",
+    marginLeft: pxToRem(8),
+    transform: "none",
+    fontSize: pxToRem(9),
+  });
+
+  // styles for the badge with container={true}
+  const containerStyles = () => ({
+    position: "relative",
+    transform: "none",
+  });
+
+  return {
+    "& .MuiBadge-badge": {
+      height: "auto",
+      padding: paddings[size] || paddings.xs,
+      fontSize: fontSizeValue,
+      fontWeight: fontWeightBold,
+      textTransform: "uppercase",
+      lineHeight: 1,
+      textAlign: "center",
+      whiteSpace: "nowrap",
+      verticalAlign: "baseline",
+      border: borderValue,
+      borderRadius: borderRadiusValue,
+      ...(indicator && indicatorStyles(size)),
+      ...(variant === "gradient" && gradientStyles(color)),
+      ...(variant === "contained" && containedStyles(color)),
+      ...(!children && !container && standAloneStyles(color)),
+      ...(container && containerStyles(color)),
+    },
+  };
+})
+const TTBadge = forwardRef(
+  ({ color, variant, size, circular, indicator, border, container, children, ...rest }, ref) => (
+    <BadgeStyle
+      {...rest}
+      ownerState={{ color, variant, size, circular, indicator, border, container, children }}
+      ref={ref}
+      color="default"
+    >
+      {children}
+    </BadgeStyle>
+  )
+);
+
+// Setting default values for the props of MDBadge
+TTBadge.defaultProps = {
+  color: "info",
+  variant: "gradient",
+  size: "sm",
+  circular: false,
+  indicator: false,
+  border: false,
+  children: false,
+  container: false,
+};
+
+// Typechecking props of the MDBadge
+TTBadge.propTypes = {
+  color: PropTypes.oneOf([
+    "primary",
+    "secondary",
+    "info",
+    "success",
+    "warning",
+    "error",
+    "light",
+    "dark",
+  ]),
+  variant: PropTypes.oneOf(["gradient", "contained"]),
+  size: PropTypes.oneOf(["xs", "sm", "md", "lg"]),
+  circular: PropTypes.bool,
+  indicator: PropTypes.bool,
+  border: PropTypes.bool,
+  children: PropTypes.node,
+  container: PropTypes.bool,
+};
+//Redux
+  //redux: const
+  //redux: action
+  //redux: reducer
+  //redux: slice
+  const initPerson = {
+    name: "tan dep trai",
+    age: 30,
+  }
+  const DecrementAge = (state) => {
+    state.age--
+  }
+  const PersonSlice = createSlice({
+    name: "person",
+    initialState: initPerson,
+    reducers:{//reducer + action
+      incrementAge(state){state.age++},
+      de: DecrementAge,
+      changeName: (state, action)=>{
+        state.name = action.payload
+      }
+    }
+  })
+
+  const {incrementAge, changeName, de} = PersonSlice.actions;
+  const PersonReducer = PersonSlice.reducer;
+  //redux: store
+  const RootState = {
+    person: initPerson,
+    human: initPerson,
+  }
+  const reducerRoot = {
+    person: PersonReducer
+  }
+  const storeRedux = configureStore({
+    reducer: reducerRoot
+  });
+
+
 const Home = () => {
 
+  //get state from store
+  const person = useSelector((state)=> state.person);
+  //dispathc
+  const dispatch = useDispatch();
+  const [name, setName] = useState(person.name);
   return(
     <TTBox>
       
@@ -610,7 +817,17 @@ const Home = () => {
         textGradient = {false}
       >Home Page</TTTypography>
       {/* <FbAuthSignupBtn/> */}
-      <TimeLineExample/>
+      <p>name: {person.name}</p>
+      <p>age: {person.age}</p>
+
+      {/* incrementAgeのdispatch */}
+      <button onClick={() => dispatch(incrementAge())}>age + 1</button>
+      <button onClick={() => dispatch(de(5))}>age - 1</button>
+
+      {/* changeNameのdispatch */}
+      <input  value={name} onChange={e => setName(e.target.value)}/>
+      <button onClick={() => dispatch(changeName(name))}>change name</button>      <TimeLineExample/>
+      <PlanModal />
     </TTBox>
   )
 }
@@ -804,9 +1021,9 @@ const TestMaterial = () => {
     >
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
+          <TTBadge badgeContent={4} color="error">
             <MailIcon />
-          </Badge>
+          </TTBadge>
         </IconButton>
         <p>Messages</p>
       </MenuItem>
@@ -816,9 +1033,9 @@ const TestMaterial = () => {
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <TTBadge badgeContent={17} color="error">
             <NotificationsIcon />
-          </Badge>
+          </TTBadge>
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
@@ -870,18 +1087,18 @@ const TestMaterial = () => {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
+              <TTBadge badgeContent={4} color="error">
                 <MailIcon />
-              </Badge>
+              </TTBadge>
             </IconButton>
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
+              <TTBadge badgeContent={17} color="error">
                 <NotificationsIcon />
-              </Badge>
+              </TTBadge>
             </IconButton>
             <IconButton
               size="large"
@@ -2745,7 +2962,155 @@ const SignReset = () =>{
   )
 }
 
+const ModalLayout = ({title, children, open, handleClose}) => {
 
+  return(
+    <TTBox
+    >
+      {/* modal header */}
+      <TTBox>{title}</TTBox>
+      {/* modal content */}
+      <Grid container justifyContent={"center"}>
+        <Grid item xs={11} sm={9} md={5} lg={4} xl={3}>
+          {children}
+        </Grid>
+      </Grid>
+      {/* modal footer */}
+    </TTBox>
+  )
+}
+
+const PlanModal = () => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const innerStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    // border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+  const handleSubmit = (event) => {
+    console.log(event.target.elements);
+  }
+  return (
+    <TTBox>
+      <Button onClick={handleOpen}>Open modal</Button>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        // BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <ModalLayout>
+        <Fade in={open}>
+          <Card>
+            {/* intro */}
+            <TTBox
+            variant = "gradient"
+            bgColor = "info"
+            borderRadius = "lg"
+            coloredShadow = "success"
+            mx={2}
+            mt={-3}
+            p={3}
+            mb={1}
+            textAlign="center"
+            >
+              <TTTypography
+                variant = "h4"
+                fontWeight = "medium"
+                color = "white"
+                mt = {1}
+              >Join us today</TTTypography>
+              <TTTypography
+                display="block" 
+                variant="button" 
+                color="white" 
+                my={1}
+              >Enter your email and password to register</TTTypography>
+            </TTBox>
+            {/* content form*/}
+            <TTBox  component="form" role="form" onSubmit={handleSubmit}
+              pt={4} pb={3} px={3}
+            >
+              {/* input */}
+              <TTBox>
+                <TTBox mb={2}>
+                  <TTInput type="text" name="name" variant="standard" fullWidth></TTInput>
+                </TTBox>
+                <TTBox mb={2}>
+                  <TTInput type="email" name="email" variant="standard" fullWidth></TTInput>
+                </TTBox>
+                <TTBox mb={2}>
+                  <TTInput type="password" name="password" variant="standard" fullWidth></TTInput>
+                </TTBox>
+              </TTBox>
+              {/* term and condition */}
+              <TTBox
+                display="flex"
+                alignItems="center"
+                ml = {-1}
+              >
+                <Checkbox/>
+                <TTTypography
+                  variant="button"
+                  fontWeight="regular"
+                  color="text"
+                  sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
+                >&nbsp;&nbsp;I agree the&nbsp;</TTTypography>
+                <TTTypography
+                  component="a"
+                  href="#"
+                  variant="button"
+                  fontWeight="bold"
+                  color="info"
+                  textGradient = {true}
+                >Terms and Conditions</TTTypography>
+              </TTBox>
+              {/* submit */}
+              <TTBox mt={4} mb={1}>
+                <TTButton
+                  variant="gradient"
+                  color="info"
+                  fullWidth
+                  type="submit"
+                >sign Up</TTButton>
+              </TTBox>
+              {/* form of footer */}
+              <TTBox textAlign="center" mt={3} mb={1}>
+                <TTTypography variant="button" color="text">
+                  Already have an account?{" "}
+                  <TTTypography
+                    component={MuiLink}
+                    // to={"/signin"}
+                    href={"/signin"}
+                    variant="button"
+                    color="info"
+                    fontWeight="medium"
+                    textGradient={true}
+                  >Sign In</TTTypography>
+                </TTTypography>
+              </TTBox>
+            </TTBox>
+          </Card>
+        </Fade>
+        </ModalLayout>
+
+      </Modal>
+    </TTBox>
+  );
+}
 function MasterCard({ color, number, holder, expires }) {
   const numbers = [...`${number}`];
   
@@ -6697,11 +7062,13 @@ const FullAppUi = () => {
   return(
     <MeasureRender name={"FullAppUi"}>
       <AuthProvider>
-        <BrowserRouter>
-          <MaterialUIControllerProvider>
-            <ChildApp />
-          </MaterialUIControllerProvider>
-        </BrowserRouter>
+        <Provider store={storeRedux}>
+          <BrowserRouter>
+            <MaterialUIControllerProvider>
+              <ChildApp />
+            </MaterialUIControllerProvider>
+          </BrowserRouter>
+        </Provider>
       </AuthProvider>
     </MeasureRender>
 
@@ -9421,7 +9788,7 @@ function authorsTableData() {
         function: <Job title="Manager" description="Organization" />,
         status: (
           <TTBox ml={-1}>
-            <Badge badgeContent="online" color="success" variant="gradient" size="sm" />
+            <TTBadge badgeContent="online" color="success" variant="gradient" size="sm" />
           </TTBox>
         ),
         employed: (
@@ -9440,7 +9807,7 @@ function authorsTableData() {
         function: <Job title="Programator" description="Developer" />,
         status: (
           <TTBox ml={-1}>
-            <Badge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+            <TTBadge badgeContent="offline" color="dark" variant="gradient" size="sm" />
           </TTBox>
         ),
         employed: (
@@ -9459,7 +9826,7 @@ function authorsTableData() {
         function: <Job title="Executive" description="Projects" />,
         status: (
           <TTBox ml={-1}>
-            <Badge badgeContent="online" color="success" variant="gradient" size="sm" />
+            <TTBadge badgeContent="online" color="success" variant="gradient" size="sm" />
           </TTBox>
         ),
         employed: (
@@ -9478,7 +9845,7 @@ function authorsTableData() {
         function: <Job title="Programator" description="Developer" />,
         status: (
           <TTBox ml={-1}>
-            <Badge badgeContent="online" color="success" variant="gradient" size="sm" />
+            <TTBadge badgeContent="online" color="success" variant="gradient" size="sm" />
           </TTBox>
         ),
         employed: (
@@ -9497,7 +9864,7 @@ function authorsTableData() {
         function: <Job title="Manager" description="Executive" />,
         status: (
           <TTBox ml={-1}>
-            <Badge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+            <TTBadge badgeContent="offline" color="dark" variant="gradient" size="sm" />
           </TTBox>
         ),
         employed: (
@@ -9516,7 +9883,7 @@ function authorsTableData() {
         function: <Job title="Programator" description="Developer" />,
         status: (
           <TTBox ml={-1}>
-            <Badge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+            <TTBadge badgeContent="offline" color="dark" variant="gradient" size="sm" />
           </TTBox>
         ),
         employed: (
@@ -9885,4 +10252,386 @@ function Component(props) {
       </>
   );
 }
+// import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
+// import React, { useState } from 'react';
+// import { useSelector, useDispatch, Provider } from 'react-redux';
+// import { configureStore, createSlice } from '@reduxjs/toolkit';
+// import logger from 'redux-logger';
+// import thunk from 'redux-thunk';
+
+// const ReduxPage = () => {
+//   return(
+//     <Provider store={StoreRedux}>
+//       <Routes>
+//         <Route path="/post"
+//           element={
+//             <React.Fragment>
+//               <AddPostForm />
+//               <PostList />
+//             </React.Fragment>
+//           }
+//         />
+//         <Route path="/posts/:postId" element={<SinglePostForm/>} />
+//         <Route path="/editPost/:postId" element={<EditPostForm/>} />
+//       </Routes>
+//     </Provider>
+
+//   )
+// }
+// const PostList = () => {
+
+//   const posts = useSelector(state => state.post)
+//   const [test, setTest] = useState("tan dep trai");
+//   const renderedPosts = posts.map(post => (
+//     <article key={post.id} style={{backgroundColor: 'aqua', margin: 15}}>
+//       <h3>{post.title}</h3>
+//       <p>{post.content}</p>
+//     </article>
+//   ))
+
+//   return (
+//     <section >
+//       <h2>Posts</h2>
+//       {renderedPosts}
+//       <input value={test} onChange={()=>{setTest("abc")}}></input>
+//     </section>
+//   )
+// }
+// const AddPostForm = () => {
+//   const [title, setTitle] = useState('')
+//   const [content, setContent] = useState('')
+//   const [userId, setUserId] = useState('')
+
+//   const dispatch = useDispatch()
+//   const users = useSelector((state) => state.users)
+
+//   const onTitleChanged = (e) => setTitle(e.target.value)
+//   const onContentChanged = (e) => setContent(e.target.value)
+//   const onAuthorChanged = (e) => setUserId(e.target.value)
+
+//   const onSavePostClicked = () => {
+//     if (title && content) {
+//       dispatch(postAdded(title, content, userId))
+//       setTitle('')
+//       setContent('')
+//     }
+//   }
+
+//   const canSave = Boolean(title) && Boolean(content) && Boolean(userId)
+
+//   const usersOptions = users.map((user) => (
+//     <option key={user.id} value={user.id}>
+//       {user.name}
+//     </option>
+//   ))
+
+//   return (
+//     <section>
+//       <h2>Add a New Post</h2>
+//       <form>
+//         <label htmlFor="postTitle">Post Title:</label>
+//         <input
+//           type="text"
+//           id="postTitle"
+//           name="postTitle"
+//           placeholder="What's on your mind?"
+//           value={title}
+//           onChange={onTitleChanged}
+//         />
+//         <label htmlFor="postAuthor">Author:</label>
+//         <select id="postAuthor" value={userId} onChange={onAuthorChanged}>
+//           <option value=""></option>
+//           {usersOptions}
+//         </select>
+//         <label htmlFor="postContent">Content:</label>
+//         <textarea
+//           id="postContent"
+//           name="postContent"
+//           value={content}
+//           onChange={onContentChanged}
+//         />
+//         <button type="button" onClick={onSavePostClicked} disabled={!canSave}>
+//           Save Post
+//         </button>
+//       </form>
+//     </section>
+//   )
+// }
+// const EditPostForm = () => {
+
+//   // const { postId } = match.params
+//   const { postId } = useParams();
+//   // console.log(postId);
+
+//   const post = useSelector((state) =>
+//     state.post.find((post) => post.id === postId)
+//   )
+
+//   const [title, setTitle] = useState(post.title)
+//   const [content, setContent] = useState(post.content)
+
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
+//   // navigate('/')
+
+//   const onTitleChanged = (e) => setTitle(e.target.value)
+//   const onContentChanged = (e) => setContent(e.target.value)
+
+//   const onSavePostClicked = () => {
+//     if (title && content) {
+//       dispatch(postUpdate({ id: postId, title, content }))
+//       // navigate(`/posts/${postId}`)
+//       navigate("/post");
+//     }
+//   }
+
+//   return (
+//     <section>
+//       <h2>Edit Post</h2>
+//       <form>
+//         <label htmlFor="postTitle">Post Title:</label>
+//         <input
+//           type="text"
+//           id="postTitle"
+//           name="postTitle"
+//           placeholder="What's on your mind?"
+//           value={title}
+//           onChange={onTitleChanged}
+//         />
+//         <label htmlFor="postContent">Content:</label>
+//         <textarea
+//           id="postContent"
+//           name="postContent"
+//           value={content}
+//           onChange={onContentChanged}
+//         />
+//       </form>
+//       <button type="button" onClick={onSavePostClicked}>
+//         Save Post
+//       </button>
+//     </section>
+//   )
+// }
+// const SinglePostForm = () => {
+
+//   const { postId } = useParams();
+
+//   const post = useSelector((state) =>
+//     state.post.find((post) => post.id === postId)
+//   )
+//   // console.log("post:", post);
+//   if (!post) {
+//     return (
+//       <section>
+//         <h2>Post not found!</h2>
+//       </section>
+//     )
+//   }
+
+//   return (
+//     <section>
+//       <article>
+//         <h2>{post.title}</h2>
+//         <div>
+//           <PostAuthor userId={post.user} />
+//           <TimeAgo timestamp={post.date} />
+//         </div>
+//         <p>{post.content}</p>
+//         <ReactionButtons post={post} />
+//         <Link to={`/editPost/${post.id}`} className="button">
+//           Edit Post
+//         </Link>
+//       </article>
+//     </section>
+//   )
+// }
+// const PostAuthor = ({ userId }) => {
+//   // console.log("userID:", userId);
+//   const author = useSelector((state) =>
+//     state.users.find((user) => user.id === userId)
+//   )
+
+//   return <span>by {author ? author.name : 'Unknown author'}</span>
+// }
+// const TimeAgo = ({ timestamp }) => {
+//   let timeAgo = ''
+//   if (timestamp) {
+//     const date = parseISO(timestamp)
+//     const timePeriod = formatDistanceToNow(date)
+//     timeAgo = `${timePeriod} ago`
+//   }
+
+//   return (
+//     <span title={timestamp}>
+//       &nbsp; <i>{timeAgo}</i>
+//     </span>
+//   )
+// }
+
+// const reactionEmoji = {
+//   thumbsUp: '👍',
+//   hooray: '🎉',
+//   heart: '❤️',
+//   rocket: '🚀',
+//   eyes: '👀',
+// }
+
+// const ReactionButtons = ({ post }) => {
+//   const dispatch = useDispatch()
+
+//   const reactionButtons = Object.entries(reactionEmoji).map(([name, emoji]) => {
+//     return (
+//       <button
+//         key={name}
+//         type="button"
+//         className="muted-button reaction-button"
+//         onClick={() =>
+//           dispatch(reactionAdded({ postId: post.id, reaction: name }))
+//         }
+//       >
+//         {emoji} {post.reactions[name]}
+//       </button>
+//     )
+//   })
+
+//   return <div>{reactionButtons}</div>
+// }
+// const StoreRedux = configureStore({
+//   reducer:{
+//     // counter: CounterReducer,
+//     // post: PostReducer,
+//     // users: userSlice,
+//     // alerts: alertReducer,
+//   },
+//   middleware:[logger, thunk],
+// });
+// const initialStateUser = [
+//   { id: '0', name: 'Tianna Jenkins' },
+//   { id: '1', name: 'Kevin Grant' },
+//   { id: '2', name: 'Madison Price' },
+// ]
+
+// const usersSlice = createSlice({
+//   name: 'users',
+//   initialState: initialStateUser,
+//   reducers: {},
+// });
+// const initialState = [
+//   {
+//     id: '1',
+//     title: 'First Post!',
+//     content: 'Hello!',
+//     user: '0',
+//     date: sub(new Date(), { minutes: 10 }).toISOString(),
+//     reactions: {
+//       thumbsUp: 0,
+//       hooray: 0,
+//       heart: 0,
+//       rocket: 0,
+//       eyes: 0,
+//     },
+//   },
+//   {
+//     id: '2',
+//     title: 'Second Post',
+//     content: 'More text',
+//     user: '2',
+//     date: sub(new Date(), { minutes: 5 }).toISOString(),
+//     reactions: {
+//       thumbsUp: 0,
+//       hooray: 0,
+//       heart: 0,
+//       rocket: 0,
+//       eyes: 0,
+//     },
+//   },
+// ]
+// const PostSlice = createSlice({
+//   name: "post",
+//   initialState,
+//   reducers:{
+//     postAdded: {
+//       reducer(state, action){
+//       state.push(action.payload);
+//       },    
+//       prepare(title, content, userId) {
+//         return {
+//           payload: {
+//             id: nanoid(),
+//             date: new Date().toISOString(),
+//             title,
+//             content,
+//             user: userId,
+//             reactions: {
+//               thumbsUp: 0,
+//               hooray: 0,
+//               heart: 0,
+//               rocket: 0,
+//               eyes: 0,
+//             },
+//           },
+//         }
+//       },
+//   },
+//     reactionAdded(state, action) {
+//       const { postId, reaction } = action.payload
+//       const existingPost = state.find((post) => post.id === postId)
+//       if (existingPost) {
+//         existingPost.reactions[reaction]++
+//       }
+//     },
+//     // postMes: (state, action) => {
+//     //   switch(action.type){
+//     //     case "TEST": return [...state, {content: "tan dep trai", title: "test"}];
+//     //     default: return [...state, {content: "tan sieu dep trai", title:"default"}];
+//     //   }
+//     // }
+//     postUpdate:(state, action) => {
+//       const {id, title, content} = action.payload;
+//       const existPost = state.find((post)=>post.id===id);
+//       // console.log(existPost);
+//       if(existPost){
+//         existPost.title = title;
+//         existPost.content = content
+//       }
+//       // console.log(existPost);
+//     }
+//   }
+// });
+// const CounterSlice = createSlice({
+//   name: 'counter',
+//   initialState: {
+//     value: 0,
+//     name: 'tan',
+//   },
+//   reducers: {
+//     increment: state => {state.value += 1; state.name= "dlkf"},
+//     decrement: state => { state.value -=1; state.name="bcd"},
+//     incrementByAmount: (state, action) => {
+//       state.value += action.payload
+//       state.name = action.type;
+//     }
+//   },
+//   // extraReducers:
+// });
+
+// export const { increment, decrement, incrementByAmount } = CounterSlice.actions
+
+// export const incrementAsync = (amount) => (dispatch) => {
+//   setTimeout(() => {
+//     dispatch(incrementByAmount(amount))
+//   }, 1000)
+// }
+// export const incrementWait = (amount) => {
+
+//   return((dispatch)=>{
+//     setTimeout(()=>{
+//       dispatch(incrementByAmount(amount))
+//     }, 2000);
+//   })
+// }
+// export const selectCount = (state) => state.counter.value
+// export default ReduxPage;
 //https://dev.to/vcnsiqueira/react-authentication-tutorial-with-firebase-v9-and-firestore-id6
+//https://github.com/gitdagray/react_redux_toolkit
+//https://github.com/sanderdebr/redux-crud-tutorial/tree/master/src/features/users
