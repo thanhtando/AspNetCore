@@ -163,4 +163,15 @@ projects manager:
       ☐ reducer
       ☐ store
       ☐ slice
+Project LEANJPN:
+  Notification:
+    ☐ everyday 1 task (practices japanese)
+    ☐ week 1 big task
+    ☐ mont 1 supper big task
+  Level:
+    ☐ exp: time, task, typping book, study
+  table:
+    ☐ admin: user table, plan table, book study
+    ☐ user: user table, user content study, user book study
+    ☐ plan component: 目標、時間、本、
     

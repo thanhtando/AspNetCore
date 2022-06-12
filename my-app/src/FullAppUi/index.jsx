@@ -72,7 +72,7 @@ import {
   Avatar, List, ListItem, ListItemIcon, ListItemText, 
   Alert, TableContainer, Table, TableRow, 
   TableBody,
-  Tooltip, Autocomplete, Stack, Snackbar, Tab, Tabs, CardMedia, Modal,
+  Tooltip, Autocomplete, Stack, Snackbar, Tab, Tabs, CardMedia, Modal, Stepper, Step, StepLabel,
   // useTheme
 } from "@mui/material";
 import MenuCom from "@mui/material/Menu"
@@ -183,8 +183,12 @@ import { configureStore, createSlice } from '@reduxjs/toolkit';
 // const logoAtlassian = require("../assets/images/small-logos/logo-atlassian.svg");
 // const logoSlack = require("../assets/images/small-logos/logo-slack.svg");
 // const logoSpotify = require("../assets/images/small-logos/logo-spotify.svg");
-const bgImage = require("../assets/images/bg-sign-in-basic.jpeg");
-const bgImage_su = require("../assets/images/bg-sign-up-cover.jpeg");
+
+// const bgImage = require("../assets/images/bg-sign-in-basic.jpeg");
+// const bgImage_su = require("../assets/images/bg-sign-up-cover.jpeg");
+
+const bgImage = require("../assets/images/bg/bg_boat_2.jpeg");
+const bgImage_su = require("../assets/images/bg/bg_boat_2.jpeg");
 const brandWhite = require("../assets/images/logo-ct.png");
 const brandDark =  require("../assets/images/logo-ct-dark.png");
 // const team2 = require("../assets/images/team-2.jpg");
@@ -514,6 +518,66 @@ function FirestoreList() {
 
 
 Chart.register(...registerables);
+
+const StepperStyle = styled(Stepper)(({theme, ownerState})=>{
+
+  return{
+    backgroundColor: "inherit",
+  }
+});
+const TTStepper = forwardRef(({color, bgColor, children, ...rest}, ref)=>{
+
+  return(
+    <StepperStyle
+      {...rest}
+      ref={ref}
+      ownerState={{ color, bgColor }}
+    >
+    {children}
+    </StepperStyle>
+  )
+})
+const stepData = [
+  {
+    id: 1,
+    title: "select campaign setting",
+  },
+  {
+    id: 1,
+    title: "Create an ad group",
+  },
+  {
+    id: 3,
+    title: "Crate an ad",
+  },
+  {
+    id: 4,
+    title: "complete",
+  },
+]
+const IntroStepper = () => {
+
+  return(
+    <Stack sx={{width: "100%"}} spacing={4}>
+      <Stepper>
+        {stepData.map((item, idx)=>(
+          <Step key={item.title}>
+            <StepLabel>{item.title}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+    </Stack>
+  )
+}
+const Intro = () => {
+
+  return(
+    <TTBox>
+      {/* stepper intro */}
+      <IntroStepper/>
+    </TTBox>
+  )
+}
 const TimeLineExample = () => {
 
   return(
@@ -799,7 +863,30 @@ TTBadge.propTypes = {
     reducer: reducerRoot
   });
 
+const HomeLayout = ({children}) => {
 
+  return(
+    <PageLayout>
+      <DefaultNavbar 
+                action={{
+          type: "external",
+          route: "http://www.google.com",
+          label: "Learn Start",
+          color: "dark",
+        }}
+        light={false}
+      />
+      <TTBox px={1} width="100%" height="100vh" mx="auto">
+        <Grid container spacing={1} justifyContent="center" alignItems="center" height="100%">
+          <Grid item >
+            {children}
+          </Grid>
+        </Grid>
+      </TTBox>
+      <Footer />
+    </PageLayout>
+  )
+}
 const Home = () => {
 
   //get state from store
@@ -808,27 +895,29 @@ const Home = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState(person.name);
   return(
-    <TTBox>
-      
+    <HomeLayout>
+      <Card>
       <TTTypography
-        variant="button"
-        fontWeight="medium"
-        color={"primary"}
-        textGradient = {false}
-      >Home Page</TTTypography>
-      {/* <FbAuthSignupBtn/> */}
-      <p>name: {person.name}</p>
-      <p>age: {person.age}</p>
+          variant="button"
+          fontWeight="medium"
+          color={"primary"}
+          textGradient = {false}
+        >Home Page</TTTypography>
+        <Intro />
+        {/* <FbAuthSignupBtn/> */}
+        <p>name: {person.name}</p>
+        <p>age: {person.age}</p>
 
-      {/* incrementAgeのdispatch */}
-      <button onClick={() => dispatch(incrementAge())}>age + 1</button>
-      <button onClick={() => dispatch(de(5))}>age - 1</button>
+        {/* incrementAgeのdispatch */}
+        <button onClick={() => dispatch(incrementAge())}>age + 1</button>
+        <button onClick={() => dispatch(de(5))}>age - 1</button>
 
-      {/* changeNameのdispatch */}
-      <input  value={name} onChange={e => setName(e.target.value)}/>
-      <button onClick={() => dispatch(changeName(name))}>change name</button>      <TimeLineExample/>
-      <PlanModal />
-    </TTBox>
+        {/* changeNameのdispatch */}
+        <input  value={name} onChange={e => setName(e.target.value)}/>
+        <button onClick={() => dispatch(changeName(name))}>change name</button>      <TimeLineExample/>
+        <PlanModal />
+      </Card>
+    </HomeLayout>
   )
 }
 const Search = styled('div')(({ theme }) => ({
@@ -2677,6 +2766,7 @@ const SignIn = () => {
               <TTInput 
                 type="email" 
                 name="email" 
+                label="Email"
                 fullWidth
                 // disabled 
                 // error
@@ -2684,7 +2774,7 @@ const SignIn = () => {
               />
             </TTBox>
             <TTBox mb={2}>
-              <TTInput type="password" name="password" fullWidth />
+              <TTInput type="password" label="Password" name="password" fullWidth />
             </TTBox>
             <TTBox display="flex" alignItems="center" ml={-1}>
               <Switch checked={rememberMe} onChange={handleSetRememberMe} />
@@ -2863,13 +2953,13 @@ const SignUp = () => {
           {/* input */}
           <TTBox>
             <TTBox mb={2}>
-              <TTInput type="text" name="name" variant="standard" fullWidth></TTInput>
+              <TTInput type="text" name="name" label="Name" variant="standard" fullWidth></TTInput>
             </TTBox>
             <TTBox mb={2}>
-              <TTInput type="email" name="email" variant="standard" fullWidth></TTInput>
+              <TTInput type="email" name="email" label="Email" variant="standard" fullWidth></TTInput>
             </TTBox>
             <TTBox mb={2}>
-              <TTInput type="password" name="password" variant="standard" fullWidth></TTInput>
+              <TTInput type="password" name="password" label="Password" variant="standard" fullWidth></TTInput>
             </TTBox>
           </TTBox>
           {/* term and condition */}
@@ -5085,26 +5175,31 @@ const TestDb = () => {
     //   registeredAt: Timestamp.fromDate(new Date()),
     // });
   }
+  return(
+    <TTBox>
+      Tan dep trai
+    </TTBox>
+  )
 }
 const Notifications = () => {
 
 
   return(
-<DashboardLayout>
-  {/* <TTBox mt={6} mb={3}> */}
-  <Grid container spacing={3} justifyContent="center" mt={6} mb={3}>
-    <Grid item xs={12} lg={8}>
-      <AlertTable/>
+  <DashboardLayout>
+    {/* <TTBox mt={6} mb={3}> */}
+    <Grid container spacing={3} justifyContent="center" mt={6} mb={3}>
+      <Grid item xs={12} lg={8}>
+        <AlertTable/>
+      </Grid>
+      <Grid item xs={12} lg={8}>
+        <NotifiTable/>
+      </Grid>
+      <Grid item xs={12} lg={8}>
+        <TestDb />
+      </Grid>
     </Grid>
-    <Grid item xs={12} lg={8}>
-      <NotifiTable/>
-    </Grid>
-    <Grid item xs={12} lg={8}>
-      <TestDb />
-    </Grid>
-  </Grid>
-  {/* </TTBox> */}
-</DashboardLayout>
+    {/* </TTBox> */}
+  </DashboardLayout>
   )
 }
 
@@ -6929,7 +7024,7 @@ const ConfigNavbarStyle = styled(Drawer)(({theme, ownerState})=>{
   }
 })
 const AuthContext = createContext();
-AuthContext.displayName = "Authhorizon";
+AuthContext.displayName = "Authorizon";
 
 export function useAuthContext() {
     return useContext(AuthContext);
@@ -6956,6 +7051,24 @@ const AuthProvider = ({children}) => {
         </AuthContext.Provider>
     )
 }
+const Plan = () => {
+
+  return(
+    <TTBox>
+      {/* title */}
+      <TTBox>
+        <TTTypography>Plan</TTTypography>
+      </TTBox>
+      {/*  */}
+      <TTBox>
+        <TTBox>
+          <TTTypography>Muc Tieu</TTTypography>
+          
+        </TTBox>
+      </TTBox>
+    </TTBox>
+  )
+}
 // export default AuthProvider;
 export const PrivateRoute = ({children}) => {
   const location = useLocation();
@@ -6965,15 +7078,19 @@ export const PrivateRoute = ({children}) => {
   if(loading){
       return(<p>Checking Authentication</p>)
   }
-  // if(user){
-  //     return<Navigate to={"/login"} state={{from: location}}/>
-  // }
+
   return user?children:<Navigate to={"/login"} state={{from: location}}/>;
 }
 export const PublicRoute = () => {
   return(
      <Route path="/" element={<Home/>}/> 
   )
+}
+export const ProtectRoute = ({children}) => {
+
+  return(
+    <Route path="/" element={<Home/>}/> 
+ )
 }
 const ChildApp = () => {
 
@@ -7052,6 +7169,7 @@ const ChildApp = () => {
         <Route path="/tables" element={<Tables />}/>
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/billing" element={<Billing />}/>
+        <Route path="/plan" element = { <Plan/>}/>
       </Routes>
     </ThemeProvider>
     </MeasureRender>
