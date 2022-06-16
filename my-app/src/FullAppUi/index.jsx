@@ -30,7 +30,7 @@ import {
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { collection, getFirestore, addDoc, getDocs} from 'firebase/firestore';
 import { query, where, onSnapshot, setDoc, doc, getDoc } from 'firebase/firestore'
-import { initializeApp } from "firebase/app";
+import firebase ,{ initializeApp } from "firebase/app";
 
 // react import
 import React from "react";
@@ -184,11 +184,11 @@ import { configureStore, createSlice } from '@reduxjs/toolkit';
 // const logoSlack = require("../assets/images/small-logos/logo-slack.svg");
 // const logoSpotify = require("../assets/images/small-logos/logo-spotify.svg");
 
-// const bgImage = require("../assets/images/bg-sign-in-basic.jpeg");
-// const bgImage_su = require("../assets/images/bg-sign-up-cover.jpeg");
+ const bgImage = require("../assets/images/bg-sign-in-basic.jpeg");
+ const bgImage_su = require("../assets/images/bg-sign-up-cover.jpeg");
 
-const bgImage = require("../assets/images/bg/bg_boat_2.jpeg");
-const bgImage_su = require("../assets/images/bg/bg_boat_2.jpeg");
+//const bgImage = require("../assets/images/bg/bg_boat_2.jpeg");
+//const bgImage_su = require("../assets/images/bg/bg_boat_2.jpeg");
 const brandWhite = require("../assets/images/logo-ct.png");
 const brandDark =  require("../assets/images/logo-ct-dark.png");
 // const team2 = require("../assets/images/team-2.jpg");
@@ -7078,7 +7078,9 @@ export const PrivateRoute = ({children}) => {
   if(loading){
       return(<p>Checking Authentication</p>)
   }
-
+  // if(user){
+  //     return<Navigate to={"/login"} state={{from: location}}/>
+  // }
   return user?children:<Navigate to={"/login"} state={{from: location}}/>;
 }
 export const PublicRoute = () => {
@@ -7133,7 +7135,7 @@ const ChildApp = () => {
 
   
   return(
-    <MeasureRender name="ChildApp">
+    // <MeasureRender name="ChildApp">
     <ThemeProvider theme={darkMode?themeDark:themeLight}>
       <CssBaseline />
       {layout === "dashboard" && (
@@ -7172,7 +7174,7 @@ const ChildApp = () => {
         <Route path="/plan" element = { <Plan/>}/>
       </Routes>
     </ThemeProvider>
-    </MeasureRender>
+    // </MeasureRender>
   )
 }
 const FullAppUi = () => {
@@ -10752,4 +10754,37 @@ function Component(props) {
 // export default ReduxPage;
 //https://dev.to/vcnsiqueira/react-authentication-tutorial-with-firebase-v9-and-firestore-id6
 //https://github.com/gitdagray/react_redux_toolkit
-//https://github.com/sanderdebr/redux-crud-tutorial/tree/master/src/features/users
+//https://github.com/sanderdebr/redux-crud-tutorial/tree/master/src/features/users 
+//https://medium.com/exelerate/the-simplest-way-to-combine-react-redux-and-firestore-typescript-353bea49cdbd
+//https://zenn.dev/aono/articles/84964fae727445
+//https://github.com/UTDNebula/planner
+//https://qiita.com/hibohiboo/items/3d0665b9a85342f42264
+//https://github.com/hibohiboo/create-now
+//https://medium.com/exelerate/the-simplest-way-to-combine-react-redux-and-firestore-typescript-353bea49cdbd
+//https://github.com/sherstkov/react-redux-toolkit-app/tree/main/src
+//firestorage.rules
+const Coment = () => {
+  //https://qiita.com/hibohiboo/items/3d0665b9a85342f42264
+  // rules_version = '2';
+  // service cloud.firestore {
+  //   function isSignedIn() {
+  //     return request.auth != null;
+  //   }
+  //   function isOwner(rsc) {
+  //     // データ作成した本人であることを確認
+  //     return isSignedIn() && request.auth.uid == rsc.data.uid;
+  //   }
+
+  //   // マッチングルール
+  //   match /databases/{database}/documents {
+  //     match /others/memolist/{documents=**} {
+  //       allow read, create, update
+  //       allow delete: if isOwner(resource)
+  //     }
+  //   }
+  // }
+}
+
+//
+
+
