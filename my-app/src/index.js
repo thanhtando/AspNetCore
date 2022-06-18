@@ -10,6 +10,8 @@ import reportWebVitals from './reportWebVitals';
 // import RootProvider from './provider';
 // import FullApp from './FullApp/index';
 import FullAppUi from './FullAppUi/index';
+import FsCRUD from './FullAppUi/firestoreCRUD';
+import CRUD from './FullAppUi/CRUD';
 
 ReactDOM.render(
   // <RootProvider>
@@ -17,8 +19,9 @@ ReactDOM.render(
   // </RootProvider>  
 
     // <FullApp />
-  <FullAppUi />
-  
+  // <FullAppUi />
+  <FsCRUD/>
+
   ,document.getElementById('root')
 );
 //TODO: add redux example : check
