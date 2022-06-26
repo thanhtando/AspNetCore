@@ -54,6 +54,29 @@ deploy github pages:
   3.1.Generating a new ssh key
       $ssh-key{}gen -t ed25519 -C "{mail}"
       $open -a "TextEdit" /Users/{my mac_name}/.ssh/id_ed25519.pub
+4.
+  git init
+  git config
+  git clone
+  git status
+  git add .
+  git commit -m " message add here "
+  git push
+
+  // group
+  git pull
+
+  git checkout -b branch_name : create new branch
+  git branch : see branch
+
+  git fetch
+  git merge
+  
+  git push origin branch_name: day code len branch_name
+  git checkout main(master)
+
+
+
 
 
 
