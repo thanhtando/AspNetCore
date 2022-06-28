@@ -20,8 +20,7 @@ import { useEffect, useState } from 'react';
 import { addDoc, collection, doc, getFirestore, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, Card } from "@mui/material";
-import { getDocs } from 'firebase/firestore';
+import { Button } from "@mui/material";
 
 const firebaseConfig2 = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,

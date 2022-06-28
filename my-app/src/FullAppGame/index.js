@@ -2,7 +2,7 @@
 const FullAppGame = () => {
 
   return(
-    <div>tan dep trai</div>
+    <div>tan dep </div>
   )
 }
 

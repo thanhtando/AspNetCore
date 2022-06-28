@@ -12,6 +12,7 @@ import reportWebVitals from './reportWebVitals';
 import FullAppUi from './FullAppUi/index';
 import FsCRUD from './FullAppUi/firestoreCRUD';
 import CRUD from './FullAppUi/CRUD';
+import MyApp from './FullAppUi/MTRRFirestore';
 
 ReactDOM.render(
   // <RootProvider>
@@ -20,7 +21,8 @@ ReactDOM.render(
 
     // <FullApp />
   // <FullAppUi />
-  <FsCRUD/>
+  // <FsCRUD/>
+  <MyApp/>
 
   ,document.getElementById('root')
 );
