@@ -1,11 +1,20 @@
-import { configureStore } from '@reduxjs/toolkit'
 import thunk from 'redux-thunk';
-import logger from 'redux-logger';
 import AlertRed from '../slices';
-const StoreRedux = configureStore({
-  reducer:{
-    alerts: AlertRed
-  },
-  middleware: [logger, thunk],
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { logger } from 'redux-logger';
+
+const RootState = {
+
+}
+const RootReducer = combineReducers({
+  
 })
-export default StoreRedux;
+const middleWare = [logger, thunk]
+const storeSetup = configureStore({
+  reducer: RootReducer,
+  preloadedState: RootState,
+  devTools: true,
+  middleware: middleWare,
+  // enhancers:
+})
+export default storeSetup
