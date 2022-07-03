@@ -10,4 +10,16 @@
 4.router
     npm install react-router-dom react-router
   
+// router
+npm install react-router-dom
 
+// redux
+npm install redux @reduxjs/toolkit react-redux
+npm install redux-logger redux-thunk
+
+// firebase
+npm install firebase
+
+//material ui
+npm install @mui/material @emotion/react @emotion/styled
+npm install @mui/icons-material

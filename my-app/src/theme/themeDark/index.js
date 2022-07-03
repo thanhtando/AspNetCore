@@ -2,7 +2,7 @@ import { createTheme } from "@mui/material";
 import breakpoints from '../base/breakpoints';
 import colors from '../base/colors';
 import { typography_dark } from "../components/typography";
-import boxShadows from '../base/boxshadows';
+import boxShadows from '../base/boxShadows';
 import borders from '../base/borders';
 import { rgba } from "../function";
 import { boxShadow, hexToRgb, linearGradient, pxToRem, gradientChartLine } from "../function";
