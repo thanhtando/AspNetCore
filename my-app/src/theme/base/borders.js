@@ -1,12 +1,12 @@
-import Colors from "./colors";
+import colors from "./colors";
 import { pxToRem } from "../function";
-
-const { grey } = Colors;
 
 //add new border width, border color, border radius
 //customized the borders value 
-const Borders = {
+const { grey } = colors;
+const borders = {
   borderColor: grey[300],
+
   borderWidth: {
     0: 0,
     1: pxToRem(1),
@@ -25,5 +25,5 @@ const Borders = {
     xxl: pxToRem(16),
     section: pxToRem(160),
   },
-}
-export default Borders;
+};
+export default borders;

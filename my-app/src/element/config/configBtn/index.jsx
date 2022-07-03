@@ -1,3 +1,7 @@
+
+import TTBox from '../../../components/TTBox/index';
+import Icon from "@mui/material/Icon";
+
 const ConfigButton = ({handleConfiguratorOpen}) => {
   return(
     <TTBox
@@ -21,3 +25,5 @@ const ConfigButton = ({handleConfiguratorOpen}) => {
     </TTBox>
   )
 }
+
+export default ConfigButton;

@@ -7,14 +7,14 @@ import React, {
 import PropTypes from "prop-types";
 import reducerUi from "./reducer";
 
-// Material context
-const MaterialUI = createContext();
+// Material ui context
+const UI = createContext();
 
 // Setting custom name for the context which is visible on react dev tools
-MaterialUI.displayName = "MaterialUIContext";
+UI.displayName = "MaterialUIContext";
 
 // Material context provider
-function MaterialUIControllerProvider({ children }) {
+function UIControllerProvider({ children }) {
 
   // ui init state
   const initialState = {
@@ -34,28 +34,28 @@ function MaterialUIControllerProvider({ children }) {
 
   const value = useMemo(() => [controller, dispatch], [controller, dispatch]);
 
-  return <MaterialUI.Provider value={value}>{children}</MaterialUI.Provider>;
+  return <UI.Provider value={value}>{children}</UI.Provider>;
 }
 
-// Material Dashboard 2 React custom hook for using context
-function useMaterialUIController() {
-  const context = useContext(MaterialUI);
+// custom hook for using context
+function useUIController() {
+  const context = useContext(UI);
 
   if (!context) {
     throw new Error(
-      "useMaterialUIController should be used inside the MaterialUIControllerProvider."
+      "useUIController should be used inside the UIControllerProvider."
     );
   }
 
   return context;
 }
 
-// Typechecking props for the MaterialUIControllerProvider
-MaterialUIControllerProvider.propTypes = {
+// Typechecking props for the UIControllerProvider
+UIControllerProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
 export {
-  MaterialUIControllerProvider,
-  useMaterialUIController,
+  UIControllerProvider,
+  useUIController,
 }

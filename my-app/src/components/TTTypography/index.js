@@ -1,26 +1,8 @@
+import { styled, Typography } from "@mui/material";
+import { forwardRef } from "react";
+import { useUIController } from "../../context/ui";
+import { PropTypes } from 'prop-types';
 
-const TTTypography = forwardRef((
-  {color, opacity, textGradient,
-  fontWeight, textTransform, verticalAlign,
-  children, ...rest}, ref
-)=>{
-
-  const [controller] = useMaterialUIController();
-  const { darkMode } = controller;
-
-  return(
-    <TypographyStyle 
-      {...rest}
-      ref = {ref}
-      ownerState ={{
-        color, opacity, textGradient,
-        textTransform, verticalAlign, fontWeight, darkMode
-      }}
-    >
-    {children}
-    </TypographyStyle>
-  )
-})
 const TypographyStyle = styled(Typography)(({theme, ownerState})=>{
 
   const {palette, functions, typography} = theme;
@@ -72,6 +54,29 @@ const TypographyStyle = styled(Typography)(({theme, ownerState})=>{
     ...(textGradient && gradientStyles()),
   }
 });
+
+const TTTypography = forwardRef((
+  {color, opacity, textGradient,
+  fontWeight, textTransform, verticalAlign,
+  children, ...rest}, ref
+)=>{
+
+  const [controller] = useUIController();
+  const { darkMode } = controller;
+
+  return(
+    <TypographyStyle 
+      {...rest}
+      ref = {ref}
+      ownerState ={{
+        color, opacity, textGradient,
+        textTransform, verticalAlign, fontWeight, darkMode
+      }}
+    >
+    {children}
+    </TypographyStyle>
+  )
+})
 // Setting default values for the props
 TTTypography.defaultProps={
   color: "dark",
@@ -113,3 +118,5 @@ TTTypography.propTypes = {
   children: PropTypes.node.isRequired,
   opacity: PropTypes.number,
 };
+
+export default TTTypography;

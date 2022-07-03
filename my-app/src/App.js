@@ -1,74 +1,91 @@
+import React from "react";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import { useMaterialUIController } from "./context/ui";
+import { setMiniSidenav, setOpenConfigurator } from "./context/ui/module";
+import { routes } from './router/path/index';
+import { themeDark, themeLight } from './theme/index';
+import SideNavbar from "./layout/sidenav";
+import MeasureRender from "./FullAppUi/mesure";
 
-// import { useEffect, useState } from 'react';
-import './App.scss';
+function App() {
 
-//MyMaterial react context
-// import { useMyMaterial } from './context/material provider';
+  const [controller, dispatch] = useMaterialUIController();
+  const {
+    miniSidenav,
+    // direction,
+    layout,
+    openConfigurator,
+    sidenavColor,
+    transparentSidenav,
+    whiteSidenav,
+    darkMode,
+  } = controller;
 
-//MyMaterial react theme
-// import ThemeMain from './resource/theme/theme';
+  const [ isOnMouseEnter, setOnMouseEnter] = useState(false);  
 
-//rtl plugins
-//import rtlPlugin from 'stylist-plugin-rtl';
-// import { CacheProvider } from '@emotion/react';
-// import createCache from '@emotion/cache';
-// import { CssBaseline, ThemeProvider } from '@mui/material';
-// import Sidenav from './element/Sidenav';
-import Example from './examples';
+  // Open sidenav when mouse enter on mini sidenav
+  const handleOnMouseEnter = () => {
+    if (miniSidenav && !isOnMouseEnter) {
+      setMiniSidenav(dispatch, false);
+      setOnMouseEnter(true);
+    }
+  };
 
-const App = () => {
-  // const [controller, dispatch] = useMyMaterial();
-  // const { direction, darkMode, layout } = controller;
+  // Close sidenav when mouse leave mini sidenav
+  const handleOnMouseLeave = () => {
+    if (isOnMouseEnter) {
+      setMiniSidenav(dispatch, true);
+      setOnMouseEnter(false);
+    }
+  };
 
-  // //rtl setting
-  // const [rtlCache, setRtlCache] = useState(null);
-  
-  // //setting the dir attribute for the body element
-  // useEffect(()=>{
-  //   console.log("direction",direction);
-  //   document.body.setAttribute("dir", direction);
-  // },[direction]);
+  // Change the openConfigurator state
+  const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
 
-  //cache for rtl
-  // useMemo(()=>{
-  //   const cacheRTL = createCache({
-  //     key: "rtl",
-  //     stylistPlugins: [rtlPlugin]
-  //   });
-  //   setRtlCache(cacheRTL);
-  // },[])
-
-  //router
-  // const RouterTable = (allRoutes) => {
-  //   // const table = [];
-  //   // allRoutes.map((route)=>{
-  //   //   if(route.coll)
-  //   // })
-  // }
   return(
-    <Example />
+    <MeasureRender name="ChildApp">
+      <ThemeProvider theme={darkMode?themeDark:themeLight}>
+        <CssBaseline />
+        {layout === "dashboard" && (
+          <>
+            <SideNavbar 
+              color={sidenavColor}
+              brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+              brandName="Learn Japanese"
+              routes={routes}
+              onMouseEnter={handleOnMouseEnter}
+              onMouseLeave={handleOnMouseLeave}            
+            />
+            <ConfigNavbar />
+            <ConfigButton handleConfiguratorOpen={handleConfiguratorOpen}/>
+          </>
+        )}
+        {layout === "vr" && <ConfigNavbar />}
+        <Routes>
+          {/* {getRoutes(routes)} */}
+          {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
+          <Route path="*" element={<Home />}/>
+          <Route path="/test" element={<TestMaterial/>}/>
+          <Route path="/signin" element={<SignIn/>}/>
+          <Route path="/signup" element={<SignUp/>}/>
+          <Route path="/reset" element={<SignReset/>}/>
+          <Route path="/dashboard" element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+            
+          }/>
+          <Route path="/notifications" element={<Notifications/>}/>
+          <Route path="/tables" element={<Tables />}/>
+          <Route path="/profile" element={<Profile/>}/>
+          <Route path="/billing" element={<Billing />}/>
+          <Route path="/plan" element = { <Plan/>}/>
+        </Routes>
+      </ThemeProvider>
+    </Mea>
   )
-  // return ((direction==="rtl")
-  //   ?<CacheProvider value={rtlCache}>
-  //     <ThemeProvider theme={ThemeMain}>
-        
-  //       <CssBaseline />
-  //       {layout==="dashboard" &&(
-  //         <div>
-  //           <Sidenav />
-  //         </div>
-  //       )}
-  //       <div>
-  //         <label>rtl</label>
-  //       </div>
-  //     </ThemeProvider>
-  //   </CacheProvider>
-  //   :<ThemeProvider theme={ThemeMain}>
-  //     <div>
-  //       <label>none rtl</label>
-  //     </div>
-  //   </ThemeProvider>
-  // );
 }
 
 export default App;

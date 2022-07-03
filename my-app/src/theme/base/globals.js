@@ -1,14 +1,16 @@
-import Colors from "./colors";
+import colors from "./colors";
 
-const { info, dark } = Colors; 
-//ToDo: css global
-const Globals = {
-  html: { scrollBehavior: "smooth" },
-  "*, *::before, *::after":{
+const { info, dark } = colors;
+
+const globals = {
+  html: {
+    scrollBehavior: "smooth",
+  },
+  "*, *::before, *::after": {
     margin: 0,
     padding: 0,
   },
-  "a, a:link, a:visited":{
+  "a, a:link, a:visited": {
     textDecoration: "none !important",
   },
   "a.link, .link, a.link:link, .link:link, a.link:visited, .link:visited": {
@@ -18,5 +20,5 @@ const Globals = {
   "a.link:hover, .link:hover, a.link:focus, .link:focus": {
     color: `${info.main} !important`,
   },
-}
-export default Globals;
+};
+export default globals;

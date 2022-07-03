@@ -1,5 +1,6 @@
 import { UI } from '../../constant/index';
-// Material reducer
+
+// ui reducer
 function reducerUi(state, action) {
   switch (action.type) {
     case UI.miniSideNav: {

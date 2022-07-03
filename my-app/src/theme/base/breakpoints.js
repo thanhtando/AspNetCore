@@ -9,4 +9,5 @@ const breakpoints = {
     xxl: 1408           //88*16
   }
 }
+
 export default breakpoints;

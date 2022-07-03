@@ -1,7 +1,13 @@
+import { PropTypes } from 'prop-types';
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import TTBox from "../../../components/TTBox";
+import { useUIController } from "../../../context/ui";
+import { setLayout } from "../../../context/ui/module";
 
 function PageLayout({ background, children }) {
 
-  const [, dispatch] = useMaterialUIController();
+  const [, dispatch] = useUIController();
   const location= useLocation();
   // console.log(location.pathname, location.state);
 
@@ -52,3 +58,5 @@ PageLayout.propTypes = {
     }),
   ]),
 };
+
+export default PageLayout;

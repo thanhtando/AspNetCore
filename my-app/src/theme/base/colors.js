@@ -2,7 +2,7 @@
 // the base colors for theme
 //add new color using this file
 //customized the colors
-const Colors = {
+const colors = {
   background: {
     default: "#f0f2f5",
   },
@@ -142,7 +142,7 @@ const Colors = {
       dark: "#00669c",
     },
 
-    pinterEst: {
+    pinterest: {
       main: "#cc2127",
       dark: "#b21d22",
     },
@@ -242,5 +242,4 @@ const Colors = {
     indicator: { boxShadow: "#ddd" },
   },
 };
-
-export default Colors;
+export default colors;
