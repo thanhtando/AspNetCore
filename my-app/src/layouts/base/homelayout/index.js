@@ -1,5 +1,6 @@
-const HomeLayout = ({children}) => {
+import PageLayout from "../pageLayout"
 
+const HomeLayout = ({children}) => {
   return(
     <PageLayout>
       <DefaultNavbar 

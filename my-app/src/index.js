@@ -13,22 +13,17 @@ import FullAppUi from './FullAppUi/index';
 import FsCRUD from './FullAppUi/firestoreCRUD';
 import CRUD from './FullAppUi/CRUD';
 import MyApp from './FullAppUi/MTRRFirestore';
+import RootProvider from './root/provider';
 
 ReactDOM.render(
-  // <RootProvider>
-  //   <App />
-  // </RootProvider>  
 
-    // <FullApp />
-  // <FullAppUi />
-  // <FsCRUD/>
-  <MyApp/>
+  <RootProvider>
+    <MyApp/>
+  </RootProvider>
+  
 
   ,document.getElementById('root')
 );
-//TODO: add redux example : check
-//TODO: add react-router-dom example
-
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

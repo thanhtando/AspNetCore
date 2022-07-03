@@ -1,3 +1,7 @@
+import { Grid } from "@mui/material";
+import TTBox from "../../../components/TTBox";
+import DefaultNavbar from "../../topnav/default";
+import PageLayout from "../pageLayout";
 
 function BasicLayout({ image, children }) {
 

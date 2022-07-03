@@ -1,10 +1,14 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 const SignIn = () => {
 
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
   //
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  
   const handleSubmit = (event) => {
       event.preventDefault();
       //firebase
@@ -131,3 +135,4 @@ const SignIn = () => {
     </BasicLayout>
   );
 }
+export default SignIn;

@@ -8,6 +8,7 @@ import { routes } from './router/path/index';
 import { themeDark, themeLight } from './theme/index';
 import SideNavbar from "./layout/sidenav";
 import MeasureRender from "./FullAppUi/mesure";
+import { PrivateRouter } from './router/index';
 
 function App() {
 
@@ -72,9 +73,9 @@ function App() {
           <Route path="/signup" element={<SignUp/>}/>
           <Route path="/reset" element={<SignReset/>}/>
           <Route path="/dashboard" element={
-            <PrivateRoute>
+            <PrivateRouter>
               <Dashboard />
-            </PrivateRoute>
+            </PrivateRouter>
             
           }/>
           <Route path="/notifications" element={<Notifications/>}/>
@@ -84,7 +85,7 @@ function App() {
           <Route path="/plan" element = { <Plan/>}/>
         </Routes>
       </ThemeProvider>
-    </Mea>
+    </MeasureRender>
   )
 }
 
