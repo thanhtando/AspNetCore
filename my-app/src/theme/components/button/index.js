@@ -1,6 +1,7 @@
 import colors from "../../base/colors";
 import { typography } from "../typography";
 import { pxToRem } from "../../function";
+import borders from "../../base/borders";
 
 const { text,  info, secondary, transparent, light, white } = colors;
 const { fontWeightBold,  size } = typography;

@@ -1,5 +1,6 @@
 import breakpoints from "../../base/breakpoints";
 import { pxToRem } from "../../function";
+
 const {
   values: { sm, md, lg, xl, xxl },
 } = breakpoints;
