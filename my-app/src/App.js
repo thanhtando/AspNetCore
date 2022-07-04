@@ -17,6 +17,8 @@ import { PlanUp } from './pages/plan';
 import Dashboard from './pages/dashboard';
 import Tables from './pages/table/index';
 import Notifications from './pages/notifications';
+import Profile from "./pages/profile";
+import Billing from './pages/billing/index';
 
 
 function App() {

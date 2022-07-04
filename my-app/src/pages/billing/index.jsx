@@ -532,3 +532,4 @@ const Billing = () => {
     </DashboardLayout>
   )
 }
+export default Billing;
