@@ -1,3 +1,7 @@
+import { Badge, styled } from '@mui/material';
+import { PropTypes } from 'prop-types';
+import { forwardRef } from 'react';
+
 const BadgeStyle = styled(Badge)(({theme, ownerState})=>{
 
   const { palette, typography, borders, functions } = theme;
@@ -159,3 +163,5 @@ TTBadge.propTypes = {
   children: PropTypes.node,
   container: PropTypes.bool,
 };
+
+export default TTBadge;

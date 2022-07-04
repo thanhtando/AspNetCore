@@ -1,165 +1,12 @@
+import { Card, Divider, Icon } from "@mui/material";
+import { createContext, useContext } from "react";
+import { useUIController } from "../../context/ui";
+import TTBox from "../TTBox";
+import TTTypography from "../TTTypography";
+import { PropTypes } from 'prop-types';
 
-const ComplexStatisticsCard = ({
-  color, title, count, percentage, icon
-}) => {
-  return(
-    <Card>
-      {/* content */}
-      <TTBox display="flex" justifyContent="space-between" pt={1} px={2}>
-        {/* icon */}
-        <TTBox
-          variant="gradient"
-          bgColor={color}
-          color={color === "light" ? "dark" : "white"}
-          coloredShadow={color}
-          borderRadius="xl"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          width="4rem"
-          height="4rem"
-          mt={-3}
-        >
-          <Icon fontSize="medium" color="inherit">{icon}</Icon>
-        </TTBox>
-        {/* title */}
-        <TTBox textAlign="right" lineHeight={1.25}>
-          <TTTypography variant="button" fontWeight="light" color="text">{title}</TTTypography>
-          <TTTypography variant="h4">{count}</TTTypography>
-        </TTBox>
-      </TTBox>
-      <Divider/>
-      {/* percentage */}
-      <TTBox pb={2} px={2}>
-        <TTTypography
-          component="p" 
-          variant="button"
-          color="text"
-          display="flex"
-        >
-          <TTTypography 
-            component="span"
-            variant="button"
-            fontWeight="bold"
-            color={percentage.color}
-          >{percentage.amount}</TTTypography>
-          &nbsp;{percentage.label}
-        </TTTypography>
-      </TTBox>
-    </Card>
-  )
-}
-// Setting default values for the props of ComplexStatisticsCard
-ComplexStatisticsCard.defaultProps = {
-  color: "info",
-  percentage: {
-    color: "success",
-    text: "",
-    label: "",
-  },
-};
 
-// Typechecking props for the ComplexStatisticsCard
-ComplexStatisticsCard.propTypes = {
-  color: PropTypes.oneOf([
-    "primary",
-    "secondary",
-    "info",
-    "success",
-    "warning",
-    "error",
-    "light",
-    "dark",
-  ]),
-  title: PropTypes.string.isRequired,
-  count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  percentage: PropTypes.shape({
-    color: PropTypes.oneOf([
-      "primary",
-      "secondary",
-      "info",
-      "success",
-      "warning",
-      "error",
-      "dark",
-      "white",
-    ]),
-    amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    label: PropTypes.string,
-  }),
-  icon: PropTypes.node.isRequired,
-};
-const DataOrder = [
-  {
-    color:"dark",
-    icon:"weekend",
-    title:"Bookings",
-    count:281,
-    percentage:{
-      color: "success",
-      amount: "+55%",
-      label: "than lask week",
-    }
-  },
-  {
-    color:"primary",
-    icon:"person_add",
-    title:"Followers",
-    count:"+91",
-    percentage:{
-      color: "success",
-      amount: "",
-      label: "Just updated",
-    },
-  },
-  {
-    icon:"leaderboard",
-    title:"Today's Users",
-    count:"2,300",
-    percentage:{
-      color: "success",
-      amount: "+3%",
-      label: "than last month",
-    }
-  },
-  {
-    color:"success",
-    icon:"store",
-    title:"Revenue",
-    count:"34k",
-    percentage:{
-      color: "success",
-      amount: "+1%",
-      label: "than yesterday",
-    }
-  },
-]
-const DataTimeline = [
-  {
-    color:"success",
-    icon:"notifications",
-    title:"$2400, Design changes",
-    dateTime:"22 DEC 7:20 PM",
-  },
-  {
-    color:"error",
-    icon:"inventory_2",
-    title:"New order #1832412",
-    dateTime:"21 DEC 11 PM",
-  },
-  {
-    color:"warning",
-    icon:"payment",
-    title:"New card added for order #4395133",
-    dateTime:"20 DEC 2:20 AM",
-  },
-  {
-    color:"primary",
-    icon:"vpn_key",
-    title:"New card added for order #4395133",
-    dateTime:"18 DEC 4:54 AM",
-  },
-]
+
 // The Timeline main context
 const TimelineCT = createContext();
 
@@ -173,7 +20,7 @@ function useTimeline() {
   return useContext(TimelineCT);
 }
 function TimelineList({ title, dark, children }) {
-  const [controller] = useMaterialUIController();
+  const [controller] = useUIController();
   const { darkMode } = controller;
 
   return (

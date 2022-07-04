@@ -1,4 +1,11 @@
-function BreadcrumbsTT({icon, title, route, light}){
+import TTBox from "../TTBox";
+import { PropTypes } from 'prop-types';
+import { Breadcrumbs } from "@mui/material";
+import { Link } from "react-router-dom";
+import TTTypography from "../TTTypography";
+import { Icon } from '@mui/material/Icon';
+
+function TTBreadcrumbs({icon, title, route, light}){
 
   const routes = route.slice(0, -1); 
 
@@ -60,14 +67,15 @@ function BreadcrumbsTT({icon, title, route, light}){
   )
 }
 // Setting default values for the props of Breadcrumbs
-BreadcrumbsTT.defaultProps = {
+TTBreadcrumbs.defaultProps = {
   light: false,
 };
 
 // Typechecking props for the Breadcrumbs
-BreadcrumbsTT.propTypes = {
+TTBreadcrumbs.propTypes = {
   icon: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
   route: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
   light: PropTypes.bool,
 }
+export default TTBreadcrumbs;

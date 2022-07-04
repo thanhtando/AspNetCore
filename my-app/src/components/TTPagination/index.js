@@ -1,7 +1,11 @@
 
-// const team2 = "../assets/images/team-2.jpg";
-// const team3 = "../assets/images/team-3.jpg";
-// const team4 = "../assets/images/team-4.jpg";
+import { styled } from "@mui/material";
+import { createContext, forwardRef, useContext, useMemo } from "react";
+import TTBox from "../TTBox";
+import TTButton from "../TTButton";
+import { PropTypes } from 'prop-types';
+
+
 const PaginationStyle = styled(TTButton)(({ theme, ownerState }) => {
   const { borders, functions, typography, palette } = theme;
   const { variant, paginationSize, active } = ownerState;
@@ -36,6 +40,7 @@ const PaginationStyle = styled(TTButton)(({ theme, ownerState }) => {
       boxShadow: (variant !== "gradient" || variant !== "contained") && "none !important",
       opacity: "1 !important",
     },
+
 
     "&:hover": {
       backgroundColor: light.main,
@@ -111,3 +116,4 @@ TTPagination.propTypes = {
   active: PropTypes.bool,
   children: PropTypes.node.isRequired,
 };
+export default TTPagination;

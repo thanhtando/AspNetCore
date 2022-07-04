@@ -5,10 +5,19 @@ import { Route, Routes } from "react-router-dom";
 import { useMaterialUIController } from "./context/ui";
 import { setMiniSidenav, setOpenConfigurator } from "./context/ui/module";
 import { routes } from './router/path/index';
-import { themeDark, themeLight } from './theme/index';
+import { themeDark, themeLight } from './theme';
 import SideNavbar from "./layout/sidenav";
 import MeasureRender from "./FullAppUi/mesure";
 import { PrivateRouter } from './router/index';
+import { brandDark, brandWhite } from "./res";
+import ConfigNavbar from "./layouts/confignav";
+import ConfigButton from './element/config/configBtn';
+import Home from "./pages/home";
+import { PlanUp } from './pages/plan';
+import Dashboard from './pages/dashboard';
+import Tables from './pages/table/index';
+import Notifications from './pages/notifications';
+
 
 function App() {
 
@@ -82,7 +91,7 @@ function App() {
           <Route path="/tables" element={<Tables />}/>
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/billing" element={<Billing />}/>
-          <Route path="/plan" element = { <Plan/>}/>
+          <Route path="/plan" element = { <PlanUp/>}/>
         </Routes>
       </ThemeProvider>
     </MeasureRender>

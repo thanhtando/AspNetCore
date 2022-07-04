@@ -6,6 +6,9 @@ import { MuiLink } from '@mui/material/Link';
 import TTTypography from "../../../components/TTTypography";
 import DefaultNavbarLink from "../navlink";
 import TTButton from '../../../components/TTButton';
+import breakpoints from "../../../theme/base/breakpoints";
+import DefaultNavbarMobile from '../mobile/pagenavi';
+import { PropTypes } from 'prop-types';
 
 //navbar
 function DefaultNavbar({ transparent, light, action }) {
@@ -166,8 +169,4 @@ DefaultNavbar.propTypes = {
     }),
   ]),
 };
-
-
-
-
 export default DefaultNavbar;

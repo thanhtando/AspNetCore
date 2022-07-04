@@ -1,3 +1,6 @@
+import { forwardRef } from "react";
+import { PropTypes } from 'prop-types';
+import { styled, TextField } from "@mui/material";
 
 // input
 const TTInput = forwardRef(({
@@ -72,8 +75,11 @@ const InputStyle = styled(TextField)(({theme, ownerState})=>{
 
   return{
     backgroundColor: disabled?`${grey[200]} !important`:transparent.main,
-    pointerEvents: disabled?"none":"auto",   //TODO: pointerEvents( vohieu hoa btn)
+    pointerEvents: disabled?"none":"auto", 
+//TODO: pointerEvents( vohieu hoa btn)
     ...(error && errorStyles()),
     ...(success && successStyles()),
   }
 })
+
+export default TTInput;

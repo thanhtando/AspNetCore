@@ -1,3 +1,7 @@
+import { LinearProgress, styled } from "@mui/material";
+import { forwardRef } from "react";
+import TTTypography from "../TTTypography";
+import { PropTypes } from 'prop-types';
 
 const ProgressStyle = styled(LinearProgress)(({theme, ownerState})=>{
 
@@ -65,3 +69,5 @@ TTProgress.propTypes = {
   value: PropTypes.number,
   label: PropTypes.bool,
 };
+
+export default TTProgress;

@@ -1,3 +1,10 @@
+import { Grid } from "@mui/material"
+import TTBox from "../../../components/TTBox"
+import FooterPage from "../../common/footer/footerPage"
+import DefaultNavbar from "../../topnav/default"
+import PageLayout from "../pageLayout"
+import { PropTypes } from 'prop-types';
+
 function CoverLayout({coverHight, children, image}){
 
   return(
@@ -49,7 +56,7 @@ function CoverLayout({coverHight, children, image}){
         </Grid>
       </TTBox>
       {/* foot */}
-      <Footer />
+      <FooterPage />
     </PageLayout>
   )
 }

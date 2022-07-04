@@ -1,3 +1,5 @@
+import { Stepper, styled } from "@mui/material";
+import { forwardRef } from "react";
 
 const StepperStyle = styled(Stepper)(({theme, ownerState})=>{
 
@@ -17,21 +19,4 @@ const TTStepper = forwardRef(({color, bgColor, children, ...rest}, ref)=>{
     </StepperStyle>
   )
 })
-const stepData = [
-  {
-    id: 1,
-    title: "select campaign setting",
-  },
-  {
-    id: 1,
-    title: "Create an ad group",
-  },
-  {
-    id: 3,
-    title: "Crate an ad",
-  },
-  {
-    id: 4,
-    title: "complete",
-  },
-]
+export default TTStepper;

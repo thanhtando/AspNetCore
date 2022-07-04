@@ -1,4 +1,8 @@
 import PageLayout from "../pageLayout"
+import FooterPage from '../../common/footer/footerPage/index';
+import TTBox from "../../../components/TTBox";
+import { Grid } from "@mui/material";
+import DefaultNavbar from '../../topnav/default';
 
 const HomeLayout = ({children}) => {
   return(
@@ -19,7 +23,8 @@ const HomeLayout = ({children}) => {
           </Grid>
         </Grid>
       </TTBox>
-      <Footer />
+      <FooterPage />
     </PageLayout>
   )
 }
+export default HomeLayout;

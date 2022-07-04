@@ -1,5 +1,11 @@
 
+import { Link } from '@mui/material';
 import { PropTypes } from 'prop-types';
+import TTBox from '../../../../components/TTBox';
+import TTTypography from '../../../../components/TTTypography';
+import { typography } from '../../../../theme/components/typography';
+import { Icon } from '@mui/material/Icon';
+
 // dashboard of footer
 function FooterDash({company, links}){
   const { href, name } = company;
@@ -82,8 +88,4 @@ FooterDash.propTypes = {
   company: PropTypes.objectOf(PropTypes.string),
   links: PropTypes.arrayOf(PropTypes.object),
 }
-// const ColorArr = [
-//   "primary", "secondary", 
-//   "info", "success", "error", "warning",
-//   "light", "dark"
-// ]
+export default FooterDash;

@@ -1,6 +1,16 @@
+
+import { PropTypes } from 'prop-types';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import TTBox from '../../../components/TTBox';
+import { useUIController } from '../../../context/ui';
+import { setLayout } from '../../../context/ui/module';
+import FooterDash from '../../common/footer/footerDash';
+import DashboardNavbar from '../../topnav/dash';
+
 const DashboardLayout = ({children}) => {
 
-  const [controller, dispatch] = useMaterialUIController();
+  const [controller, dispatch] = useUIController();
   const {miniSidenav} = controller;
   const {pathname} = useLocation();
 
@@ -32,3 +42,4 @@ const DashboardLayout = ({children}) => {
 DashboardLayout.propTypes = {
   children: PropTypes.node.isRequired,
 };
+export default DashboardLayout;

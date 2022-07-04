@@ -1,3 +1,9 @@
+import { Divider, Fade, Icon, IconButton, Snackbar, styled } from "@mui/material";
+import { useUIController } from "../../context/ui";
+import { PropTypes } from 'prop-types';
+import TTBox from "../TTBox";
+import TTTypography from "../TTTypography";
+
 const TTSnackbarIconStyle = styled(Icon)(({theme, ownerState})=>{
 
   const { palette, functions, typography } = theme;
@@ -30,7 +36,7 @@ const TTSnackbar = ({
   content, close, bgWhite, ...rest
 }) => {
 
-  const [controller] = useMaterialUIController();
+  const [controller] = useUIController();
   const {darkMode} = controller;
 
   let titleColor;
@@ -167,3 +173,4 @@ TTSnackbar.propTypes = {
   close: PropTypes.func.isRequired,
   bgWhite: PropTypes.bool,
 };
+export default TTSnackbar;
