@@ -19,6 +19,9 @@ import Tables from './pages/table/index';
 import Notifications from './pages/notifications';
 import Profile from "./pages/profile";
 import Billing from './pages/billing/index';
+import SignIn from './pages/authorization/signin/index';
+import SignUp from './pages/authorization/signup/index';
+import SignReset from './pages/authorization/signreset/index';
 
 
 function App() {
@@ -79,7 +82,6 @@ function App() {
           {/* {getRoutes(routes)} */}
           {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
           <Route path="*" element={<Home />}/>
-          <Route path="/test" element={<TestMaterial/>}/>
           <Route path="/signin" element={<SignIn/>}/>
           <Route path="/signup" element={<SignUp/>}/>
           <Route path="/reset" element={<SignReset/>}/>

@@ -114,3 +114,4 @@ const SignUp = () => {
     </CoverLayout>
   )
 }
+export default SignUp;

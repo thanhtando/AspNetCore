@@ -36,3 +36,4 @@ const SignReset = () =>{
     </CoverLayout>
   )
 }
+export default SignReset;
