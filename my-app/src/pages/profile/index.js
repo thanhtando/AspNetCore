@@ -1,9 +1,9 @@
-import { Divider, Grid } from "@mui/material";
+import { AppBar, Card, Divider, Grid, Icon, Tab, Tabs } from "@mui/material";
 import TTBox from "../../components/TTBox";
 import DashboardLayout from "../../layouts/base/dashboardLayout";
-import { FacebookIcon } from '@mui/icons-material/Facebook';
-import { TwitterIcon } from '@mui/icons-material/Twitter';
-import { InstagramIcon } from '@mui/icons-material/Instagram';
+import FacebookIcon  from '@mui/icons-material/Facebook';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import InstagramIcon from '@mui/icons-material/Instagram';
 import TTTypography from "../../components/TTTypography";
 import team1 from "../assets/images/team-1.jpg";
 import team2 from "../assets/images/team-2.jpg";
@@ -14,10 +14,15 @@ import homeDecor1 from "../assets/images/home-decor-1.jpg";
 import homeDecor2 from "../assets/images/home-decor-2.jpg";
 import homeDecor3 from "../assets/images/home-decor-3.jpg";
 import homeDecor4 from "../assets/images/home-decor-4.jpeg";
+import ProfilesList from "../../element/profile/list";
+import { PropTypes } from 'prop-types';
+import { useEffect, useState } from 'react';
+import breakpoints from '../../theme/base/breakpoints';
+import TTAvatar from "../../components/TTAvatar";
 
 const profilesListData = [
   {
-    image: kal,
+    image: "kal",
     name: "Sophie B.",
     description: "Hi! I need more information..",
     action: {
@@ -28,7 +33,7 @@ const profilesListData = [
     },
   },
   {
-    image: marie,
+    image: "marie",
     name: "Anne Marie",
     description: "Awesome work, can you..",
     action: {
@@ -39,7 +44,7 @@ const profilesListData = [
     },
   },
   {
-    image: ivana,
+    image: "ivana",
     name: "Ivanna",
     description: "About files I can..",
     action: {
@@ -84,9 +89,9 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
+        <TTBox sx={{ p: 3 }}>
+          <TTTypography>{children}</TTTypography>
+        </TTBox>
       )}
     </div>
   );

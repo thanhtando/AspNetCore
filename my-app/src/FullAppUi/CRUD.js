@@ -1,4 +1,4 @@
-import {Timestamp, getFirestore, getDoc, doc, collection, onSnapshot, addDoc, query, orderBy, deleteDoc, setDoc} from "firebase/firestore";
+import {Timestamp, getFirestore, getDoc, doc, collection, onSnapshot, addDoc, query, orderBy, deleteDoc, setDoc, getDocs} from "firebase/firestore";
 import React, { useEffect, useState, forwardRef } from 'react';
 import {
   combineReducers,
@@ -63,8 +63,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from '@mui/material';
 import Favorite from "@mui/icons-material/Favorite";
-import { MaterialUIControllerProvider, PlanUp, themeLight } from "../fullAppUi";
+import { MaterialUIControllerProvider, themeLight, TTBox, TTButton, TTInput, TTProgress, TTTypography } from "../fullAppUi";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import TestCard from "./CardComponet";
 const bgImage_su = require("../assets/images/bg-sign-up-cover.jpeg");
+const bgImage = require("../assets/images/bg-sign-in-basic.jpeg");
 const availableColors = ['green', 'blue', 'orange', 'purple', 'red']
 
 const capitalize = (s) => s[0].toUpperCase() + s.slice(1)
@@ -146,8 +149,33 @@ const firebaseConfig2 = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
   mesurentId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 }
+
 const firebase = initializeApp(firebaseConfig2);
 const db = getFirestore(firebase);
+
+const RootPath = {
+  MASTER: "master",
+  BOOK: "books",
+  USER: "user",
+  GRAMMAR: "Grammar"
+
+}
+const SecondPath =  {
+  MASTER: "card",
+  BOOK: "book",
+
+}
+const ThirdPathBook = {
+
+}
+const FirestoreRef = (path, pathId) => {
+
+  //const basePath = 'mode/development';
+
+  const pathStr = `${path}/${path+pathId}`
+  console.log(pathStr);
+  return collection(db, pathStr);
+}
 const useFirestore =(path) => {
 
   const id = 1;
@@ -162,22 +190,250 @@ const useFirestore =(path) => {
     id, create, add, deleteId, update, docDb, colectionDb
   }
 }
-//redux
-const initTodo = {
-  status: 'idle',
-  entities:{}
+
+//helper - timerModify
+const increment = (state, type, action) => {
+  switch (type) {
+      case "hours":
+          state[type] >= 0 && state[type] < 12
+              ? action({
+                  ...state,
+                  [type]: state[type] + 1,
+              })
+              : action(state);
+          break;
+      case "minutes":
+          state[type] >= 0 && state[type] < 60
+              ? action({
+                  ...state,
+                  [type]: state[type] + 1,
+              })
+              : action(state);
+          break;
+      case "seconds":
+          state[type] >= 0 && state[type] < 60
+              ? action({
+                  ...state,
+                  [type]: state[type] + 1,
+              })
+              : action(state);
+          break;
+  }
 }
+const decrement = (state, type, action) => {
+  switch (type) {
+      case "hours":
+          state[type] > 0 && state[type] <= 12
+              ? action({
+                  ...state,
+                  [type]: state[type] - 1,
+              })
+              : action(state);
+          break;
+      case "minutes":
+          state[type] > 0 && state[type] <= 60
+              ? action({
+                  ...state,
+                  [type]: state[type] - 1,
+              })
+              : action(state);
+          break;
+      case "seconds":
+          state[type] > 0 && state[type] <= 60
+              ? action({
+                  ...state,
+                  [type]: state[type] - 1,
+              })
+              : action(state);
+          break;
+  }
+}
+//timer
+const timerInit = {
+  timer: {
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+      notes:""
+  },
+  reminderData: ""
+};
+
+const timerSlice = createSlice({
+  name: "timer",
+  initialState: timerInit,
+  reducers: {
+      setTimer: (state, action) => ({
+          ...state, timer: action.payload
+      }),
+      setReminderData: (state, action) => ({
+          ...state, reminderData: action.payload
+      }),
+      reset: (state) => { state = initialState }
+  },
+});
+
+const { setTimer, setReminderData, reset } = timerSlice.actions;
+function CountDown() {
+  const [timerState, setTimerState] = useState({
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+  const { timer } = useSelector((state) => state.timerSlice);
+  const [over, setOver] = useState(false)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    setTimerState(timer);
+  }, [timer])
+  useEffect(() => {
+    let timerID = setInterval(() => tick(), 1000);
+    return () => clearInterval(timerID);
+  })
+  useEffect(() => {
+    over && dispatch((setTimer(timerState)))
+  }, [over])
+
+  const tick = () => {
+    if (timerState.hours == 0 && timerState.minutes == 0 && timerState.seconds == 0) setOver(true)
+    else if (timerState.minutes == 0 && timerState.seconds == 0)
+      setTimerState({
+        hours: timerState.hours - 1,
+        minutes: 59,
+        seconds: 59
+      });
+    else if (timerState.seconds == 0)
+      setTimerState({
+        hours: timerState.hours,
+        minutes: timerState.minutes - 1,
+        seconds: 59
+      });
+    else
+      setTimerState({
+        hours: timerState.hours,
+        minutes: timerState.minutes,
+        seconds: timerState.seconds - 1
+      });
+  };
+
+  return (
+    <div className="countDown">
+      {
+        //over && <Popup />
+      }
+      <div id="hours" className="timeDisplay">{timerState.hours}</div>
+      <div id="minutes" className="timeDisplay">{timerState.minutes}</div>
+      <div id="seconds" className="timeDisplay">{timerState.seconds}</div>
+    </div>
+  );
+}
+
+//bug
+let lastid = 0;
+const bugSlice = createSlice({
+  name: "Bugs",
+  initialState: [],
+  reducers: {
+    // Action : Action / Event Handlers
+    BugAdded: (bugs, action) => {
+      bugs.push({ id: ++lastid, desc: action.payload.desc, resolved: false });
+    },
+    BugRemoved: (bugs, action) => {
+      const index = bugs.findIndex((bug) => bug.id === action.payload.id);
+      bugs.splice(index, 1);
+    },
+    BugResolved: (bugs, action) => {
+      const index = bugs.findIndex((bug) => bug.id === action.payload.id);
+      bugs[index].resolved = true;
+    },
+    BugToUser: (bugs, action) => {
+      const { bugId, userId } = action.payload;
+      const index = bugs.findIndex((bug) => bug.id === bugId);
+      bugs[index].userId = userId;
+    },
+  },
+});
+
+const { BugAdded, BugRemoved, BugResolved, BugToUser } = bugSlice.actions;
+
+const bugByUserSelector = (userId) =>
+  createSelector(
+    (state) => state.entities.bugs,
+    (bugs) => bugs.filter((bug) => bug.userId === userId)
+  );
+
+// Selector
+// export const unResolveBugsSelector = (state) => {
+//   return state.entities.bugs.filter((bug) => bug.resolved === false);
+// };
+
+// Memorization - Selector with cache data - Install package reselect
+// export const unResolveBugsSelector = createSelector(
+//   (state) => state.entities.bugs,
+//   (state) => state.entities.projects,
+//   (bugs, projects) => bugs.filter((bug) => !bug.resolved)
+// );
+//redux
+// const initTodo = {
+//   status: 'idle',
+//   entities:{}
+// }
 //
 const todoAdapter = createEntityAdapter();
 const initState = todoAdapter.getInitialState({
   status: 'idle',
 })
-// const getDataTodo = () => {
+const GetDataTodo = async () => {
 
-//   return
-// }
+  var todos = [];
+  const q = query(collection(db, "plan"),  orderBy("id", "desc"));
+
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    // console.log(doc.id, " => ", doc.data());
+    todos.push(doc.data());
+  });
+  // const test = onSnapshot(q, (snapshot) => {
+  //   return snapshot.docs.map(doc => ({...doc.data(), id: doc.id}))
+  //   //console.log("a",a);
+  //   // snapshot.docs.map(doc => todos.push({...doc.data(), id: doc.id}))
+  //   // var idtest = 7
+  //   // snapshot.docs.map(doc => {
+  //   //   // console.log("doc", doc.data())
+  //   //   return todos.push(
+  //   //     {id: idtest++,title: "asf"+idtest, content: "af"+ idtest, time: "fasdf"}
+  //   //   )}
+  //   // return true;
+  //   // )
+
+  // });
+  // test();
+  const a = [{a:"a"}, {b:"b"}]
+  const b = [{c:"c"}, {b:"b"}, {e:"e"}]
+  const c = [...a, ...b]
+  //todos.map(item=>console.log("onSnapshot:",item))
+  // console.log("firestore todos c:", c);
+  todos.push({
+    id: 4, title: "tan1", content: "abc1", time: "213222"
+  })
+  todos.push({
+    id: 5, title: "tan1", content: "abc1", time: "213222"
+  })
+  todos.push({
+    id: 6, title: "tan1", content: "abc1", time: "213222"
+  })
+  console.log("firestore todos c:", todos);
+  console.log("firestore todos:", todos.length);
+  return todos
+  // return [
+  //   {id: 1, title: "tan1", content: "abc1", time: "213222"},
+  //   {id: 2, title: "tan2", content: "ab2", time: "213222"},
+  // ]
+}
 //thunks
-const fetchTodo = createAsyncThunk('todos/fetchTodo', async()=>{
+export const fetchTodo = createAsyncThunk('todos/fetchTodo', async()=>{
   // const reponse = await 
   // const id = 1;
   // const title = "tan dep trai"
@@ -189,20 +445,21 @@ const fetchTodo = createAsyncThunk('todos/fetchTodo', async()=>{
   //   .then(res => console.log(res))
   //   .then(err => console.log(err))
   // return response.todos
-  const todos = []
-  fetch("/fetchApi/todos")
-  .then((res)=>res.json())
-  .then((json)=>{
-    json.todos.map((item)=>todos.push(item));
-  })
-  console.log("todos:", todos);
-  
+  // const todos = []
+  // fetch("/fetchApi/todos")
+  // .then((res)=>res.json())
+  // .then((json)=>{
+  //   json.todos.map((item)=>todos.push(item));
+  // })
+  // console.log("todos:", todos);
+  const todos = await GetDataTodo();
+  console.log("redux todos:",  todos);
   return todos;
 
   
 });
 const setTodo = async (text) => {
-  console.log("test text:", text)
+  // console.log("test text:", text)
   const todoRef = collection(db, "plan");
   const item = {
     id: nanoid(),
@@ -234,7 +491,7 @@ export const saveNewTodo = createAsyncThunk('todos/saveNewTodo', async (text) =>
   // const response = await client.post('/fakeApi/todos', { todo: initialTodo })
   // return response.todo
   const response = setTodo(text)
-  console.log("save: ", response);
+  // console.log("save: ", response);
 
   return response;
 
@@ -243,6 +500,10 @@ const todoSlice = createSlice({
   name: 'todo',
   initialState:initState,
   reducers:{
+    setLists(state, action){
+        
+        //state.entities[action.] = action.payload
+    },
     todoDeleted: todoAdapter.removeOne,
     allTodoCompleted(state, action){
       Object.values(state.entities).forEach(todo=>{
@@ -288,15 +549,38 @@ const todoSlice = createSlice({
     })
     // .addCase(fetchTodo.fulfilled, (state, action)=>{
     //   const newEntities = {};
-    //   action.payload.forEach(todo=>{
-    //     newEntities[todo.id] = todo
-    //   });
-    //   state.entities = newEntities
+    //   console.log("fulfilled: ",);
+    //   action.payload.map((item,index)=>{
+    //     console.log(item);
+    //     return {...newEntities, ...item}
+    //   })
+    //   action.payload.forEach((todo, index, array)=>{
+    //     console.log(todo);
+    //   })
+    //   action.payload.forEach(todo=>state.entities = {...newEntities, ...todo});
+    //   //   newEntities[todo.id] = todo;
+    //   // });
+      
+    //   state.status = 'idle'
+    //   console.log("entity:",newEntities);
+    // })
+    // .addCase(fetchTodo.fulfilled, (state, action)=>{
+    //   console.log("action.payload:", action.payload);
+    //   todoAdapter.addMany(state, action.payload);
     //   state.status = 'idle'
     // })
     .addCase(fetchTodo.fulfilled, (state, action)=>{
-      todoAdapter.setAll(state, action.payload);
-      state.status = 'idle'
+      console.log("addCase:", action.payload);
+      const itemTest =       [
+        {id: 1, title: "tan1", content: "abc1", time: "213222"},
+        {id: "2", title: "tan2", content: "abc2", time: "213222"},
+        {id: "3", title: "tan3", content: "abc3", time: "213222"}
+      ]
+
+      const test = [...itemTest, ...action.payload];
+      console.log(action.payload.length);
+      console.log("test addCase:", test);
+      todoAdapter.setAll(state, action.payload)
     })
     .addCase(saveNewTodo.fulfilled, (state, action)=>todoAdapter.addOne(state, action.payload))
     // .addCase(saveNewTodo.fulfilled, (state, action)=>{
@@ -320,7 +604,10 @@ const {selectAll: selectTodo, selectById: selectTodoById} = todoAdapter.getSelec
 
 const selectTodoId = createSelector(
   selectTodo,
-  todos => todos.map(td => td.id)
+  todos => todos.map((todo)=>{
+    console.log("test test todo",todo);
+    return todo
+  })
 );
 const selectFilteredTodos = createSelector(
   // First input selector: all todos
@@ -350,8 +637,8 @@ const selectFilteredTodoIds = createSelector(
   // Pass our other memoized selector as an input
   selectFilteredTodos,
   // And derive data in the output selector
-  (filteredTodos) => filteredTodos.map((todo) => {
-    console.log("todo",todo);
+  (filteredTodos) => filteredTodos.map((todo,idx) => {
+    console.log("todo {0}: {1}",idx,todo);
     return todo.id
   })
 )
@@ -404,13 +691,21 @@ const filtersSlice = createSlice({
 
 const { colorFilterChanged, statusFilterChanged } = filtersSlice.actions
 
-const initPlan = [
-
-]
+const planAdapter = createEntityAdapter();
+const planInit = planAdapter.getInitialState({
+  status: 'idle',
+});
+const planCreateNew = createAsyncThunk("plan/planCreateNew", async (item)=>{
+  console.log(item);
+})
 const planSlice = createSlice({
   name: 'plan',
-  initialState: [],
+  initialState: planInit,
   reducers: {
+    planCreateNewOne(state, action){
+      console.log(action.payload);
+      // planAdapter.addOne(action.payload);
+    },
     planAdded(state,action){state.push(action.payload)},
     planToggled(state, action){
       const todo = state.find(todo => todo.id === action.payload)
@@ -419,14 +714,28 @@ const planSlice = createSlice({
     planLoading(state, actions){
       return{...state, status: 'loading'}
     }
+  },
+  extraReducers:{
+    [planCreateNew.fulfilled]:(state, action)=>planAdapter.addOne(action.payload),
   }
-})
+  // extraReducers: (build)=>{build
+  //   .addCase(planCreateNew.fulfilled, (state, action)=>planAdapter.addOne(state, action));
+  // }
+});
+const { planCreateNewOne } = planSlice.actions;
+const { selectAll: selectPlan } = planAdapter.getSelectors((state)=>state.plan)
+// const filterTest = createSelector(
+//   selectPlan,
+//   (plans)=> plans
+// )
 const RootReducers = combineReducers({
   todos: todoSlice.reducer,
   filters: filtersSlice.reducer,
-  plan: planSlice.reducer
+  plan: planSlice.reducer,
+  bug: bugSlice.reducer,
+  timer: timerSlice.reducer,
 })
-const store = configureStore({
+export const store = configureStore({
   devTools: true,
   // preloadedState: {},
   reducer: RootReducers,
@@ -542,7 +851,7 @@ const ColorFilters = ({ value: colors, onChange }) => {
 const TodoListItem = ({ id }) => {
   // Call our `selectTodoById` with the state _and_ the ID value
   const todo = useSelector((state) => selectTodoById(state, id))
-  const { text, completed, color } = todo
+  const { title, content, completed, color } = todo
 
   const dispatch = useDispatch()
 
@@ -574,7 +883,7 @@ const TodoListItem = ({ id }) => {
             checked={completed}
             onChange={handleCompletedChanged}
           />
-          <div>{text}</div>
+          <div>{content}</div>
         </div>
         <div>
           <select
@@ -597,23 +906,37 @@ const TodoListItem = ({ id }) => {
 const TodoList = () => {
 
   const todoIds = useSelector(selectFilteredTodoIds)
-  console.log("todoIds",todoIds)
+  const todos = useSelector(selectTodoId);
+  console.log("todoIds",todoIds);
+  console.log("selectTodoId: ", todos)
+  // console.log(todoAdapter.getSelectors(state=>state.todos));
   const loadingStatus = useSelector((state) => state.todos.status)
 
-  if (loadingStatus === 'loading') {
-    return (
-      <div>
-        <div/>
-      </div>
-    )
-  }
+  // if (loadingStatus === 'loading') {
+  //   return (
+  //     <div>
+  //       <div/>
+  //     </div>
+  //   )
+  // }
 
   const renderedListItems = todoIds.map((todoId) => {
 
     return <TodoListItem key={todoId} id={todoId} />
   })
 
-  return <ul>{renderedListItems}</ul>
+  return (
+    <div>
+      <label>old list</label>
+      <ul>{renderedListItems}</ul>
+      <label>new list</label>
+      {todos.map((item)=>{
+        return(
+          <label key={item.id}>{item.id}</label>
+        )
+      })}
+    </div>
+  )
 
 }
 
@@ -621,7 +944,7 @@ const Footer = () => {
   const dispatch = useDispatch()
 
   const todosRemaining = useSelector((state) => {
-    console.log("state",state);
+    // console.log("state",state);
     const uncompletedTodos = selectTodo(state).filter(
       (todo) => !todo.completed
     )
@@ -681,11 +1004,11 @@ const LinearProgressLabel = (props) => {
 
   return(
     <Box sx={{display: 'flex', alignItems: 'center'}}>
-      <Box sx={{width: '100%', mr: 1}}>
-        <LinearProgress variant="determinate" {...props}/>
+      <Box sx={{width: '90%', mr: 1}}>
+        <TTProgress variant="contained" {...props}/>
       </Box>
-      <Box sx={{minWidth: 35}}>
-        <Typography variant="body2" color={"text.secondary"}>
+      <Box sx={{minWidth: 50}}>
+        <Typography variant="body2">
           {`${Math.round(props.value)}%`}
         </Typography>
       </Box>
@@ -693,10 +1016,59 @@ const LinearProgressLabel = (props) => {
   )
 }
 
+const TabStyle = styled(Tabs)((theme, ownState)=>{
+
+  return{
+    display: 'flex',
+    flexDirection: 'column',
+    '&.MuiTab-root.Mui-selected': {
+      color: 'gold',
+  },
+  }
+})
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          {children}
+          {/* <Typography>{children}</Typography> */}
+        </Box>
+      )}
+    </div>
+  );
+}
+
+
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
 const CardCom = (
 
 ) => {
   
+  // const plan = useSelector(filterTest);
+  // const plan1 = useSelector(state=>state.plan)
+  // console.log(plan);
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    console.log("newValue",newValue)
+  };
+
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -706,7 +1078,7 @@ const CardCom = (
   useEffect(()=>{
     const timer = setInterval(()=>{
       setProgress((prevProgress)=>(prevProgress >= 100?10:prevProgress+10))
-    }, 1000);
+    }, 5000);
     return()=>{
       clearInterval(timer);
     };
@@ -728,6 +1100,9 @@ const CardCom = (
         subheader="September 14, 2016"
         onClick={()=>console.log("card Header click")}
       />
+      <Box sx={{width: '100%', marginTop: -3}}>
+        <LinearProgressLabel value = {progress}/>
+      </Box>
       <CardMedia
         component="img"
         height="50"
@@ -742,29 +1117,71 @@ const CardCom = (
         }}
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the mussels,
-          if you like.
-        </Typography>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', flexDirection:'row-reverse' }}>
+
+          <Tabs sx={{minWidth: '20%'}} orientation="vertical" value={value} onChange={handleChange} aria-label="basic tabs example">
+
+              <Tab label="Item One" {...a11yProps(0)} />
+              <Tab label="Item Two" {...a11yProps(1)} />
+              <Tab label="Item Three" {...a11yProps(2)} />
+
+          </Tabs>
+          <TabPanel value={value} index={0}>
+            <Typography>Item One</Typography>
+            <Typography variant="body2" color="text.secondary" >
+              This impressive paella is a perfect party dish and a fun meal to cook
+              together with your guests. Add 1 cup of frozen peas along with the mussels,
+              if you like.
+            </Typography>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <TTTypography>Item Two</TTTypography>
+            
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <TTTypography>Item Three</TTTypography>
+          </TabPanel>
+        </Box>
       </CardContent>
-      <Box sx={{width: '100%'}}>
-        <LinearProgressLabel value = {progress}/>
-      </Box>
+
       
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites" sx={{
+        <IconButton size="small" aria-label="add to favorites" sx={{
           borderRadius:10,
           backgroundColor: 'blue',
         }}>
           <Favorite />
         </IconButton>
-        <IconButton aria-label="share" sx={{
+        <IconButton size="small" aria-label="share" sx={{
           borderRadius:10,
           backgroundColor: 'blue',
         }}>
           <Share />
         </IconButton>
+        <IconButton size="small" aria-label="share" sx={{
+          borderRadius:10,
+          backgroundColor: 'blue',
+        }}>
+          <Share />
+        </IconButton>
+        <IconButton size="small" aria-label="share" sx={{
+          borderRadius:10,
+          backgroundColor: 'blue',
+        }}>
+          <Share />
+        </IconButton>
+        <IconButton color="info" aria-label="share" sx={{
+          borderRadius:10,
+          backgroundColor: 'info',
+          fontSize: 10,
+          width: 30,
+          height: 30
+        }}>
+          <Share aria-disabled/>
+        </IconButton>
+        <TTButton variant="contained" color={"success"} sx={{
+          
+        }}> Get Start </TTButton>
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -807,7 +1224,173 @@ const CardCom = (
   )
 }
 
+function CardLayout({cardHeight, cardWidth, image, children }) {
 
+  // console.log("Basic layout");
+  return (
+    <TTBox
+      width={cardWidth}
+      height={cardHeight}
+      sx={{ overflowX: "hidden" }}
+    >
+      <TTBox
+        position="absolute"
+        // width={cardWidth}
+        // minHeight={cardHeight}
+        zIndex={-1}
+        sx={{
+          backgroundImage: ({ functions: { linearGradient, rgba }, palette: { gradients } }) =>
+            image &&
+            `${linearGradient(
+              rgba(gradients.info.main, 0.5),
+              rgba(gradients.info.state, 0.5)
+            )}, url(${image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
+      <TTBox px={1} width="100%" height="100%" mx="auto">
+        <Grid container spacing={1} justifyContent="center" alignItems="center" height="100%">
+          <Grid item xs={11} sm={9} md={5} lg={4} xl={3}>
+            {children}
+          </Grid>
+        </Grid>
+      </TTBox>
+    </TTBox>
+  );
+}
+const Level = {
+  n0: {
+    id: 0,
+    text: "N0",
+  },
+  n1: {
+    id: 1,
+    text: "jlpt N1",
+  },
+  n2: {
+    id: 2,
+    text: "jlpt N2",
+  },
+  n3: {
+    id: 3,
+    text: "jlpt N3",
+  },
+  n4: {
+    id: 4,
+    text: "jlpt N4",
+  },
+  n5: {
+    id: 5,
+    text: "jlpt N5",
+  },
+  np: {
+    id: 6,
+    text: "Np",
+  },
+}
+const PlanUp = () => {
+  const [age, setAge] = useState('');
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
+  //
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const { plan, planName, dateStart, dateEnd, info } = event.target.elements;
+    
+    const planItem = {
+      target: "N5",
+      planName: "planName_test",
+      info: "info_test",
+      time: "dateEnd - dateStart_test",
+    }
+    console.log(planItem);
+    // await dispatch(planCreateNew(planItem))
+
+    navigate("/card");
+  }
+  return (
+    <CardLayout image={bgImage} cardWidth={550} cardHeight={550}>
+    {/* <BasicLayout image={bgTest2}> */}
+      <Card sx={{mt: 5, }}>
+        <TTBox
+          variant="gradient"
+          bgColor="info"
+          borderRadius="lg"
+          coloredShadow="info"
+          mx={2}
+          mt={-3}
+          p={2}
+          mb={1}
+          textAlign="center"
+        >
+          <TTTypography variant="h4" fontWeight="medium" color="white" mt={1}>
+            Plan
+          </TTTypography>
+        </TTBox>
+        <TTBox pt={4} pb={3} px={3}>
+          <TTBox component="form" role="form" onSubmit={handleSubmit}>
+            <Grid container  justifyContent={"center"} spacing={2} >
+              <Grid item xs={10}>
+                <TextField
+                    select
+                    label="Target"
+                    name="plan"
+                    value={age}
+                    onChange={handleChange}
+                    helperText="Please select your target"
+                    fullWidth
+                    sx={{justifyContent: 'center', alignItem: 'center'}}
+                  >
+                    {Object.values(Level).map((item)=>(
+                      <MenuItem key={item.id} value={item.id}>{item.text}</MenuItem>
+                    ))}
+                  </TextField>
+              </Grid>
+              <Grid item xs={10} lg={2}>
+                <TTInput 
+                  type="text" 
+                  name="nameplan" 
+                  label="Plan name"
+                  fullWidth
+                  // disabled 
+                  // error
+                  // success
+                />
+              </Grid>              
+              <Grid item xs={10} lg={2}>
+                <TTInput type="list" label="info" name="info" fullWidth />
+              </Grid>
+              <Grid item display="flex" xs={10} lg={2}>
+                <TTInput type="date" label="date start" name="dateStart" mr={2} fullWidth />
+                <TTInput type="date" label="date end" name="dateEnd" fullWidth />
+              </Grid>
+              <Grid item>
+              
+              </Grid>
+            </Grid>
+            <TTBox mt={2} mb={1}>
+              <TTButton 
+                variant="gradient" 
+                color="info" 
+                fullWidth = {true}
+                type="submit"
+              >
+                Create Plan
+              </TTButton>
+            </TTBox>
+          </TTBox>
+        </TTBox>
+      </Card>
+    </CardLayout>
+  );
+}
 const defaultValues = {
   name: "",
   age: 0,
@@ -942,11 +1525,31 @@ const Form = () => {
   );
 };
 
+const DataItemCard = {
+  title:"",
+  titleDetail: "",
+  icon: "",
+  time: "2022年07月07日",
+  timer:30,
+  exp: 30,
+  start: 3,
+  howto:"",
+  example:[],
+  meaning:""
+}
+const useViewModel = () => {
+
+  return DataItemCard
+}
 const RefireCrud = () => {
   const [users, setUsers] = useState([]);
-
+  const navigate = useNavigate();
+  const [test, setTest] = useState(false);
+  const viewModel = useViewModel()
   useEffect(()=>{
-    //store.dispatch(fetchTodo());
+    
+
+    console.log("fetchTodo");
     // const test = async () => await setDoc(doc(collection(db, "plan"), "plan1"), {
     //   id: 1,
     //   title: "learn",
@@ -966,52 +1569,70 @@ const RefireCrud = () => {
   //     })
   // },[])
   return(
-    <Provider store={store}>
-      <MaterialUIControllerProvider>
-      <ThemeProvider theme={themeLight}>
-        
-      <div>
-        <nav>
-          <section>
-            <h1>Redux Fundamentals Example</h1>
-
-          </section>
-        </nav>
-        <main>
-          <section>
-            <h2>Todos</h2>
-            <div>
-              <HeaderTodo />
-              <TodoList />
-              <Footer />
-            </div>
-          </section>
-        </main>
-        {/* <ul>
-          {users.map((user) => (
-                <li key={user.id}>{user.name}:{user.age}</li>
-              ))}
-        </ul> */}
-        <div style={{
-          margin: 20, 
-          justifyContent: 'center',
-          alignItems: 'center',
-          alignContent: 'center',
-          backgroundColor: 'aqua'
-        }}>
-          <PlanUp />
-        </div>
-        
+      
+        <MaterialUIControllerProvider>
+        <ThemeProvider theme={themeLight}>
+          
         <div>
-          <CardCom />
+          <nav>
+            <section>
+              <h1>Redux Fundamentals Example</h1>
+              <button onClick={()=>setTest(!test)}>set {!test}</button>
+            </section>
+          </nav>
+          <main>
+            <section>
+              <h2>Todos</h2>
+              {/* <CountDown/> */}
+              <div>
+                <HeaderTodo />
+                <TodoList />
+                <Footer />
+              </div>
+            </section>
+          </main>
+          {/* <ul>
+            {users.map((user) => (
+                  <li key={user.id}>{user.name}:{user.age}</li>
+                ))}
+          </ul> */}
+
+
         </div>
+        <Routes>
+            <Route path="/" element={<TTButton onClick={()=>{
+              console.log("button click");
+              navigate("/plan")
+            }}>new plan</TTButton>}/>
+            <Route path="/plan" element={<PlanUp/>}/>
+            <Route path="/card" element={<CardCom/>}/>
+            <Route path="/cal" element={<ExpCalculator/>}/>
+          </Routes>
+        </ThemeProvider>
+
+        </MaterialUIControllerProvider>
+
+  )
+}
+const EXP = {
+
+}
+function ExpCalculator(){
+  const TimeScore = () => {
+    //10p-1score
+    return(
+      <div>
+        <label>time start</label>
+        <label>time end</label>
+        <label>time learn</label>
+        <label>time test</label>
       </div>
-      </ThemeProvider>
-
-      </MaterialUIControllerProvider>
-
-    </Provider>
-
+    )
+  }
+  return(
+    <div>
+      <TimeScore />
+    </div>
   )
 }
 function TestCrud() {
@@ -1046,7 +1667,7 @@ function TestCrud() {
   //DELETE A DOC
   async function deleteDocument(id) {
       let request = await deleteDoc(doc(db, "shopping-lists", id));
-      console.log(request)
+      // console.log(request)
   } 
   //UPDATE A DOC
 
@@ -1098,4 +1719,184 @@ function TestCrud() {
   );
 }
 export default RefireCrud;
+
+//------------------------------------------------ new plan-----------------
+
+// function CardLayout({cardHeight, cardWidth, image, children }) {
+
+//   // console.log("Basic layout");
+//   return (
+//     <TTBox
+//       width={cardWidth}
+//       height={cardHeight}
+//       sx={{ overflowX: "hidden" }}
+//     >
+//       <TTBox
+//         position="absolute"
+//         width={cardWidth}
+//         minHeight={cardHeight}
+//         zIndex={-1}
+//         sx={{
+//           backgroundImage: ({ functions: { linearGradient, rgba }, palette: { gradients } }) =>
+//             image &&
+//             `${linearGradient(
+//               rgba(gradients.info.main, 0.5),
+//               rgba(gradients.info.state, 0.5)
+//             )}, url(${image})`,
+//           backgroundSize: "cover",
+//           backgroundPosition: "center",
+//           backgroundRepeat: "no-repeat",
+//         }}
+//       />
+//       <TTBox px={1} width="100%" height="100%" mx="auto">
+//         <Grid container spacing={1} justifyContent="center" alignItems="center" height="100%">
+//           <Grid item xs={11} sm={9} md={5} lg={4} xl={3}>
+//             {children}
+//           </Grid>
+//         </Grid>
+//       </TTBox>
+//     </TTBox>
+//   );
+// }
+// export const PlanUp = () => {
+//   const [age, setAge] = React.useState('');
+
+//   const handleChange = (event) => {
+//     setAge(event.target.value);
+//   };
+//   //
+//   const handleSubmit = (event) => {
+//       event.preventDefault();
+//       //firebase
+//       const { email, password } = event.target.elements;
+
+//   }
+//   return (
+//     <CardLayout image={bgImage} cardWidth={550} cardHeight={550}>
+//     {/* <BasicLayout image={bgTest2}> */}
+//       <Card sx={{mt: 5, }}>
+//         <TTBox
+//           variant="gradient"
+//           bgColor="info"
+//           borderRadius="lg"
+//           coloredShadow="info"
+//           mx={2}
+//           mt={-3}
+//           p={2}
+//           mb={1}
+//           textAlign="center"
+//         >
+//           <TTTypography variant="h4" fontWeight="medium" color="white" mt={1}>
+//             Plan
+//           </TTTypography>
+//           {/* <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 2 }}>
+//             <Grid item xs={2}>
+//               <TTTypography component={MuiLink} href="#" variant="body1" color="white">
+//                 <FacebookIcon color="inherit" fontSize="small"/>
+//               </TTTypography>
+//             </Grid>
+//             <Grid item xs={2}>
+//               <TTTypography component={MuiLink} href="#" variant="body1" color="white">
+//                 <GitHubIcon color="inherit" fontSize="small"/>
+//               </TTTypography>
+//             </Grid>
+//             <Grid item xs={2}>
+//               <TTTypography component={MuiLink} href="#" variant="body1" color="white">
+//                 <GoogleIcon color="inherit" fontSize="small"/>
+//               </TTTypography>
+//             </Grid>
+//           </Grid> */}
+//         </TTBox>
+//         <TTBox pt={4} pb={3} px={3}>
+//           <TTBox component="form" role="form" onSubmit={handleSubmit}>
+//             <Grid container justifyContent={"center"} spacing={2}>
+//               <Grid item xs={10}>
+//                 <TextField
+//                     id="outlined-select-currency"
+//                     select
+//                     label="Level"
+//                     value={age}
+//                     onChange={handleChange}
+//                     helperText="Please select your currency"
+//                     fullWidth
+//                   >
+//                     <MenuItem value={10}>Ten</MenuItem>
+//                     <MenuItem value={20}>Twenty</MenuItem>
+//                     <MenuItem value={30}>Thirty</MenuItem>
+//                   {/* {currencies.map((option) => (
+//                     <MenuItem key={option.value} value={option.value}>
+//                       {option.label}
+//                     </MenuItem>
+//                   ))} */}
+//                   </TextField>
+//                   {/* <TextField
+//                     type="select"
+//                     value={age}
+//                     label="Age"
+//                     name='Age'
+//                     onChange={handleChange}
+//                   >
+//                     <MenuItem value={10}>Ten</MenuItem>
+//                     <MenuItem value={20}>Twenty</MenuItem>
+//                     <MenuItem value={30}>Thirty</MenuItem>
+//                   </TextField> */}
+//               </Grid>
+//               <Grid item xs={10}>
+//                 <TTInput 
+//                   type="combobox" 
+//                   name="name plan" 
+//                   label=""
+//                   fullWidth
+//                   // disabled 
+//                   // error
+//                   // success
+//                 />
+//               </Grid>              
+//               <Grid item>
+//                 <TTInput type="list" label="" name="password" fullWidth />
+//               </Grid>
+//               <Grid item display="flex" flexDirection={"row"}>
+//                 <TTInput type="date" label="date start" name="dateStart" mr={2} fullWidth />
+//                 <TTInput type="date" label="date end" name="dateEnd" fullWidth />
+//               </Grid>
+//               <Grid item>
+              
+//               </Grid>
+//             </Grid>
+//             {/* <TTBox mb={2}>
+//             <TTInput 
+//                   type="combobox" 
+//                   name="name plan" 
+//                   label=""
+//                   fullWidth
+//                   // disabled 
+//                   // error
+//                   // success
+//                 />
+//             </TTBox>
+//             <TTBox mb={2}>
+//               <TTInput type="text" label="" name="password" fullWidth />
+//             </TTBox>
+//             <TTBox mb={2} display="flex" flexDirection="row">
+//             <TTInput type="date" label="date start" name="dateStart" mr={2} fullWidth />
+//             <TTInput type="date" label="date end" name="dateEnd" fullWidth />
+//             </TTBox> */}
+//             <TTBox mt={2} mb={1}>
+//               <TTButton 
+//                 variant="gradient" 
+//                 color="info" 
+//                 fullWidth = {true}
+//                 type="submit"
+//                 // onClick={handleSubmit}
+//               >
+//                 Create Plan
+//               </TTButton>
+//             </TTBox>
+//           </TTBox>
+//         </TTBox>
+//       </Card>
+//     </CardLayout>
+//   );
+// }
+//------------------------------------------------ new plan-----------------
 

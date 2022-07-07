@@ -4,6 +4,7 @@ import TTBox from '../../../components/TTBox';
 import TTButton from '../../../components/TTButton';
 import TTTypography from '../../../components/TTTypography';
 import { Link, Card } from '@mui/material';
+
 function ProfilesList({ title, profiles, shadow }) {
 
   const renderProfiles = profiles.map(({ image, name, description, action }) => (

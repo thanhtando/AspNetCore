@@ -1,7 +1,6 @@
 import { Alert, AlertTitle, Button, Card, Stack } from "@mui/material";
 import TTBox from "../../../components/TTBox";
 import TTTypography from "../../../components/TTTypography";
-import TTAvatar from '../../../components/TTAvartar/index';
 import TTAlert from '../../../components/TTAlert/index';
 
 const AlertTable = () => {

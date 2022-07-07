@@ -10,7 +10,6 @@ import {
   createSelector
 } from '@reduxjs/toolkit'
 // import rootReducer from './rootState'
-import { createServer } from "miragejs"
 import logger from 'redux-logger'
 import { Provider, useDispatch, useSelector } from 'react-redux'
 import thunk from 'redux-thunk'

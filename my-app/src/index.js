@@ -6,19 +6,17 @@ import reportWebVitals from './reportWebVitals';
 //import $ from 'jquery';
 //import Popper from 'popper.js';
 // import 'bootstrap/dist/js/bootstrap.bundle.min';
-// import App from './App';
+import App from './App';
 // import RootProvider from './provider';
 // import FullApp from './FullApp/index';
-import FullAppUi from './FullAppUi/index';
-import FsCRUD from './FullAppUi/firestoreCRUD';
-import CRUD from './FullAppUi/CRUD';
+
 import MyApp from './FullAppUi/MTRRFirestore';
 import RootProvider from './root/provider';
 
 ReactDOM.render(
 
   <RootProvider>
-    <MyApp/>
+    <App/>
   </RootProvider>
   
 

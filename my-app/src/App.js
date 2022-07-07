@@ -2,13 +2,10 @@ import React from "react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import { useMaterialUIController } from "./context/ui";
+import { useUIController } from "./context/ui";
 import { setMiniSidenav, setOpenConfigurator } from "./context/ui/module";
-import { routes } from './router/path/index';
-import { themeDark, themeLight } from './theme';
-import SideNavbar from "./layout/sidenav";
+import RoutePath from './router/path/index';
 import MeasureRender from "./FullAppUi/mesure";
-import { PrivateRouter } from './router/index';
 import { brandDark, brandWhite } from "./res";
 import ConfigNavbar from "./layouts/confignav";
 import ConfigButton from './element/config/configBtn';
@@ -22,11 +19,15 @@ import Billing from './pages/billing/index';
 import SignIn from './pages/authorization/signin/index';
 import SignUp from './pages/authorization/signup/index';
 import SignReset from './pages/authorization/signreset/index';
+import { themeLight } from './theme/themeLight';
+import { themeDark } from './theme/themeDark';
+import SideNavbar from './layouts/sidenav/index';
+import { PrivateRoute } from "./router/private";
 
 
 function App() {
 
-  const [controller, dispatch] = useMaterialUIController();
+  const [controller, dispatch] = useUIController();
   const {
     miniSidenav,
     // direction,
@@ -69,7 +70,7 @@ function App() {
               color={sidenavColor}
               brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
               brandName="Learn Japanese"
-              routes={routes}
+              routes={RoutePath}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}            
             />
@@ -86,9 +87,9 @@ function App() {
           <Route path="/signup" element={<SignUp/>}/>
           <Route path="/reset" element={<SignReset/>}/>
           <Route path="/dashboard" element={
-            <PrivateRouter>
+            <PrivateRoute>
               <Dashboard />
-            </PrivateRouter>
+            </PrivateRoute>
             
           }/>
           <Route path="/notifications" element={<Notifications/>}/>

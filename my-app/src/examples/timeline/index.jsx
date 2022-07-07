@@ -1,15 +1,15 @@
-import { Timeline } from '@mui/lab/Timeline';
-import { TimelineItem } from '@mui/lab/TimelineItem';
-import { TimelineOppositeContent } from '@mui/lab/TimelineOppositeContent';
-import { TimelineSeparator } from '@mui/lab/TimelineSeparator';
-import { TimelineConnector } from '@mui/lab/TimelineConnector';
-import { TimelineDot } from '@mui/lab/TimelineDot';
-import { FastfoodIcon } from '@mui/icons-material/Fastfood';
-import { TimelineContent } from '@mui/lab/TimelineContent';
+import { Timeline } from '@mui/lab';
+import { TimelineItem } from '@mui/lab';
+import { TimelineOppositeContent } from '@mui/lab';
+import { TimelineSeparator } from '@mui/lab';
+import { TimelineConnector } from '@mui/lab';
+import { TimelineDot } from '@mui/lab';
+import { TimelineContent } from '@mui/lab';
 import { Typography } from '@mui/material';
-import { RepeatIcon } from '@mui/icons-material/Repeat';
-import { HotelIcon } from '@mui/icons-material/Hotel';
-import { LaptopMacIcon } from '@mui/icons-material/LaptopMac';
+import { RepeatIcon } from '@mui/icons-material';
+import { HotelIcon } from '@mui/icons-material';
+import { LaptopMacIcon } from '@mui/icons-material';
+import { FastfoodIcon } from '@mui/icons-material';
 
 const TimeLineExample = () => {
   return(

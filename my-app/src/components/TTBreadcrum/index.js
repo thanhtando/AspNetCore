@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import { Breadcrumbs } from "@mui/material";
 import { Link } from "react-router-dom";
 import TTTypography from "../TTTypography";
-import { Icon } from '@mui/material/Icon';
+import { Icon } from '@mui/material';
 
 function TTBreadcrumbs({icon, title, route, light}){
 

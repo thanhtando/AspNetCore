@@ -1,11 +1,11 @@
 import { Icon } from "@mui/material";
 import TTTypography from "../../../components/TTTypography";
-import logoSpotify from "../assets/images/small-logos/logo-spotify.svg";
-import LogoAsana from "../assets/images/small-logos/logo-asana.svg";
-import logoGithub from "../assets/images/small-logos/github.svg";
-import logoAtlassian from "../assets/images/small-logos/logo-atlassian.svg";
-import logoSlack from "../assets/images/small-logos/logo-slack.svg";
-import logoInvesion from "../assets/images/small-logos/logo-invision.svg";
+import logoSpotify from "../../../assets/images/small-logos/logo-spotify.svg";
+import LogoAsana from "../../../assets/images/small-logos/logo-asana.svg";
+import logoGithub from "../../../assets/images/small-logos/github.svg";
+import logoAtlassian from "../../../assets/images/small-logos/logo-atlassian.svg";
+import logoSlack from "../../../assets/images/small-logos/logo-slack.svg";
+import logoInvesion from "../../../assets/images/small-logos/logo-invision.svg";
 import TTBox from "../../../components/TTBox";
 import TTAvatar from "../../../components/TTAvatar";
 import TTProgress from "../../../components/TTProgress";
