@@ -6,10 +6,10 @@ import { TimelineConnector } from '@mui/lab';
 import { TimelineDot } from '@mui/lab';
 import { TimelineContent } from '@mui/lab';
 import { Typography } from '@mui/material';
-import { RepeatIcon } from '@mui/icons-material';
-import { HotelIcon } from '@mui/icons-material';
-import { LaptopMacIcon } from '@mui/icons-material';
-import { FastfoodIcon } from '@mui/icons-material';
+import RepeatIcon from '@mui/icons-material/Repeat';
+import HotelIcon from '@mui/icons-material/Hotel';
+import LaptopMacIcon from '@mui/icons-material/LaptopMac';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
 
 const TimeLineExample = () => {
   return(

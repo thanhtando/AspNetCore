@@ -1,21 +1,7 @@
 
 import { AppBar, Card, Divider, Grid, Icon, Link, Tab, Tabs, Tooltip } from "@mui/material";
-import TTBox from "../../components/TTBox";
-import DashboardLayout from "../../layouts/base/dashboardLayout";
-import FacebookIcon  from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import TTTypography from "../../components/TTTypography";
-import team1 from "../assets/images/team-1.jpg";
-import team2 from "../assets/images/team-2.jpg";
-import team3 from "../assets/images/team-3.jpg";
-import team4 from "../assets/images/team-4.jpg";
-// Images
-import homeDecor1 from "../assets/images/home-decor-1.jpg";
-import homeDecor2 from "../assets/images/home-decor-2.jpg";
-import homeDecor3 from "../assets/images/home-decor-3.jpg";
-import homeDecor4 from "../assets/images/home-decor-4.jpeg";
-import ProfilesList from "../../element/profile/list";
+import TTBox from "../../../components/TTBox";
+import TTTypography from "../../../components/TTTypography";
 import PropTypes from 'prop-types';
 import colors from "../../../theme/base/colors";
 import { typography } from "../../../theme/components/typography";

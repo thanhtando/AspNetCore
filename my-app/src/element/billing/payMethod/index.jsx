@@ -1,11 +1,9 @@
-import PropTypes from 'prop-types';
-import TTBox from '../../components/TTBox';
-import { useUIController } from '../../context/ui';
+import TTBox from '../../../components/TTBox';
+import { useUIController } from '../../../context/ui';
 import { Card, Grid, Tooltip } from '@mui/material';
-import TTTypography from '../../components/TTTypography';
-import Icon from '@mui/material';
-import TTButton from '../../components/TTButton';
-import DashboardLayout from '../../layouts/base/dashboardLayout';
+import TTTypography from '../../../components/TTTypography';
+import Icon from '@mui/material/Icon';
+import TTButton from '../../../components/TTButton';
 import masterCardLogo from "../../../assets/images/logos/mastercard.png";
 import visaLogo from "../../../assets/images/logos/visa.png";
 

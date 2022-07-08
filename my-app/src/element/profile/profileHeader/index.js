@@ -1,12 +1,13 @@
-import { AppBar, Card, Divider, Grid, Icon, Tab, Tabs } from "@mui/material";
-import TTBox from "../../components/TTBox";
-import TTTypography from "../../components/TTTypography";
+import { AppBar, Card, Grid, Icon, Tab, Tabs } from "@mui/material";
+import TTBox from "../../../components/TTBox";
+import TTTypography from "../../../components/TTTypography";
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import breakpoints from '../../theme/base/breakpoints';
-import TTAvatar from "../../components/TTAvatar";
-import backgroundProfile from "../assets/images/bg-profile.jpeg";
-import taurus from "../assets/images/avatar/taurus.jpg";
+import breakpoints from '../../../theme/base/breakpoints';
+import TTAvatar from "../../../components/TTAvatar";
+import backgroundProfile from "../../../assets/images/bg-profile.jpeg";
+import taurus from "../../../assets/images/avatar/taurus.jpg";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 

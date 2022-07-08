@@ -1,4 +1,4 @@
-import { Card, Divider, Icon } from "@mui/material";
+import { Card, Icon } from "@mui/material";
 import { createContext, useContext } from "react";
 import { useUIController } from "../../context/ui";
 import TTBox from "../TTBox";

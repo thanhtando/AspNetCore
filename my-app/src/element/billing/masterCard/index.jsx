@@ -1,11 +1,8 @@
 import PropTypes from 'prop-types';
-import TTBox from '../../components/TTBox';
-import { useUIController } from '../../context/ui';
-import { Card, Grid } from '@mui/material';
-import TTTypography from '../../components/TTTypography';
-import Icon from '@mui/material';
-import TTButton from '../../components/TTButton';
-import DashboardLayout from '../../layouts/base/dashboardLayout';
+import TTBox from '../../../components/TTBox';
+import { Card } from '@mui/material';
+import TTTypography from '../../../components/TTTypography';
+import Icon from '@mui/material/Icon';
 import masterCardLogo from "../../../assets/images/logos/mastercard.png";
 import pattern from "../../../assets/images/illustrations/pattern-tree.svg";
 function MasterCard({ color, number, holder, expires }) {
