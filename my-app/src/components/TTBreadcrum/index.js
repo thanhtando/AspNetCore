@@ -1,5 +1,5 @@
 import TTBox from "../TTBox";
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Breadcrumbs } from "@mui/material";
 import { Link } from "react-router-dom";
 import TTTypography from "../TTTypography";

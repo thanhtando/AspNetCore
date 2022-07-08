@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { styled, TextField } from "@mui/material";
 
 // input

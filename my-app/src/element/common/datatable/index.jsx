@@ -13,7 +13,7 @@ import TTInput from '../../../components/TTInput/index';
 import TTTypography from "../../../components/TTTypography";
 import DataTableBodyCell from './bodyCell/index';
 import DataTableHeadCell from "./headCell";
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 function DataTable({
   entriesPerPage,

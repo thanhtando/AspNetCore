@@ -1,5 +1,5 @@
 
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Card, Divider, Icon } from '@mui/material';
 import TTBox from '../../../../components/TTBox/index';
 import { useMemo } from 'react';

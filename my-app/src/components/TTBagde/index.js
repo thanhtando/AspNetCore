@@ -1,5 +1,5 @@
 import { Badge, styled } from '@mui/material';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 
 const BadgeStyle = styled(Badge)(({theme, ownerState})=>{

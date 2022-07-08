@@ -1,7 +1,7 @@
 import { Card, Divider, Icon } from "@mui/material";
 import TTBox from "../../../components/TTBox";
 import TTTypography from "../../../components/TTTypography";
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 const ComplexStatisticsCard = ({
   color, title, count, percentage, icon

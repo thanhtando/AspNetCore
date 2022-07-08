@@ -1,6 +1,6 @@
 
 import { Icon } from '@mui/material';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import TTBox from '../../../../components/TTBox';
 import { useUIController } from '../../../../context/ui';
 

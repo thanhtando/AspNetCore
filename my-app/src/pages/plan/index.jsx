@@ -5,7 +5,7 @@ import TTTypography from "../../components/TTTypography";
 import TTInput from '../../components/TTInput';
 import TTButton from "../../components/TTButton";
 
-const bgImage = require("../assets/images/bg/bg_boat_2.jpeg");
+const bgImage = require("../../assets/images/bg/bg_boat_2.jpeg");
 
 function CardLayout({cardHeight, cardWidth, image, children }) {
 

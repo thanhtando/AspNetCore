@@ -1,4 +1,13 @@
 import React from "react";
+import { Divider, Drawer, Icon, Link, List, ListItem, ListItemIcon, ListItemText, styled } from "@mui/material";
+import { useEffect } from "react";
+import TTBox from "../../components/TTBox";
+import { useUIController } from "../../context/ui";
+import TTTypography from "../../components/TTTypography";
+import TTButton from '../../components/TTButton';
+import PropTypes from 'prop-types';
+import { NavLink, useLocation } from "react-router-dom";
+import { setMiniSidenav, setTransparentSidenav, setWhiteSidenav } from "../../context/ui/module";
 
 function sidenavLogoLabel(theme, ownerState) {
   const { functions, transitions, typography, breakpoints } = theme;
@@ -134,7 +143,7 @@ function collapseTextStyle(theme, ownerState) {
 }
 
 function SidenavCollapse({icon, name, active, ...rest}){
-  const [controller] = useMaterialUIController();
+  const [controller] = useUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = controller;
   return(
     <ListItem component={"li"}>
@@ -178,7 +187,7 @@ SidenavCollapse.propTypes = {
 };
 function SideNavbar({color, brand, brandName, routes, ...rest}){
 
-  const [controller, dispatch] = useMaterialUIController();
+  const [controller, dispatch] = useUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor} = controller;
   const location = useLocation();
   const collapseName = location.pathname.replace("/", "");

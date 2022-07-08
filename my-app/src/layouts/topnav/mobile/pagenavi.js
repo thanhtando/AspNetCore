@@ -1,7 +1,7 @@
 import TTBox from "../../../components/TTBox";
 import DefaultNavbarLink from "../navlink";
-import { MenuCom } from '@mui/material/Menu';
-import { PropTypes } from 'prop-types';
+import  MenuCom from '@mui/material/Menu';
+import PropTypes from 'prop-types';
 
 function DefaultNavbarMobile({ open, close }) {
   const { width } = open && open.getBoundingClientRect();

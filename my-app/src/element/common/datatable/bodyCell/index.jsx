@@ -1,5 +1,5 @@
 import TTBox from "../../../../components/TTBox";
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 function DataTableBodyCell({ noBorder, align, children }) {
   return (

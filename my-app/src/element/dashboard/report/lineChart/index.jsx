@@ -5,7 +5,7 @@ import TTBox from '../../../../components/TTBox/index';
 import { Line } from 'react-chartjs-2';
 import TTTypography from '../../../../components/TTTypography/index';
 import { Divider } from '@mui/material';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 function configsLineChart(labels, datasets) {
   return {
     type: 'line',

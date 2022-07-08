@@ -21,17 +21,24 @@
   10. The `component` key is used to store the component of its route.
 */
 
-import Dashboard from "../page/dashboard/index";
-import Tables from "../page/tables";
-import Billing from "../page/billing";
-import Notifications from "./page/notification";
-import Profile from "../page/profile";
-import SignIn from "../page/authentication/signIn";
-import SignUp from "../page/authentication/signUp";
+// import Dashboard from "../page/dashboard/index";
+// import Tables from "../page/tables";
+// import Billing from "../page/billing";
+// import Notifications from "./page/notification";
+// import Profile from "../page/profile";
+// import SignIn from "../page/authentication/signIn";
+// import SignUp from "../page/authentication/signUp";
 
 // import RTL from "../page/rtl";
 // @mui icons
 import Icon from "@mui/material/Icon";
+import Tables from '../../pages/table/index';
+import Billing from '../../pages/billing/index';
+import Notifications from '../../pages/notifications/index';
+import Dashboard from '../../pages/dashboard/index';
+import Profile from '../../pages/profile/index';
+import SignIn from '../../pages/authorization/signin/index';
+import SignUp from '../../pages/authorization/signup/index';
 
 export const RoutePath = [
   {

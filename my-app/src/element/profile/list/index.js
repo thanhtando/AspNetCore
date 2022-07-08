@@ -1,10 +1,71 @@
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import TTAvatar from '../../../components/TTAvatar';
 import TTBox from '../../../components/TTBox';
 import TTButton from '../../../components/TTButton';
 import TTTypography from '../../../components/TTTypography';
 import { Link, Card } from '@mui/material';
+import team1 from "../assets/images/team-1.jpg";
+import team2 from "../assets/images/team-2.jpg";
+import team3 from "../assets/images/team-3.jpg";
+import team4 from "../assets/images/team-4.jpg";
 
+export const profilesListData = [
+  {
+    image: "kal",
+    name: "Sophie B.",
+    description: "Hi! I need more information..",
+    action: {
+      type: "internal",
+      route: "/pages/profile/profile-overview",
+      color: "info",
+      label: "reply",
+    },
+  },
+  {
+    image: "marie",
+    name: "Anne Marie",
+    description: "Awesome work, can you..",
+    action: {
+      type: "internal",
+      route: "/pages/profile/profile-overview",
+      color: "info",
+      label: "reply",
+    },
+  },
+  {
+    image: "ivana",
+    name: "Ivanna",
+    description: "About files I can..",
+    action: {
+      type: "internal",
+      route: "/pages/profile/profile-overview",
+      color: "info",
+      label: "reply",
+    },
+  },
+  {
+    image: team4,
+    name: "Peterson",
+    description: "Have a great afternoon..",
+    action: {
+      type: "internal",
+      route: "/pages/profile/profile-overview",
+      color: "info",
+      label: "reply",
+    },
+  },
+  {
+    image: team3,
+    name: "Nick Daniel",
+    description: "Hi! I need more information..",
+    action: {
+      type: "internal",
+      route: "/pages/profile/profile-overview",
+      color: "info",
+      label: "reply",
+    },
+  },
+];
 function ProfilesList({ title, profiles, shadow }) {
 
   const renderProfiles = profiles.map(({ image, name, description, action }) => (

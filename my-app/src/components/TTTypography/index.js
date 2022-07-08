@@ -1,7 +1,7 @@
 import { styled, Typography } from "@mui/material";
 import { forwardRef } from "react";
 import { useUIController } from "../../context/ui";
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 const TypographyStyle = styled(Typography)(({theme, ownerState})=>{
 

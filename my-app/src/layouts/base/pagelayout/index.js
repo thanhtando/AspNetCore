@@ -1,4 +1,4 @@
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import TTBox from "../../../components/TTBox";

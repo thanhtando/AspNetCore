@@ -1,11 +1,26 @@
-import { Divider, Drawer, Icon, IconButton, Link, styled, Switch } from "@mui/material";
+import { 
+  Divider, 
+  Drawer, 
+  Icon, 
+  IconButton, 
+  Link, 
+  styled, 
+  Switch 
+} from "@mui/material";
 import React, {useState, useEffect} from "react";
 import TTBox from "../../components/TTBox";
 import TTButton from "../../components/TTButton";
 import SwitchStyle from "../../components/TTSwitch";
 import TTTypography from "../../components/TTTypography";
-import { useMaterialUIController } from "../../context/ui";
-import { setDarkMode, setFixedNavbar, setOpenConfigurator, setSidenavColor, setTransparentSidenav, setWhiteSidenav } from "../../context/ui/module";
+import { useUIController } from "../../context/ui";
+import { 
+  setDarkMode, 
+  setFixedNavbar, 
+  setOpenConfigurator, 
+  setSidenavColor, 
+  setTransparentSidenav, 
+  setWhiteSidenav 
+} from "../../context/ui/module";
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GitHubButton from "react-github-btn";
@@ -52,7 +67,7 @@ const ConfigNavbarStyle = styled(Drawer)(({theme, ownerState})=>{
 
 function ConfigNavbar(){
 
-  const [controller, dispatch] = useMaterialUIController();
+  const [controller, dispatch] = useUIController();
   const {
     openConfigurator,
     fixedNavbar,

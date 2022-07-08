@@ -3,7 +3,7 @@ import { createContext, useContext } from "react";
 import { useUIController } from "../../context/ui";
 import TTBox from "../TTBox";
 import TTTypography from "../TTTypography";
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 
 

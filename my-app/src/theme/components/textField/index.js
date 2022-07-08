@@ -1,4 +1,5 @@
-import colors from "./base/colors";
+import colors from "../../base/colors";
+
 const { transparent } = colors;
 const textField = {
   styleOverrides: {

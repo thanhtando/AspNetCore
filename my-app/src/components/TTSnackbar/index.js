@@ -1,6 +1,6 @@
 import { Divider, Fade, Icon, IconButton, Snackbar, styled } from "@mui/material";
 import { useUIController } from "../../context/ui";
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import TTBox from "../TTBox";
 import TTTypography from "../TTTypography";
 

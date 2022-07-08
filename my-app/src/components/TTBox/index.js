@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import { Box, styled } from '@mui/material';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 const BoxStyle = styled(Box)(({ theme, ownerState }) => {
   const { palette, functions, borders, boxShadows } = theme;

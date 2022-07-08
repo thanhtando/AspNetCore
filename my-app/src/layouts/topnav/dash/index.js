@@ -7,7 +7,7 @@ import { auth } from "../../../connection/firebase";
 import { useUIController } from "../../../context/ui";
 import { setMiniSidenav, setOpenConfigurator, setTransparentNavbar } from "../../../context/ui/module";
 import TTInput from '../../../components/TTInput/index';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import navbarMobileMenu from "../mobile/dashnav";
 import TTTypography from "../../../components/TTTypography";
 

@@ -1,8 +1,8 @@
 import TTBox from "../../../components/TTBox";
-import { MuiLink } from '@mui/material/Link';
+import MuiLink from '@mui/material/Link';
 import { Icon } from "@mui/material";
 import TTTypography from '../../../components/TTTypography';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 // default navbar link
 function DefaultNavbarLink({ icon, name, route, light}) {

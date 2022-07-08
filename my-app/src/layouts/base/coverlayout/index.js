@@ -3,7 +3,7 @@ import TTBox from "../../../components/TTBox"
 import FooterPage from "../../common/footer/footerPage"
 import DefaultNavbar from "../../topnav/default"
 import PageLayout from "../pageLayout"
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 function CoverLayout({coverHight, children, image}){
 

@@ -1,6 +1,6 @@
 import { Avatar, styled } from "@mui/material";
 import { forwardRef } from "react";
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 const AvatarStyle = styled(Avatar)(({theme, ownerState})=>{
 

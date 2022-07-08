@@ -1,6 +1,6 @@
 import { Container, Icon, Link } from "@mui/material";
 import TTBox from "../../../../components/TTBox";
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import TTTypography from "../../../../components/TTTypography";
 import { typography } from "../../../../theme/components/typography";
 

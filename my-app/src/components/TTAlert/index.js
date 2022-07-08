@@ -1,7 +1,7 @@
 import { Box, Fade, styled } from "@mui/material";
 import { useState } from "react";
 import TTBox from "../TTBox";
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 const  AlertStyle = styled(Box)(({theme, ownerState})=>{
   
