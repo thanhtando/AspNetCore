@@ -4,7 +4,13 @@ import colors from '../base/colors';
 import { typography } from "../components/typography";
 import borders from '../base/borders';
 import { rgba } from "../function";
-import { boxShadow, hexToRgb, linearGradient, pxToRem, gradientChartLine } from "../function";
+import { 
+  boxShadow, 
+  hexToRgb, 
+  linearGradient, 
+  pxToRem, 
+  gradientChartLine 
+} from "../function";
 import globals from '../base/globals';
 import container from "../components/container";
 import card from "../components/card";
@@ -31,6 +37,7 @@ import tabtt from '../components/tabtt';
 import checkbox from '../components/checkbox';
 import icon from '../components/icon';
 import link from '../components/link';
+
 const {black, white, grey} = colors
 export const themeLight = createTheme({
   breakpoints: { ...breakpoints },

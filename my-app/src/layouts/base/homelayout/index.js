@@ -8,7 +8,7 @@ const HomeLayout = ({children}) => {
   return(
     <PageLayout>
       <DefaultNavbar 
-                action={{
+          action={{
           type: "external",
           route: "http://www.google.com",
           label: "Learn Start",

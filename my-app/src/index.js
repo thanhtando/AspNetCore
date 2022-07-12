@@ -12,9 +12,11 @@ import App from './App';
 
 import MyApp from './FullAppUi/MTRRFirestore';
 import RootProvider from './root/provider';
+import FullAppUi from './FullAppUi/index';
 
 ReactDOM.render(
 
+  // <FullAppUi/>
   <RootProvider>
     <App/>
   </RootProvider>

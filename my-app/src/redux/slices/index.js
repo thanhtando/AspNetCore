@@ -12,5 +12,5 @@ const AlertSlices = createSlice({
     }
   }
 });
-export const { alertText } = AlertSlices.actions;
-export default AlertSlices.reducer;
+
+export default AlertSlices;

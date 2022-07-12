@@ -63,7 +63,7 @@ function App() {
   return(
     <MeasureRender name="ChildApp">
       <ThemeProvider theme={darkMode?themeDark:themeLight}>
-        <CssBaseline />
+        {/* <CssBaseline />
         {layout === "dashboard" && (
           <>
             <SideNavbar 
@@ -78,12 +78,12 @@ function App() {
             <ConfigButton handleConfiguratorOpen={handleConfiguratorOpen}/>
           </>
         )}
-        {layout === "vr" && <ConfigNavbar />}
+        {layout === "vr" && <ConfigNavbar />} */}
         <Routes>
           {/* {getRoutes(routes)} */}
           {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
           <Route path="*" element={<Home />}/>
-          <Route path="/signin" element={<SignIn/>}/>
+          {/* <Route path="/signin" element={<SignIn/>}/>
           <Route path="/signup" element={<SignUp/>}/>
           <Route path="/reset" element={<SignReset/>}/>
           <Route path="/dashboard" element={
@@ -96,7 +96,7 @@ function App() {
           <Route path="/tables" element={<Tables />}/>
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/billing" element={<Billing />}/>
-          <Route path="/plan" element = { <PlanUp/>}/>
+          <Route path="/plan" element = { <PlanUp/>}/> */}
         </Routes>
       </ThemeProvider>
     </MeasureRender>
