@@ -9,10 +9,13 @@ import ReportsLineChart from '../../element/dashboard/report/lineChart';
 import ReportsBarChart from '../../element/dashboard/report/barChart/index';
 import { DataOrder } from '../../element/dashboard/complexCard/data/index';
 import ComplexStatisticsCard from '../../element/dashboard/complexCard/index';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 const Dashboard = () => {
   const { sales, tasks } = reportsLineChartData;
-
+  
   return(
     <DashboardLayout>
       <TTBox py={3}>

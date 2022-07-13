@@ -7024,7 +7024,7 @@ const ConfigNavbarStyle = styled(Drawer)(({theme, ownerState})=>{
   }
 })
 const AuthContext = createContext();
-AuthContext.displayName = "Authorizon";
+AuthContext.displayName = "Authorization";
 
 export function useAuthContext() {
     return useContext(AuthContext);
@@ -7062,7 +7062,7 @@ const Plan = () => {
       {/*  */}
       <TTBox>
         <TTBox>
-          <TTTypography>Muc Tieu</TTTypography>
+          <TTTypography>Muc </TTTypography>
           
         </TTBox>
       </TTBox>
@@ -10318,7 +10318,7 @@ export default FullAppUi;
 //     console.log(window.performance.measure(`${name}Update`, `${name}UpdateStart`, `${name}UpdateEnd`))
 //   }
 // }
-// REACT_APP_TEST_ALPHAB = ABCDEF
+// REACT_APP_TEST_ALPHABET = ABCDEF
 // REACT_APP_TEST_NUMBER = 123456
 //life circle
 
@@ -10437,7 +10437,7 @@ function Component(props) {
 // const PostList = () => {
 
 //   const posts = useSelector(state => state.post)
-//   const [test, setTest] = useState("tan dep trai");
+//   const [test, setTest] = useState("tan dep ");
 //   const renderedPosts = posts.map(post => (
 //     <article key={post.id} style={{backgroundColor: 'aqua', margin: 15}}>
 //       <h3>{post.title}</h3>
@@ -10662,7 +10662,7 @@ function Component(props) {
 //   middleware:[logger, thunk],
 // });
 // const initialStateUser = [
-//   { id: '0', name: 'Tianna Jenkins' },
+//   { id: '0', name: 'Tiana Jenkins' },
 //   { id: '1', name: 'Kevin Grant' },
 //   { id: '2', name: 'Madison Price' },
 // ]
@@ -10738,8 +10738,8 @@ function Component(props) {
 //     },
 //     // postMes: (state, action) => {
 //     //   switch(action.type){
-//     //     case "TEST": return [...state, {content: "tan dep trai", title: "test"}];
-//     //     default: return [...state, {content: "tan sieu dep trai", title:"default"}];
+//     //     case "TEST": return [...state, {content: "tan dep ", title: "test"}];
+//     //     default: return [...state, {content: "tan dep ", title:"default"}];
 //     //   }
 //     // }
 //     postUpdate:(state, action) => {
@@ -10761,7 +10761,7 @@ function Component(props) {
 //     name: 'tan',
 //   },
 //   reducers: {
-//     increment: state => {state.value += 1; state.name= "dlkf"},
+//     increment: state => {state.value += 1; state.name= "abc"},
 //     decrement: state => { state.value -=1; state.name="bcd"},
 //     incrementByAmount: (state, action) => {
 //       state.value += action.payload
@@ -10798,28 +10798,7 @@ function Component(props) {
 //https://github.com/hibohiboo/create-now
 //https://medium.com/exelerate/the-simplest-way-to-combine-react-redux-and-firestore-typescript-353bea49cdbd
 //https://github.com/sherstkov/react-redux-toolkit-app/tree/main/src
-//firestorage.rules
-const Coment = () => {
-  //https://qiita.com/hibohiboo/items/3d0665b9a85342f42264
-  // rules_version = '2';
-  // service cloud.firestore {
-  //   function isSignedIn() {
-  //     return request.auth != null;
-  //   }
-  //   function isOwner(rsc) {
-  //     // データ作成した本人であることを確認
-  //     return isSignedIn() && request.auth.uid == rsc.data.uid;
-  //   }
-
-  //   // マッチングルール
-  //   match /databases/{database}/documents {
-  //     match /others/memolist/{documents=**} {
-  //       allow read, create, update
-  //       allow delete: if isOwner(resource)
-  //     }
-  //   }
-  // }
-}
+//fireStorage.rules
 
 //
 

@@ -1,9 +1,9 @@
 
 import { styled } from "@mui/material";
 import { createContext, forwardRef, useContext, useMemo } from "react";
-import TTBox from "../TTBox";
-import TTButton from "../TTButton";
 import PropTypes from 'prop-types';
+import TTButton from "../TTButton";
+import TTBox from "../TTBox";
 
 
 const PaginationStyle = styled(TTButton)(({ theme, ownerState }) => {
