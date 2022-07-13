@@ -37,6 +37,7 @@ import tabtt from '../components/tabtt';
 import checkbox from '../components/checkbox';
 import icon from '../components/icon';
 import link from '../components/link';
+import boxShadows from "../base/boxShadows";
 
 const {black, white, grey} = colors
 export const themeLight = createTheme({
@@ -60,7 +61,7 @@ export const themeLight = createTheme({
     },
   },
   typography: { ...typography },
-  boxShadows: { ...boxShadow,
+  boxShadows: { ...boxShadows,
     md: `${boxShadow([0, 4], [6, -1], black.main, 0.1)}, 
          ${boxShadow([0, 2], [4, -1], black.main, 0.06)}`,
     navbarBoxShadow: `${boxShadow([0, 0], [1, 1], white.main, 0.9, "inset")}, 

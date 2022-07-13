@@ -10,7 +10,7 @@ const Home = () => {
   return(
     <HomeLayout>
       <Card>
-      {/* <TTTypography
+      <TTTypography
           variant="button"
           fontWeight="medium"
           color={"primary"}
@@ -18,7 +18,7 @@ const Home = () => {
         >Home Page</TTTypography>
         <Intro />
 
-        <TimeLineExample/> */}
+        <TimeLineExample/>
 
       </Card>
     </HomeLayout>
