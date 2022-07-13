@@ -2,6 +2,8 @@ import { Grid } from "@mui/material";
 import TTBox from "../../../components/TTBox";
 import DefaultNavbar from "../../topnav/default";
 import PageLayout from "../pageLayout";
+import PropTypes from 'prop-types';
+import FooterPage from "../../common/footer/footerPage";
 
 function BasicLayout({ image, children }) {
 
@@ -41,7 +43,7 @@ function BasicLayout({ image, children }) {
           </Grid>
         </Grid>
       </TTBox>
-      <Footer light />
+      <FooterPage light />
     </PageLayout>
   );
 }
@@ -50,4 +52,6 @@ BasicLayout.propTypes = {
   image: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };
+
+export default BasicLayout;
 

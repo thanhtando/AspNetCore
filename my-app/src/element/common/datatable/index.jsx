@@ -123,6 +123,7 @@ function DataTable({
 
   return (
     <TableContainer sx={{ boxShadow: "none" }}>
+
       {entriesPerPage || canSearch ? (
         <TTBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
           {entriesPerPage && (
@@ -159,6 +160,7 @@ function DataTable({
           )}
         </TTBox>
       ) : null}
+      
       <Table {...getTableProps()}>
         <TTBox component="thead">
           {headerGroups.map((headerGroup) => (

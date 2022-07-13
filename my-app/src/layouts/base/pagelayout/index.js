@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import TTBox from "../../../components/TTBox/index";
+import TTBox from "../../../components/TTBox";
 import { useUIController } from "../../../context/ui";
 import { setLayout } from "../../../context/ui/module";
 
 function PageLayout({ background, children }) {
-// function PageLayout({ children }) {
 
   const [, dispatch] = useUIController();
   const location= useLocation();

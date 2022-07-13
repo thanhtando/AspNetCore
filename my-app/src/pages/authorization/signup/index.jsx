@@ -1,3 +1,21 @@
+import { useNavigate } from "react-router-dom";
+
+import { 
+  createUserWithEmailAndPassword, 
+} from 'firebase/auth';
+import { auth } from "../../../connection/firebase";
+import { Card, Checkbox, Grid, Link, Switch } from "@mui/material";
+import TTBox from "../../../components/TTBox";
+import TTTypography from "../../../components/TTTypography";
+import MuiLink from '@mui/material/Link';
+import Facebook from "@mui/icons-material/Facebook";
+import GitHub from "@mui/icons-material/GitHub";
+import Google from "@mui/icons-material/Google";
+import TTInput from "../../../components/TTInput";
+import TTButton from "../../../components/TTButton";
+import CoverLayout from "../../../layouts/base/coverLayout";
+const bgImage_su = require("../../../assets/images/bg-sign-up-cover.jpeg");
+
 const SignUp = () => {
 
   const navigate = useNavigate();

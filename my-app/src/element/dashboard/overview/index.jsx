@@ -33,7 +33,7 @@ const OrdersOverview = () => {
           icon={item.icon}
           title={item.title}
           dateTime={item.dateTime}
-          lastItem={index===3}
+          lastitem={index===3?"true":"false"}
         />
       ))}
       </TTBox>

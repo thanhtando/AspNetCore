@@ -96,6 +96,7 @@ const BoxStyle = styled(Box)(({ theme, ownerState }) => {
   } else if (coloredShadow) {
     boxShadowValue = colored[coloredShadow] ? colored[coloredShadow] : "none";
   }
+  console.log("end:", boxShadowValue);
 
   return {
     opacity,

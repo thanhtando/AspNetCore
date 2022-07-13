@@ -6,14 +6,14 @@ import authorsTableData from '../../element/table/authorTable';
 import projectsTableData from '../../element/table/projectTable';
 import DashboardLayout from '../../layouts/base/dashboardLayout/index';
 import DataTable from '../../element/common/datatable/index';
+import DashboardNavbar from '../../layouts/topnav/dash';
 
 function Tables() {
   const { columns, rows } = authorsTableData();
   const { columns: pColumns, rows: pRows } = projectsTableData();
-
+  // const { columns: kColumns, rows: kRows } = kanjisTableData();  
   return (
     <DashboardLayout>
-      {/* <DashboardNavbar /> */}
       <TTBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>

@@ -8,8 +8,9 @@ function DefaultNavbarMobile({ open, close }) {
 
   return (
     <MenuCom
-      getContentAnchorEl={null}
-      anchorOrigin={{
+    // getContentAnchorEl={null}
+    getcontentanchorel={null}
+    anchorOrigin={{
         vertical: "bottom",
         horizontal: "center",
       }}

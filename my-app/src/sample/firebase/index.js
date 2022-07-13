@@ -1,4 +1,13 @@
+import { 
+  createUserWithEmailAndPassword, 
+  getAuth, 
+  signInWithEmailAndPassword,
+  GoogleAuthProvider, 
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged
 
+} from 'firebase/auth';
 const FirestoreExmpleGetData = () => {
   const db = getFirestore(appFb);
 

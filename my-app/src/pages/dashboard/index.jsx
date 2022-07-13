@@ -1,5 +1,5 @@
 
-import { reportsBarChartData } from '../../element/dashboard/report/data/index';
+import { reportsBarChartData, reportsLineChartData } from '../../element/dashboard/report/data/index';
 import DashboardLayout from '../../layouts/base/dashboardLayout';
 import OrdersOverview from '../../element/dashboard/overview/index';
 import { Grid } from '@mui/material';
@@ -11,7 +11,7 @@ import { DataOrder } from '../../element/dashboard/complexCard/data/index';
 import ComplexStatisticsCard from '../../element/dashboard/complexCard/index';
 
 const Dashboard = () => {
-  const { sales, tasks } = reportsBarChartData();
+  const { sales, tasks } = reportsLineChartData;
 
   return(
     <DashboardLayout>
@@ -68,7 +68,7 @@ const Dashboard = () => {
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
               <TTBox mb={3}>
-                <reportsBarChartData
+                <ReportsBarChart
                   color="dark"
                   title="completed tasks"
                   description="Last Campaign Performance"

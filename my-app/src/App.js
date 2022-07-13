@@ -22,7 +22,7 @@ import SignReset from './pages/authorization/signreset/index';
 import { themeLight } from './theme/themeLight';
 import { themeDark } from './theme/themeDark';
 import SideNavbar from './layouts/sidenav/index';
-import { PrivateRoute } from "./router/private";
+// import { PrivateRoute } from "./router/private";
 
 
 function App() {
@@ -60,6 +60,7 @@ function App() {
   // Change the openConfigurator state
   const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
 
+  console.log("darkmode:", darkMode);
   return(
     <MeasureRender name="ChildApp">
       <ThemeProvider theme={darkMode?themeDark:themeLight}>
@@ -80,16 +81,16 @@ function App() {
         )}
         {layout === "vr" && <ConfigNavbar />}
         <Routes>
-          {/* {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/dashboard" />} /> */}
+          {/* {getRoutes(routes)} */}
+          {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
           <Route path="*" element={<Home />}/>
           <Route path="/signin" element={<SignIn/>}/>
           <Route path="/signup" element={<SignUp/>}/>
           <Route path="/reset" element={<SignReset/>}/>
           <Route path="/dashboard" element={
-            <PrivateRoute>
+            // <PrivateRoute>
               <Dashboard />
-            </PrivateRoute>
+            // </PrivateRoute>
             
           }/>
           <Route path="/notifications" element={<Notifications/>}/>

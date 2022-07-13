@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
+// import {useState, useEffect} from "react";
 
 export default class MeasureRender extends React.Component {
   constructor() {
@@ -38,49 +39,49 @@ export default class MeasureRender extends React.Component {
     console.log(window.performance.measure(`${name}Update`, `${name}UpdateStart`, `${name}UpdateEnd`))
   }
 }
-const MeasureRenderHook = (props) =>{
+// const MeasureRenderHook = (props) =>{
 
-  //initialization
-  // setup props and state
-  const [value, setValue]=useState(0)            //initialize your state here
-  // const [mount, setMount] = useState(false);
-  // const [count, setCount] = useState(0);
-  //Mounting
-  //  componentWillMount
-  console.log('componentWillMount')
-  // 
-  //  -> 
-  //  render
-  //  -> 
-  //  componentDidMount
-  useEffect(() => {
-    // Your code here
-  }, []);
+//   //initialization
+//   // setup props and state
+//   const [value, setValue]=useState(0)            //initialize your state here
+//   // const [mount, setMount] = useState(false);
+//   // const [count, setCount] = useState(0);
+//   //Mounting
+//   //  componentWillMount
+//   console.log('componentWillMount')
+//   // 
+//   //  -> 
+//   //  render
+//   //  -> 
+//   //  componentDidMount
+//   useEffect(() => {
+//     // Your code here
+//   }, []);
 
 
 
-  //Update
-  //(props)  
-  // componentWillReceiveProps -> 
-  // shouldComponentUpdate -> 
-  // componentWillUpdate -> render -> 
-  //  componentDidUpdate
-      useEffect(()=>{},[])
-  //(states)                              
-  // shouldComponentUpdate -> 
-  // componentWillUpdate -> render -> 
-  // componentDidUpdate
-      useEffect(()=>{},[])
-  //Unmounting
-  // componentWillUnmount
-    useEffect(() => {
-      window.addEventListener('mousemove', () => {});
+//   //Update
+//   //(props)  
+//   // componentWillReceiveProps -> 
+//   // shouldComponentUpdate -> 
+//   // componentWillUpdate -> render -> 
+//   //  componentDidUpdate
+//       useEffect(()=>{},[])
+//   //(states)                              
+//   // shouldComponentUpdate -> 
+//   // componentWillUpdate -> render -> 
+//   // componentDidUpdate
+//       useEffect(()=>{},[])
+//   //Unmounting
+//   // componentWillUnmount
+//     useEffect(() => {
+//       window.addEventListener('mousemove', () => {});
     
-      // returned function will be called on component unmount 
-      return () => {
-        window.removeEventListener('mousemove', () => {})
-      }
-    }, [])
+//       // returned function will be called on component unmount 
+//       return () => {
+//         window.removeEventListener('mousemove', () => {})
+//       }
+//     }, [])
 
-  return props.children;
-}
+//   return props.children;
+// }

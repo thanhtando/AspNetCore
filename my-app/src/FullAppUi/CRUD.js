@@ -65,7 +65,8 @@ import { IconButton } from '@mui/material';
 import Favorite from "@mui/icons-material/Favorite";
 import { MaterialUIControllerProvider, themeLight, TTBox, TTButton, TTInput, TTProgress, TTTypography } from "../fullAppUi";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
-import TestCard from "./CardComponet";
+import TestCard from "./kanjiFeature";
+import KanjiFeature from "./kanjiFeature";
 const bgImage_su = require("../assets/images/bg-sign-up-cover.jpeg");
 const bgImage = require("../assets/images/bg-sign-in-basic.jpeg");
 const availableColors = ['green', 'blue', 'orange', 'purple', 'red']
@@ -103,7 +104,7 @@ const data = {
   },
 }
 //Pre-Begin-intermediate-advenced-expert-master
-const detail_type1 = {    //文字
+const detail_type1 = {  //文字
   mean:[],      //tieng viet
   howToUse:[],  //list string
   sample:[],
@@ -158,7 +159,6 @@ const RootPath = {
   BOOK: "books",
   USER: "user",
   GRAMMAR: "Grammar"
-
 }
 const SecondPath =  {
   MASTER: "card",
@@ -173,7 +173,7 @@ const FirestoreRef = (path, pathId) => {
   //const basePath = 'mode/development';
 
   const pathStr = `${path}/${path+pathId}`
-  console.log(pathStr);
+  //console.log(pathStr);
   return collection(db, pathStr);
 }
 const useFirestore =(path) => {
@@ -392,16 +392,16 @@ const GetDataTodo = async () => {
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
-    // console.log(doc.id, " => ", doc.data());
+    // //console.log(doc.id, " => ", doc.data());
     todos.push(doc.data());
   });
   // const test = onSnapshot(q, (snapshot) => {
   //   return snapshot.docs.map(doc => ({...doc.data(), id: doc.id}))
-  //   //console.log("a",a);
+  //   ////console.log("a",a);
   //   // snapshot.docs.map(doc => todos.push({...doc.data(), id: doc.id}))
   //   // var idtest = 7
   //   // snapshot.docs.map(doc => {
-  //   //   // console.log("doc", doc.data())
+  //   //   // //console.log("doc", doc.data())
   //   //   return todos.push(
   //   //     {id: idtest++,title: "asf"+idtest, content: "af"+ idtest, time: "fasdf"}
   //   //   )}
@@ -413,8 +413,8 @@ const GetDataTodo = async () => {
   const a = [{a:"a"}, {b:"b"}]
   const b = [{c:"c"}, {b:"b"}, {e:"e"}]
   const c = [...a, ...b]
-  //todos.map(item=>console.log("onSnapshot:",item))
-  // console.log("firestore todos c:", c);
+  //todos.map(item=>//console.log("onSnapshot:",item))
+  // //console.log("firestore todos c:", c);
   todos.push({
     id: 4, title: "tan1", content: "abc1", time: "213222"
   })
@@ -424,8 +424,8 @@ const GetDataTodo = async () => {
   todos.push({
     id: 6, title: "tan1", content: "abc1", time: "213222"
   })
-  console.log("firestore todos c:", todos);
-  console.log("firestore todos:", todos.length);
+  //console.log("firestore todos c:", todos);
+  //console.log("firestore todos:", todos.length);
   return todos
   // return [
   //   {id: 1, title: "tan1", content: "abc1", time: "213222"},
@@ -442,8 +442,8 @@ export const fetchTodo = createAsyncThunk('todos/fetchTodo', async()=>{
   //   {id: id+1, title: title+1, completed: false, content: "learn redux"}
   // ]
   // const response = await client.get('/fakeApi/todos')
-  //   .then(res => console.log(res))
-  //   .then(err => console.log(err))
+  //   .then(res => //console.log(res))
+  //   .then(err => //console.log(err))
   // return response.todos
   // const todos = []
   // fetch("/fetchApi/todos")
@@ -451,15 +451,15 @@ export const fetchTodo = createAsyncThunk('todos/fetchTodo', async()=>{
   // .then((json)=>{
   //   json.todos.map((item)=>todos.push(item));
   // })
-  // console.log("todos:", todos);
+  // //console.log("todos:", todos);
   const todos = await GetDataTodo();
-  console.log("redux todos:",  todos);
+  //console.log("redux todos:",  todos);
   return todos;
 
   
 });
 const setTodo = async (text) => {
-  // console.log("test text:", text)
+  // //console.log("test text:", text)
   const todoRef = collection(db, "plan");
   const item = {
     id: nanoid(),
@@ -470,20 +470,20 @@ const setTodo = async (text) => {
   //const response = 
   await setDoc(doc(todoRef, "plan"+item.id), item)
   // .then((res)=>{
-  //   console.log(res);
+  //   //console.log(res);
   //   return item;
   // })
   // .catch((err)=>{
-  //   console.log(err);
+  //   //console.log(err);
   // });
-  // console.log("test end:",response)
+  // //console.log("test end:",response)
   return item;
 
 }
 export const saveNewTodo = createAsyncThunk('todos/saveNewTodo', async (text) => {
-  // console.log(text);
+  // //console.log(text);
   // const initialTodo = { text }
-  // console.log(initialTodo);
+  // //console.log(initialTodo);
   
   // // const response = await client.post('/fakeApi/todos', { todo: initialTodo })
   // return {id: 5, title: "heloo", completed: false, content: text}
@@ -491,7 +491,7 @@ export const saveNewTodo = createAsyncThunk('todos/saveNewTodo', async (text) =>
   // const response = await client.post('/fakeApi/todos', { todo: initialTodo })
   // return response.todo
   const response = setTodo(text)
-  // console.log("save: ", response);
+  // //console.log("save: ", response);
 
   return response;
 
@@ -549,28 +549,28 @@ const todoSlice = createSlice({
     })
     // .addCase(fetchTodo.fulfilled, (state, action)=>{
     //   const newEntities = {};
-    //   console.log("fulfilled: ",);
+    //   //console.log("fulfilled: ",);
     //   action.payload.map((item,index)=>{
-    //     console.log(item);
+    //     //console.log(item);
     //     return {...newEntities, ...item}
     //   })
     //   action.payload.forEach((todo, index, array)=>{
-    //     console.log(todo);
+    //     //console.log(todo);
     //   })
     //   action.payload.forEach(todo=>state.entities = {...newEntities, ...todo});
     //   //   newEntities[todo.id] = todo;
     //   // });
       
     //   state.status = 'idle'
-    //   console.log("entity:",newEntities);
+    //   //console.log("entity:",newEntities);
     // })
     // .addCase(fetchTodo.fulfilled, (state, action)=>{
-    //   console.log("action.payload:", action.payload);
+    //   //console.log("action.payload:", action.payload);
     //   todoAdapter.addMany(state, action.payload);
     //   state.status = 'idle'
     // })
     .addCase(fetchTodo.fulfilled, (state, action)=>{
-      console.log("addCase:", action.payload);
+      //console.log("addCase:", action.payload);
       const itemTest =       [
         {id: 1, title: "tan1", content: "abc1", time: "213222"},
         {id: "2", title: "tan2", content: "abc2", time: "213222"},
@@ -578,8 +578,8 @@ const todoSlice = createSlice({
       ]
 
       const test = [...itemTest, ...action.payload];
-      console.log(action.payload.length);
-      console.log("test addCase:", test);
+      //console.log(action.payload.length);
+      //console.log("test addCase:", test);
       todoAdapter.setAll(state, action.payload)
     })
     .addCase(saveNewTodo.fulfilled, (state, action)=>todoAdapter.addOne(state, action.payload))
@@ -605,7 +605,7 @@ const {selectAll: selectTodo, selectById: selectTodoById} = todoAdapter.getSelec
 const selectTodoId = createSelector(
   selectTodo,
   todos => todos.map((todo)=>{
-    console.log("test test todo",todo);
+    //console.log("test test todo",todo);
     return todo
   })
 );
@@ -638,7 +638,7 @@ const selectFilteredTodoIds = createSelector(
   selectFilteredTodos,
   // And derive data in the output selector
   (filteredTodos) => filteredTodos.map((todo,idx) => {
-    console.log("todo {0}: {1}",idx,todo);
+    //console.log("todo {0}: {1}",idx,todo);
     return todo.id
   })
 )
@@ -696,14 +696,14 @@ const planInit = planAdapter.getInitialState({
   status: 'idle',
 });
 const planCreateNew = createAsyncThunk("plan/planCreateNew", async (item)=>{
-  console.log(item);
+  //console.log(item);
 })
 const planSlice = createSlice({
   name: 'plan',
   initialState: planInit,
   reducers: {
     planCreateNewOne(state, action){
-      console.log(action.payload);
+      //console.log(action.payload);
       // planAdapter.addOne(action.payload);
     },
     planAdded(state,action){state.push(action.payload)},
@@ -907,9 +907,9 @@ const TodoList = () => {
 
   const todoIds = useSelector(selectFilteredTodoIds)
   const todos = useSelector(selectTodoId);
-  console.log("todoIds",todoIds);
-  console.log("selectTodoId: ", todos)
-  // console.log(todoAdapter.getSelectors(state=>state.todos));
+  //console.log("todoIds",todoIds);
+  //console.log("selectTodoId: ", todos)
+  // //console.log(todoAdapter.getSelectors(state=>state.todos));
   const loadingStatus = useSelector((state) => state.todos.status)
 
   // if (loadingStatus === 'loading') {
@@ -944,7 +944,7 @@ const Footer = () => {
   const dispatch = useDispatch()
 
   const todosRemaining = useSelector((state) => {
-    // console.log("state",state);
+    // //console.log("state",state);
     const uncompletedTodos = selectTodo(state).filter(
       (todo) => !todo.completed
     )
@@ -1061,12 +1061,12 @@ const CardCom = (
   
   // const plan = useSelector(filterTest);
   // const plan1 = useSelector(state=>state.plan)
-  // console.log(plan);
+  // //console.log(plan);
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    console.log("newValue",newValue)
+    //console.log("newValue",newValue)
   };
 
   const [expanded, setExpanded] = React.useState(false);
@@ -1097,8 +1097,7 @@ const CardCom = (
           </IconButton>
         }
         title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
-        onClick={()=>console.log("card Header click")}
+        subheader="September 14, 2016"//console.log("card Header click")}
       />
       <Box sx={{width: '100%', marginTop: -3}}>
         <LinearProgressLabel value = {progress}/>
@@ -1226,7 +1225,7 @@ const CardCom = (
 
 function CardLayout({cardHeight, cardWidth, image, children }) {
 
-  // console.log("Basic layout");
+  // //console.log("Basic layout");
   return (
     <TTBox
       width={cardWidth}
@@ -1310,7 +1309,7 @@ const PlanUp = () => {
       info: "info_test",
       time: "dateEnd - dateStart_test",
     }
-    console.log(planItem);
+    //console.log(planItem);
     // await dispatch(planCreateNew(planItem))
 
     navigate("/card");
@@ -1415,7 +1414,7 @@ const Form = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formValues);
+    //console.log(formValues);
   };
   return (
     <form onSubmit={handleSubmit}>
@@ -1549,16 +1548,16 @@ const RefireCrud = () => {
   useEffect(()=>{
     
 
-    console.log("fetchTodo");
+    //console.log("fetchTodo");
     // const test = async () => await setDoc(doc(collection(db, "plan"), "plan1"), {
     //   id: 1,
     //   title: "learn",
     //   content: "hoc nua hoc mai"
     // });
     // test()
-    // .then((res)=> console.log("sucess"))
-    // .catch((err)=> console.log("error"))
-    // console.log("test useEffect")
+    // .then((res)=> //console.log("sucess"))
+    // .catch((err)=> //console.log("error"))
+    // //console.log("test useEffect")
     
   },[]);
   // useEffect(()=>{
@@ -1585,9 +1584,9 @@ const RefireCrud = () => {
               <h2>Todos</h2>
               {/* <CountDown/> */}
               <div>
-                <HeaderTodo />
+                {/* <HeaderTodo />
                 <TodoList />
-                <Footer />
+                <Footer /> */}
               </div>
             </section>
           </main>
@@ -1601,12 +1600,13 @@ const RefireCrud = () => {
         </div>
         <Routes>
             <Route path="/" element={<TTButton onClick={()=>{
-              console.log("button click");
+              //console.log("button click");
               navigate("/plan")
             }}>new plan</TTButton>}/>
             <Route path="/plan" element={<PlanUp/>}/>
             <Route path="/card" element={<CardCom/>}/>
             <Route path="/cal" element={<ExpCalculator/>}/>
+            <Route path="/kanji" element={<KanjiFeature/>}/>
           </Routes>
         </ThemeProvider>
 
@@ -1667,7 +1667,7 @@ function TestCrud() {
   //DELETE A DOC
   async function deleteDocument(id) {
       let request = await deleteDoc(doc(db, "shopping-lists", id));
-      // console.log(request)
+      // //console.log(request)
   } 
   //UPDATE A DOC
 
@@ -1724,7 +1724,7 @@ export default RefireCrud;
 
 // function CardLayout({cardHeight, cardWidth, image, children }) {
 
-//   // console.log("Basic layout");
+//   // //console.log("Basic layout");
 //   return (
 //     <TTBox
 //       width={cardWidth}
@@ -1899,4 +1899,3 @@ export default RefireCrud;
 //   );
 // }
 //------------------------------------------------ new plan-----------------
-

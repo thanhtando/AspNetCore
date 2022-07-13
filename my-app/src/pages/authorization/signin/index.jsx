@@ -1,6 +1,30 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { 
+  createUserWithEmailAndPassword, 
+  getAuth, 
+  signInWithEmailAndPassword,
+  GoogleAuthProvider, 
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged
+
+} from 'firebase/auth';
+import { auth } from "../../../connection/firebase";
+import BasicLayout from "../../../layouts/base/basicLayout";
+import { Card, Grid, Link, Switch } from "@mui/material";
+import TTBox from "../../../components/TTBox";
+import TTTypography from "../../../components/TTTypography";
+import MuiLink from '@mui/material/Link';
+import Facebook from "@mui/icons-material/Facebook";
+import GitHub from "@mui/icons-material/GitHub";
+import Google from "@mui/icons-material/Google";
+import TTInput from "../../../components/TTInput";
+import TTButton from "../../../components/TTButton";
+
+const bgImage = require("../../../assets/images/bg-sign-in-basic.jpeg");
+
 const SignIn = () => {
 
   const [rememberMe, setRememberMe] = useState(false);
@@ -47,17 +71,17 @@ const SignIn = () => {
           <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 2 }}>
             <Grid item xs={2}>
               <TTTypography component={MuiLink} href="#" variant="body1" color="white">
-                <FacebookIcon color="inherit" fontSize="small"/>
+                <Facebook color="inherit" fontSize="small"/>
               </TTTypography>
             </Grid>
             <Grid item xs={2}>
               <TTTypography component={MuiLink} href="#" variant="body1" color="white">
-                <GitHubIcon color="inherit" fontSize="small"/>
+                <GitHub color="inherit" fontSize="small"/>
               </TTTypography>
             </Grid>
             <Grid item xs={2}>
               <TTTypography component={MuiLink} href="#" variant="body1" color="white">
-                <GoogleIcon color="inherit" fontSize="small"/>
+                <Google color="inherit" fontSize="small"/>
               </TTTypography>
             </Grid>
           </Grid>

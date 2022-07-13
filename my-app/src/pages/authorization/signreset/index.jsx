@@ -1,3 +1,31 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { 
+  createUserWithEmailAndPassword, 
+  getAuth, 
+  signInWithEmailAndPassword,
+  GoogleAuthProvider, 
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged
+
+} from 'firebase/auth';
+import { auth } from "../../../connection/firebase";
+import BasicLayout from "../../../layouts/base/basicLayout";
+import { Card, Checkbox, Grid, Link, Switch } from "@mui/material";
+import TTBox from "../../../components/TTBox";
+import TTTypography from "../../../components/TTTypography";
+import MuiLink from '@mui/material/Link';
+import Facebook from "@mui/icons-material/Facebook";
+import GitHub from "@mui/icons-material/GitHub";
+import Google from "@mui/icons-material/Google";
+import TTInput from "../../../components/TTInput";
+import TTButton from "../../../components/TTButton";
+import CoverLayout from "../../../layouts/base/coverLayout";
+const bgImage = require("../../../assets/images/bg-sign-in-basic.jpeg");
+
+
 const SignReset = () =>{
   return(
     <CoverLayout coverHeight="50vh" image={bgImage}>

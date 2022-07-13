@@ -1,7 +1,6 @@
 
 import { Card, Grid } from '@mui/material';
 import TTTypography from '../../components/TTTypography';
-import DashboardLayout from '../../layouts/base/dashboardLayout';
 import Bill from '../../element/billing/bill/index';
 import MasterCard from '../../element/billing/masterCard/index';
 import DefaultInfoCard from '../../element/profile/DefaultInfo/index';
@@ -9,6 +8,7 @@ import PaymentMethod from '../../element/billing/payMethod/index';
 import Invoices from '../../element/billing/invoices/index';
 import Transactions from '../../element/billing/transaction/index';
 import TTBox from '../../components/TTBox/index';
+import DashboardLayout from '../../layouts/base/dashboardLayout';
 
 function BillingInformation() {
   return (
