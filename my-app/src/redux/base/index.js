@@ -128,7 +128,7 @@ const fetchTodo = createAsyncThunk('todos/fetchTodo', async()=>{
   .then((json)=>{
     json.map((item)=>todos.push(item));
   })
-  console.log("todos:", todos);
+  //console.log("todos:", todos);
   
   return todos;
 
@@ -257,7 +257,7 @@ const selectFilteredTodoIds = createSelector(
   selectFilteredTodos,
   // And derive data in the output selector
   (filteredTodos) => filteredTodos.map((todo) => {
-    console.log("todo",todo);
+    // console.log("todo",todo);
     return todo.id
   })
 )
@@ -500,7 +500,7 @@ const TodoListItem = ({ id }) => {
 const TodoList = () => {
 
   const todoIds = useSelector(selectFilteredTodoIds)
-  console.log("todoIds",todoIds)
+  // console.log("todoIds",todoIds)
   const loadingStatus = useSelector((state) => state.todos.status)
 
   if (loadingStatus === 'loading') {
@@ -646,7 +646,7 @@ function TestCrud() {
   //DELETE A DOC
   async function deleteDocument(id) {
       let request = await deleteDoc(doc(db, "shopping-lists", id));
-      console.log(request)
+      // console.log(request)
   } 
   //UPDATE A DOC
 

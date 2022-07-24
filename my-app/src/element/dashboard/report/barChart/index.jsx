@@ -4,7 +4,7 @@ import { Card, Divider, Icon } from '@mui/material';
 import TTBox from '../../../../components/TTBox/index';
 import { useMemo } from 'react';
 import TTTypography from '../../../../components/TTTypography/index';
-import { Bar } from 'react-chartjs-2';
+// import { Bar } from 'react-chartjs-2';
 
 function configsBarChart(labels, datasets) {
 
@@ -105,7 +105,7 @@ function ReportsBarChart({ color, title, description, date, chart }) {
               mt={-5}
               height="12.5rem"
             >
-              <Bar data={data} options={options} />
+              {/* <Bar data={data} options={options} /> */}
             </TTBox>
           ),
           [color, data, options]

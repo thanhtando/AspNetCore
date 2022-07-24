@@ -27,13 +27,13 @@ const SignUp = () => {
         .then((userCredential)=>{
             //signed in
             const user = userCredential.user;
-            console.log("user: ", user);
+            // console.log("user: ", user);
             navigate("/dashboard")
         })
         .catch((error)=>{
             // const errorCode = error.code;
             const errorMessage = error.message;
-            console.log("errorMessage: ", errorMessage);
+            // console.log("errorMessage: ", errorMessage);
         })
   }
   return(

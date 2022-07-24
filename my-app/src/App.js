@@ -22,6 +22,7 @@ import SignReset from './pages/authorization/signreset/index';
 import { themeLight } from './theme/themeLight';
 import { themeDark } from './theme/themeDark';
 import SideNavbar from './layouts/sidenav/index';
+import GameApp from "./game";
 // import { PrivateRoute } from "./router/private";
 
 
@@ -60,7 +61,7 @@ function App() {
   // Change the openConfigurator state
   const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
 
-  console.log("darkmode:", darkMode);
+  // console.log("darkmode:", darkMode);
   return(
     <MeasureRender name="ChildApp">
       <ThemeProvider theme={darkMode?themeDark:themeLight}>
@@ -98,6 +99,7 @@ function App() {
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/billing" element={<Billing />}/>
           <Route path="/plan" element = { <PlanUp/>}/>
+          <Route path="/game" element = { <GameApp />} />
         </Routes>
       </ThemeProvider>
     </MeasureRender>

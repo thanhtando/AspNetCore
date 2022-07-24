@@ -2,7 +2,7 @@
 import { Card, Icon } from '@mui/material';
 import { useMemo } from 'react';
 import TTBox from '../../../../components/TTBox/index';
-import { Line } from 'react-chartjs-2';
+// import { Line } from 'react-chartjs-2';
 import TTTypography from '../../../../components/TTTypography/index';
 import { Divider } from '@mui/material';
 import PropTypes from 'prop-types';
@@ -105,7 +105,7 @@ function ReportsLineChart({ color, title, description, date, chart }) {
               mt={-5}
               height="12.5rem"
             >
-              <Line data={data} options={options} key={"test1"}/>
+              {/* <Line data={data} options={options} key={"test1"}/> */}
             </TTBox>
           ),
           [color, data, options]

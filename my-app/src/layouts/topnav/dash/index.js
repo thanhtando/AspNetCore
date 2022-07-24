@@ -184,8 +184,8 @@ function DashboardNavbar({absolute, light, isMini}){
   const [openMenu, setOpenMenu] = useState(false);
 
   const route = useLocation().pathname.split("/").slice(1);
-  console.log(route);
-  console.log(useLocation().pathname);
+  // console.log(route);
+  // console.log(useLocation().pathname);
 
   useEffect(()=>{
 

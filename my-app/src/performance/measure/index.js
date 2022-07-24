@@ -6,17 +6,17 @@ export default class MeasureRender extends React.Component {
     super();
 
     this.mounted = false;
-    console.log("measure Start")
+    // console.log("measure Start")
   }
 
   render() {
     const name = this.props.name;
     if (this.mounted) {
       window.performance.mark(`${name}UpdateStart`);
-      console.log(window.performance.mark(`${name}UpdateStart`))
+      // console.log(window.performance.mark(`${name}UpdateStart`))
     } else {
       window.performance.mark(`${name}MountStart`);
-      console.log(window.performance.mark(`${name}MountStart`));
+      // console.log(window.performance.mark(`${name}MountStart`));
     }
     return this.props.children;
   }
@@ -26,17 +26,17 @@ export default class MeasureRender extends React.Component {
     
     const name = this.props.name;
     window.performance.mark(`${name}MountEnd`);
-    console.log("mount_end:", window.performance.mark(`${name}MountEnd`))
+    // console.log("mount_end:", window.performance.mark(`${name}MountEnd`))
     window.performance.measure(`${name}Mount`, `${name}MountStart`, `${name}MountEnd`);
-    console.log("mount_end_measure",window.performance.measure(`${name}Mount`, `${name}MountStart`, `${name}MountEnd`))
+    // console.log("mount_end_measure",window.performance.measure(`${name}Mount`, `${name}MountStart`, `${name}MountEnd`))
   }
 
   componentDidUpdate() {
     const name = this.props.name;
     window.performance.mark(`${name}UpdateEnd`);
-    console.log("update_end",window.performance.mark(`${name}UpdateEnd`))
+    // console.log("update_end",window.performance.mark(`${name}UpdateEnd`))
     window.performance.measure(`${name}Update`, `${name}UpdateStart`, `${name}UpdateEnd`);
-    console.log(window.performance.measure(`${name}Update`, `${name}UpdateStart`, `${name}UpdateEnd`))
+    // console.log(window.performance.measure(`${name}Update`, `${name}UpdateStart`, `${name}UpdateEnd`))
   }
 }
 // const MeasureRenderHook = (props) =>{

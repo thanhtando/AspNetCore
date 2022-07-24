@@ -47,7 +47,7 @@ import {
 
 // router import
 import { Bar, Line } from "react-chartjs-2";
-import { Chart, registerables } from 'chart.js';
+// import { Chart, registerables } from 'chart.js';
 
 import { 
   BrowserRouter, 
@@ -517,7 +517,7 @@ function FirestoreList() {
 // });
 
 
-Chart.register(...registerables);
+// Chart.register(...registerables);
 
 const StepperStyle = styled(Stepper)(({theme, ownerState})=>{
 
@@ -10393,11 +10393,11 @@ function Component(props) {
   }, []);
 
   useEffect(() => {
-      console.log('Component did update');
+      // console.log('Component did update');
   });
 
   useEffect(() => {
-      console.log('Component will receive props');
+      // console.log('Component will receive props');
   }, [count]);
 
 

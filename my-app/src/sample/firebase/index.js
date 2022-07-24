@@ -68,7 +68,7 @@ const FbAuthSignupBtn = () => {
     const emailAddress ='tantan4@test.com';
     const password = 'password';
     // const auth = getAuth(appFb);
-    console.log(auth);
+    //console.log(auth);
     createUserWithEmailAndPassword(auth, emailAddress, password)
       .then((userCredential)=>{
         // console.log('user crated');
@@ -243,7 +243,7 @@ function FirestoreList() {
     const auth = getAuth(appFb)
   
     // login状態が変更されたら
-    console.log("authe.name:",auth.name);
+    //console.log("authe.name:",auth.name);
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // console.log("user:", user)
@@ -300,10 +300,10 @@ const googleHandler = async () => {
 };
 signOut(auth)
 .then(() => {
-    console.log('logged out');
+    //console.log('logged out');
     // navigate('/');
 })
 .catch((error) => {
-    console.log(error);
+    //console.log(error);
 });
 

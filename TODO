@@ -174,4 +174,10 @@ Project LEANJPN:
     ☐ admin: user table, plan table, book study
     ☐ user: user table, user content study, user book study
     ☐ plan component: 目標、時間、本、
+
+Project Game Chess:
+  ☐ Better visual effect
+  ☐ animations
+  ☐ special moves (en passant, castling, promotion, chess).
+  
     

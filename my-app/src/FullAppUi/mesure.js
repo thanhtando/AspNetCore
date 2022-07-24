@@ -10,7 +10,7 @@ export default class MeasureRender extends React.Component {
     super();
 
     this.mounted = false;
-    console.log("measure Start")
+    // console.log("measure Start")
   }
 
   render() {

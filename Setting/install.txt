@@ -23,3 +23,6 @@ npm install firebase
 //material ui
 npm install @mui/material @emotion/react @emotion/styled
 npm install @mui/icons-material
+
+//react three fiber
+npm install three @react-three/fiber
