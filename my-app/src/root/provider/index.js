@@ -2,20 +2,24 @@ import React from "react";
 import MeasureRender from '../../performance/measure/index';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from "react-router-dom";
-import storeSetup from "../../redux/store";
+import storeSetup, { persistor } from "../../redux/store";
 import { UIControllerProvider } from "../../context/ui";
 import AuthProvider from "../../context/auth";
+import { PersistGate } from 'redux-persist/integration/react';
+import Spinner from '../../rpg/spinner/index';
 
 const RootProvider = ({children}) => {
   return(
     <MeasureRender name={"RootProvider"}>
       <AuthProvider>
         <Provider store={storeSetup}>
-          <BrowserRouter>
-            <UIControllerProvider>
-              {children}
-            </UIControllerProvider>
-          </BrowserRouter>
+          <PersistGate loading={<Spinner/>} persistor={persistor}>
+            <BrowserRouter>
+              <UIControllerProvider>
+                {children}
+              </UIControllerProvider>
+            </BrowserRouter>
+          </PersistGate>
         </Provider>
       </AuthProvider>
     </MeasureRender>

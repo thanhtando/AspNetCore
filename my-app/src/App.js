@@ -22,7 +22,8 @@ import SignReset from './pages/authorization/signreset/index';
 import { themeLight } from './theme/themeLight';
 import { themeDark } from './theme/themeDark';
 import SideNavbar from './layouts/sidenav/index';
-import GameApp from "./game";
+import GameApp from "./chess";
+import RPG from "./rpg";
 // import { PrivateRoute } from "./router/private";
 
 
@@ -100,6 +101,7 @@ function App() {
           <Route path="/billing" element={<Billing />}/>
           <Route path="/plan" element = { <PlanUp/>}/>
           <Route path="/game" element = { <GameApp />} />
+          <Route path="/rpg" element = { <RPG/>}/>
         </Routes>
       </ThemeProvider>
     </MeasureRender>
