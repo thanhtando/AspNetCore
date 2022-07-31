@@ -26,12 +26,12 @@ const RootReducer = combineReducers({
   // monsters,
   // snackbar
 })
-const perReducer = persistReducer(persistConfig, RootReducer);
+// const perReducer = persistReducer(persistConfig, RootReducer);
 
 // const middleWare = [logger, thunk]
 const middleWare = [thunk]
 const storeSetup = configureStore({
-  reducer: persistReducer,
+  reducer: RootReducer,
   preloadedState: RootState,
   devTools: true,
   middleware: middleWare,
@@ -43,5 +43,5 @@ const persistConfig = {
   version: 1,
   storage
 }
-export const persistor = persistStore(storeSetup);
+// export const persistor = persistStore(storeSetup);
 export default storeSetup

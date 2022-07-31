@@ -12,6 +12,7 @@ import App from './App';
 // import FullAppUi from './FullAppUi/index';
 
 import RootProvider from './root/provider';
+import RPG from './rpg';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -19,6 +20,7 @@ root.render(
   <RootProvider>
     <App/>
   </RootProvider>
+  // <RPG/>
 )
 // ReactDOM.render(
 

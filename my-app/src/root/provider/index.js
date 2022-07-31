@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import storeSetup, { persistor } from "../../redux/store";
 import { UIControllerProvider } from "../../context/ui";
 import AuthProvider from "../../context/auth";
-import { PersistGate } from 'redux-persist/integration/react';
+// import { PersistGate } from 'redux-persist/integration/react';
 import Spinner from '../../rpg/spinner/index';
 
 const RootProvider = ({children}) => {
@@ -13,13 +13,13 @@ const RootProvider = ({children}) => {
     <MeasureRender name={"RootProvider"}>
       <AuthProvider>
         <Provider store={storeSetup}>
-          <PersistGate loading={<Spinner/>} persistor={persistor}>
+          {/* <PersistGate loading={<Spinner/>} persistor={persistor}> */}
             <BrowserRouter>
               <UIControllerProvider>
                 {children}
               </UIControllerProvider>
             </BrowserRouter>
-          </PersistGate>
+          {/* </PersistGate> */}
         </Provider>
       </AuthProvider>
     </MeasureRender>

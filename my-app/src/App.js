@@ -26,6 +26,20 @@ import GameApp from "./chess";
 import RPG from "./rpg";
 // import { PrivateRoute } from "./router/private";
 
+const Test = () => {
+
+  //const [text, setText] = useState("");
+  var abc = 'tan dep trai'
+  function changeName(){
+    console.log(abc);
+  }
+  return(
+    <div>
+      <label>{abc}</label>
+      <button onClick={changeName}>change</button>
+    </div>
+  )
+}
 
 function App() {
 
@@ -90,8 +104,9 @@ function App() {
           <Route path="/signup" element={<SignUp/>}/>
           <Route path="/reset" element={<SignReset/>}/>
           <Route path="/dashboard" element={
+            <Dashboard/>
             // <PrivateRoute>
-              <Dashboard />
+            //   <Dashboard />
             // </PrivateRoute>
             
           }/>
@@ -100,8 +115,9 @@ function App() {
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/billing" element={<Billing />}/>
           <Route path="/plan" element = { <PlanUp/>}/>
-          <Route path="/game" element = { <GameApp />} />
-          <Route path="/rpg" element = { <RPG/>}/>
+          {/* <Route path="/game" element = { <GameApp />} />
+          <Route path="/rpg" element = { <RPG/>}/> */}
+          <Route path="/test" element = {<Test/>}/>
         </Routes>
       </ThemeProvider>
     </MeasureRender>

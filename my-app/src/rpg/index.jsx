@@ -7,8 +7,13 @@ import storage                          from 'redux-persist/lib/storage';
 import thunk                            from 'redux-thunk';
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { func } from "prop-types";
+import { styled } from '@mui/material';
 
+import WalkSprite from './myassets/player_walk.png';
+import SwordSlash    from './myassets/sword-slash.png';
+import MonsterSlash  from './myassets/monster-slash.png';
 //****************************constants*******************/
 // max number of inventory items
 export const MAX_ITEMS = 8;
@@ -52,33 +57,43 @@ export const SLICES_NAME = {
   COUNTER: "COUNTER",
   APP_STATE: "APP_STATE",
   WORLD: "WORLD",
-  CHARACTER: "CHARCATER",
+  CHARACTER: "CHARACTER",
 }
-
+export const DIRECTION_MAP = {
+  SOUTH: 0,
+  NORTH: 1,
+  WEST: 2,
+  EAST: 3,
+}
 //****************************component*******************/
 //****************************component*******************/
 //****************************redux_module*******************/
-  //slice
-  const appstateInit = {}
-  const appstateSlice = createSlice({
-    name: SLICES_NAME.APP_STATE,
-    initialState: appstateInit,
-    reducers:{}
-  });
-// chacrater slice
-const characInit = {
-  direction: 'SOUTH',
-  position: [0, 0],
-  playerMoved: false,
-  playerAttacked: false,
-  monsterAttacked: false,
-  playerDied: false,
-  monsterDied: false
-};
+//slice
+const appstateInit = {}
+const appstateSlice = createSlice({
+  name: SLICES_NAME.APP_STATE,
+  initialState: appstateInit,
+  reducers:{}
+});
+//character state
+const characterInit = {
+  attackAnimationPlay: 'paused',
+  attackAnimationLoc: [0, 0],
+  animationWalkSound: null,
+  animationAttackSound: null,
+  monsterAttackAnimationPlay: 'paused',
+  monsterAnimationAttackSound: null,
+  monsterDeath: null,
+  playerDeath: null,
+  leftSideStride: true,
+  stamp: 0
+}
 const characterSlice = createSlice({
   name: SLICES_NAME.CHARACTER,
-  initialState: characInit,
-  reducers:{}
+  initialState: characterInit,
+  reducers:{
+
+  }
 });
 
   //counter slice
@@ -156,12 +171,99 @@ const DialogManager = () => {
     </div>
   )
 }
+const CharacterStyle = styled('div')(()=>{
+
+  return{
+    color: 'red',
+    backgroundColor: 'yellow',
+    position: 'absolute',
+    width: 40,
+    height: 40,
+    transition: `left 0.5s ease-in-out 0s, top 0.5s ease-in-out 0s`
+  }
+})
 const Character = () => {
 
+  const canvasRef = useRef();
+  const characterState = useSelector(state=>state.character);
+  const dispatch = useDispatch();
+  console.log(characterState);
+  const sprite = new Image();
+  //avatar
+  function avatar(action, dir = 0){
+    if(canvasRef?.current){
+      const ctx = canvasRef.current.getContext("2d");
+      const spriteLine = dir * SPRITE_SIZE;
+
+      let currentFrame = characterState.leftSideStride?0:5;
+      let currentTick = 0;
+      const ticksPerFrame = 5;
+      const draw = frame => {
+        if(frame > 7 || frame < 0) frame = 0;
+        //ctx.clearReact(0,0, SPRITE_SIZE, SPRITE_SIZE);
+        ctx.clearRect(0, 0, SPRITE_SIZE, SPRITE_SIZE);
+        ctx.drawImage(
+          sprite,
+          frame * SPRITE_SIZE,
+          spriteLine,
+          SPRITE_SIZE,
+          SPRITE_SIZE,
+          0,
+          0,
+          SPRITE_SIZE,
+          SPRITE_SIZE
+        )
+      }
+      const update = () => {
+        currentTick += 1;
+
+        if (currentTick > ticksPerFrame) {
+          currentTick = 0;
+          currentFrame += 1;
+        }
+      };
+      const main = () => {
+        draw(currentFrame);
+        update();
+        const id = window.requestAnimationFrame(main);
+        if (characterState.leftSideStride && currentFrame > 4) {
+          window.cancelAnimationFrame(id);
+        }
+        if (!characterState.leftSideStride && currentFrame > 8) {
+          window.cancelAnimationFrame(id);
+        }
+      };
+      if (action === 'draw') {
+        draw(0);
+      }
+      if (action === 'animate') {
+        main();
+      }
+    }
+  }
+
+  //sprite
+
+  //componentDidMount
+  useEffect(()=>{
+    
+    sprite.src = WalkSprite;
+    sprite.onload = () => {
+      avatar('draw', 0);
+    }
+  },[]);
+
+  //componentDidUpdate
+  useEffect(()=> {
+    return ()=>{
+
+    }
+  },[])
   return(
-    <div>
+    <CharacterStyle>
       <label>character</label>
-    </div>
+      <canvas ref={canvasRef} width={40} height={40}/>
+    </CharacterStyle>
   )
 }
 const Footer = () => {
@@ -278,7 +380,7 @@ const MyRpg = () => {
 
   return(
     <div>
-      <label>myrpg</label>
+      <label>my rpg</label>
       <Viewport>
         <World/>
         <DialogManager/>
