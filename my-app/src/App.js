@@ -23,7 +23,7 @@ import { themeLight } from './theme/themeLight';
 import { themeDark } from './theme/themeDark';
 import SideNavbar from './layouts/sidenav/index';
 import GameApp from "./chess";
-import RPG from "./rpg";
+import RPG from "./examples/rpg_tochu";
 // import { PrivateRoute } from "./router/private";
 
 const Test = () => {

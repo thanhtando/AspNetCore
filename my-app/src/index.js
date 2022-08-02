@@ -17,10 +17,10 @@ import RPG from './rpg';
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <FullAppUi/>
-  <RootProvider>
-    <App/>
-  </RootProvider>
-  // <RPG/>
+  // <RootProvider>
+  //   <App/>
+  // </RootProvider>
+  <RPG/>
 )
 // ReactDOM.render(
 
